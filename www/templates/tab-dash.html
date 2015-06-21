@@ -1,0 +1,29 @@
+
+<ion-view ng-init='getExpenses()' view-title="Dashboard">
+  <ion-content class="padding">
+  <div ng-repeat='expense in expensesItem'>
+    <div class="list card">
+      <div class="item item-divider">{{expense.name}}</div>
+      <div class="item item-body">
+        <div>
+          Amount is <b>{{expense.amount}}</b>
+        </div>
+      </div>
+    </div>
+  </div>
+  </ion-content>
+  <ion-footer-bar  align-title="left" class="bar-positive">
+  <div class="item item-input-inset">
+    <label class="item item-input">
+      <input ng-model='expenses.name' type="text">
+    </label>
+    <label class="item item-input">
+      <input  ng-model='expenses.amount' type="text">
+    </label>
+    <label>
+  </div>
+  <div class="buttons">
+    <button ng-click='addExpenses(expenses)' class="button">Add Expenses</button>
+  </div>
+  </ion-footer-bar>
+</ion-view>

@@ -1,0 +1,29 @@
+<ion-view>
+<ion-header-bar class='bar-positive'>
+  <h1 class="title">Login</h1>
+</ion-header-bar>
+<ion-content class='padding'>
+<form ng-submit='gotoMainPage(user)'>
+<div class="list">
+  <label class="item item-input">
+    <span  class="input-label">Username</span>
+    <input ng-model='user.uName' type="text" required>
+  </label>
+  <label class="item item-input">
+    <span class="input-label">Password</span>
+    <input  ng-model='user.pName' type="password" required>
+  </label>
+  <label>
+  	<button type='submit' class="button button-block button-positive">
+  		Submit
+	</button>
+  </label>
+</div>
+</form>
+<div ng-show='isError'>
+<div class='card'>
+	{{errorMsg}}
+</div>
+</div>
+</ion-content>
+</ion-view>
