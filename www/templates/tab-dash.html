@@ -12,18 +12,19 @@
     </div>
   </div>
   </ion-content>
-  <ion-footer-bar  align-title="left" class="bar-positive">
-  <div class="item item-input-inset">
+  <ion-footer-bar   class="bar-positive">
+  <div class="row">
+    
     <label class="item item-input">
-      <input ng-model='expenses.name' type="text">
+      <input ng-model='expenses.name' style='width:100%;' placeholder='type' type="text">
     </label>
     <label class="item item-input">
-      <input  ng-model='expenses.amount' type="text">
+      <input  ng-model='expenses.amount' style='width:100%;' placeholder='amount' type="text">
     </label>
     <label>
   </div>
   <div class="buttons">
-    <button ng-click='addExpenses(expenses)' class="button">Add Expenses</button>
+    <button ng-click='addExpenses(expenses)' class="button ion-plus-round" ></button>
   </div>
   </ion-footer-bar>
 </ion-view>
