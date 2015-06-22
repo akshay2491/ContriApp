@@ -48,7 +48,7 @@ angular.module('starter.controllers', [])
     //$location.path('/tab/dash');
   }
 })
-.controller('expenseCtrl',function($scope,$ionicLoading,$ionicPopover){
+.controller('expenseCtrl',function($scope,$ionicLoading,$ionicPopover,$mdToast){
 
       $scope.expensesItem = [];
     //$scope.loading = false;
@@ -103,7 +103,12 @@ angular.module('starter.controllers', [])
 
           $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount,'date':results.updatedAt});
           $scope.popover.hide();
-          $ionicLoading.show({ template: 'Expense Added!', noBackdrop: true, duration: 2000 });
+          $mdToast.show({
+            controller: 'ToastCtrl',
+            templateUrl: 'templates/toastTemplate.html',
+            hideDelay: 6000,
+            position: 'right'
+          });
           $scope.expenses = {};
           $scope.$apply();
           
@@ -128,50 +133,6 @@ angular.module('starter.controllers', [])
     { console.log(val);
       $location.path(val);
     }
-    //var query = new Parse.
-    /*$scope.getExpenses = function()
-    { 
-      var expensesItems = [];
-      var GameScore = Parse.Object.extend("expenses");
-      var query = new Parse.Query(GameScore);
-      query.find({
-        success:function(results){
-          
-          for(var i=0;i<results.length;i++)
-          {
-            expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount,'date':results[i].updatedAt});
-          }
-
-          $scope.expensesItem = expensesItems;
-          $scope.$apply();
-        },
-        error:function(err){
-
-        }
-      });
-    }
-
-    $scope.addExpenses = function(exp)
-    {
-      var expObj = Parse.Object.extend('expenses');
-      var obj = new expObj();
-      obj.set('name',exp.name);
-      obj.set('amount',parseInt(exp.amount));
-      obj.set('parent',Parse.User.current().id);
-
-      obj.save(null,{
-        success:function(results){
-
-          $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount,'date':results.updatedAt})
-          $scope.expenses = {};
-          $scope.$apply();
-          
-        },
-        error:function(err){
-          console.log(err);
-        }
-      });
-    }*/
 })
 
 .controller('ChatsCtrl', function($scope, Chats,$rootScope,Data) {
@@ -223,5 +184,10 @@ angular.module('starter.controllers', [])
     Parse.User.logOut();
     $location.path('/login');  
     
+  }
+})
+.controller('ToastCtrl',function($scope,$mdToast){
+  $scope.closeToast = function(){
+    $mdToast.hide();
   }
 });
