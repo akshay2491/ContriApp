@@ -48,13 +48,25 @@ angular.module('starter.controllers', [])
     //$location.path('/tab/dash');
   }
 })
+.controller('expenseCtrl',function($scope,$ionicLoading,$ionicPopover){
 
-.controller('DashCtrl', function($scope) {
- // $rootScope.getUserById(Parse.User.current().id);
-
-    $scope.expensesItem = [];
+      $scope.expensesItem = [];
     //$scope.loading = false;
     var expObj = Parse.Object.extend('expenses');
+
+
+  $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
+    scope: $scope
+  }).then(function(popover) {
+    console.log(popover)
+    $scope.popover = popover;
+  });
+
+  $scope.openPopover = function($event)
+  {
+    $scope.popover.show($event);
+  }
+
     //var query = new Parse.
     $scope.getExpenses = function()
     { 
@@ -66,7 +78,7 @@ angular.module('starter.controllers', [])
           
           for(var i=0;i<results.length;i++)
           {
-            expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount});
+            expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount,'date':results[i].updatedAt});
           }
 
           $scope.expensesItem = expensesItems;
@@ -88,7 +100,10 @@ angular.module('starter.controllers', [])
 
       obj.save(null,{
         success:function(results){
-          $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount})
+
+          $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount,'date':results.updatedAt});
+          $scope.popover.hide();
+          $ionicLoading.show({ template: 'Expense Added!', noBackdrop: true, duration: 2000 });
           $scope.expenses = {};
           $scope.$apply();
           
@@ -98,6 +113,65 @@ angular.module('starter.controllers', [])
         }
       });
     }
+
+})
+
+.controller('DashCtrl', function($scope,$location) {
+ // $rootScope.getUserById(Parse.User.current().id);
+
+    $scope.expensesItem = [];
+    $scope.currentUser = Parse.User.current();
+    //$scope.loading = false;
+    var expObj = Parse.Object.extend('expenses');
+
+    $scope.gotoPage = function(val)
+    { console.log(val);
+      $location.path(val);
+    }
+    //var query = new Parse.
+    /*$scope.getExpenses = function()
+    { 
+      var expensesItems = [];
+      var GameScore = Parse.Object.extend("expenses");
+      var query = new Parse.Query(GameScore);
+      query.find({
+        success:function(results){
+          
+          for(var i=0;i<results.length;i++)
+          {
+            expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount,'date':results[i].updatedAt});
+          }
+
+          $scope.expensesItem = expensesItems;
+          $scope.$apply();
+        },
+        error:function(err){
+
+        }
+      });
+    }
+
+    $scope.addExpenses = function(exp)
+    {
+      var expObj = Parse.Object.extend('expenses');
+      var obj = new expObj();
+      obj.set('name',exp.name);
+      obj.set('amount',parseInt(exp.amount));
+      obj.set('parent',Parse.User.current().id);
+
+      obj.save(null,{
+        success:function(results){
+
+          $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount,'date':results.updatedAt})
+          $scope.expenses = {};
+          $scope.$apply();
+          
+        },
+        error:function(err){
+          console.log(err);
+        }
+      });
+    }*/
 })
 
 .controller('ChatsCtrl', function($scope, Chats,$rootScope,Data) {

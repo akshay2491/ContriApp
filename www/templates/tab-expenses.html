@@ -1,0 +1,26 @@
+<div class='pos-button'>
+<md-button side="right" class="md-raised md-primary" ng-click="openPopover($event)">Add</md-button>
+</div>
+<ion-view ng-init='getExpenses()'>
+<ion-header-bar class='bar-positive bar bar-header'>
+   <h1 class="title">Expenses</h1>
+   <button class="button ion-android-notifications-none" type="button">
+      <span class="badge">4</span>
+    </button>
+</ion-header-bar>
+ <ion-content class="padding">
+
+<div ng-repeat="expense in expensesItem |orderBy: '-date'">
+  <div class="list card">
+    <div class="item item-divider">{{expense.name}}</div>
+    <div class="item item-body">
+      <div>
+        Amount is <b>{{expense.amount}}</b>
+      </div>
+    </div>
+  </div>
+</div>
+</ion-content>
+<ion-footer-bar class="bar-default">
+</ion-footer-bar>
+</ion-view>

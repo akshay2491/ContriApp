@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore','ngMaterial'])
 
 .run(function($ionicPlatform) {
 
@@ -54,6 +54,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
       }
     }
   })
+
+   .state('tab.expenses', {
+    url: '/expenses',
+    views: {
+      'tab-expenses': {
+        templateUrl: 'templates/tab-expenses.html',
+        controller: 'expenseCtrl'
+      }
+    }
+  })
+
 
 
   .state('tab.chats', {
