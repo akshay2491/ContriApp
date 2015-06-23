@@ -1,10 +1,10 @@
 angular.module('starter.controllers', [])
 
 .controller('MainCtrl',function($scope,$rootScope,$location){
-
     $rootScope.userVariable = [];
     $rootScope.userDetails = [];
     $rootScope.currentUser = Parse.User.current();
+
     $rootScope.getAllUsers=function() {
       var userDetails = [];
       var query = new Parse.Query(Parse.User);
@@ -212,16 +212,11 @@ angular.module('starter.controllers', [])
     
 })
 
-.controller('ChatsCtrl', function($scope, Chats,$rootScope,Data) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+.controller('summaryCtrl', function($scope, Chats,$rootScope,Data) {
   $scope.isRead = false;
-  $scope.getExpenses=function() {
+
+  $scope.getExpensesDetails=function() {
+    console.log($rootScope.userDetails)
     $scope.users = [];
     var expObj = Parse.Object.extend('expenses');
     var query = new Parse.Query(expObj);
@@ -234,7 +229,8 @@ angular.module('starter.controllers', [])
           finalArray.push({'id':results[i].attributes.parent,'exp':results[i].attributes.amount,'expName':results[i].attributes.name});
           //finalId.push(results[i].attributes.parent);
         }
-        $scope.users = Data.calculateSummary(finalArray,$rootScope.userDetails);
+        $scope.users = Data.calculateSummary(finalArray,$rootScope.userDetails); 
+        console.log($scope.users)
         $scope.$broadcast('scroll.refreshComplete');
         $scope.isRead = true;
         $scope.$apply();

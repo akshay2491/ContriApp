@@ -3,21 +3,22 @@
       <h1 class="title">Pull To Refresh</h1>
     </ion-header-bar>
   <ion-content>
-   <ion-refresher on-refresh="getExpenses()">
-                     
-      </ion-refresher>
+   <ion-refresher on-refresh="getExpensesDetails()">
+   </ion-refresher>
   <div class="list" ng-show='isRead'>
     <div  ng-repeat="chat in users">
+      <div ng-show='chat.id === currentUser.id'>
       <div ng-show='chat.lend.length>0'>
        <div ng-repeat='inside in chat.lend'>
-         <div class="item item-divider item-text-wrap">{{chat.name}} {{chat.id}} lended to {{inside.name}} amount {{inside.amount}}</div>
+         <div class="item item-divider item-text-wrap">{{chat.name}} lended to {{inside.name}} amount {{inside.amount}}</div>
        </div>
      </div>
      <div ng-show='chat.owe.length>0'>
        <div ng-repeat='inside in chat.owe'>
-         <h3 class="item item-divider item-text-wrap">{{chat.name}} owed to {{inside.name}} amount {{inside.amount}}</h3>
+         <h3 class="item item-divider item-text-wrap">{{inside.name}} owes {{chat.name}} amount Rs. {{inside.amount}}</h3>
        </div>
      </div>
+   </div>
    </div>
  </div>
   </ion-content>

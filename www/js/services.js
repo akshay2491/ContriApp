@@ -63,11 +63,12 @@ angular.module('starter.services', ['underscore'])
                 }
             });
             arr.push({
+                'id':val.id,
                 'name': val.name,
                 'total': sum
             });
         });
-
+        console.log(arr)
         var sumArray = _.pluck(arr, 'total');
         var total = _.reduce(sumArray, function (memo, num) {
             return memo + num;
@@ -75,21 +76,20 @@ angular.module('starter.services', ['underscore'])
         var balance = total / name.length;
         _.each(arr, function (user) {
             finalArray.push({
+                "id":user.id,
                 "name": user.name,
                 'exp': user.total - balance
             })
         });
-        
         var tmp = _.pluck(finalArray, 'exp');
-       // console.log(tmp);
-        //console.log(finalArray);
+       console.log(tmp);
+        console.log(finalArray);
         var finalUsers = call(tmp,finalArray);
-        //console.log(finalUsers)
         return finalUsers;
     } 
 
     function call(arrt,user)
-    {
+    {   console.log(arrt)
         for(var i=0;i<arrt.length;i++)
         {   
             if(arrt[i]>0)
@@ -108,7 +108,7 @@ angular.module('starter.services', ['underscore'])
                         {
                             arrt[i]=arrt[i]+arrt[j];
                             user[i].owe.push({'name':user[j].name,'amount':Math.abs(arrt[j])});
-                             user[j].lend.push({'name':user[i].name,'amount':Math.abs(arrt[j])});
+                            user[j].lend.push({'name':user[i].name,'amount':Math.abs(arrt[j])});
                             arrt[j]=0;
                             
                             
@@ -118,8 +118,8 @@ angular.module('starter.services', ['underscore'])
                             if(Math.abs(arrt[j]) > arrt[i])
                         {
                             arrt[j]=arrt[i]+arrt[j];
-                            user[i].owe.push({'name':user[j].name,'amount':Math.abs(arrt[j])});
-                             user[j].lend.push({'name':user[i].name,'amount':Math.abs(arrt[j])});
+                            user[i].owe.push({'name':user[j].name,'amount':Math.abs(arrt[i])});
+                             user[j].lend.push({'name':user[i].name,'amount':Math.abs(arrt[i])});
                             arrt[i]=0;
                            
                            
