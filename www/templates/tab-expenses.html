@@ -1,26 +1,44 @@
-<div class='pos-button'>
-<md-button side="right" class="md-raised md-primary" ng-click="openPopover($event)">Add</md-button>
+<div class='add-pos-button'>
+	<md-fab-speed-dial md-open="false" md-direction="down" class="md-fling">
+		<md-fab-trigger>
+			<md-button side="right" class="md-mini md-fab md-primary">
+				<i class='ion ion-navicon-round'></i>
+			</md-button>
+		</md-fab-trigger>
+		<md-fab-actions>
+			<md-button side="right" class="md-mini md-fab md-primary" ng-click="openPopover($event)">
+				<i class='ion ion-plus'></i>
+				<md-tooltip md-direction='left'>
+					Add Expense
+				</md-tooltip>
+			</md-button>
+			<md-button side="right" class="md-mini md-fab md-warning" ng-click="calculateTotal($event)">
+				<i class='ion ion-ios-compose-outline'></i>
+				<md-tooltip md-direction='left'>
+					Total
+				</md-tooltip>
+			</md-button>
+		</md-fab-actions>
+	</md-fab-speed-dial>
 </div>
 <ion-view ng-init='getExpenses()'>
-<ion-header-bar class='bar-positive bar bar-header'>
-   <h1 class="title">Expenses</h1>
-   <button class="button ion-android-notifications-none" type="button">
-      <span class="badge">4</span>
-    </button>
-</ion-header-bar>
- <ion-content class="padding">
-
-<div ng-repeat="expense in expensesItem |orderBy: '-date'">
-  <div class="list card">
-    <div class="item item-divider">{{expense.name}}</div>
-    <div class="item item-body">
-      <div>
-        Amount is <b>{{expense.amount}}</b>
-      </div>
-    </div>
-  </div>
-</div>
-</ion-content>
-<ion-footer-bar class="bar-default">
-</ion-footer-bar>
+	<ion-header-bar class='bar-positive bar bar-header'>
+	   <h1 class="title">Expenses</h1>
+	   <button class="button ion-android-notifications-none" type="button">
+	      <span class="badge">4</span>
+	    </button>
+	</ion-header-bar>
+	<ion-content class="padding">
+		<div ng-repeat="expense in expensesItem |orderBy: '-date'">
+		  <div class="list card">
+		    <div class="item item-divider">{{expense.name}}</div>
+		    <div class="item item-body">
+		      <div>
+		        Amount is Rs.<b>{{expense.amount}}</b>
+		        <h4 style='float:right;'>Created By {{expense.createdBy}}</h4>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</ion-content>
 </ion-view>

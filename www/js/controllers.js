@@ -1,22 +1,32 @@
 angular.module('starter.controllers', [])
 
-.controller('loginCtrl',function($scope,$location,$rootScope,$ionicLoading){
+.controller('MainCtrl',function($scope,$rootScope,$location){
 
-   $rootScope.userVariable = [];
-     $scope.getUserById = function()
-  {
-    var query = new Parse.Query(Parse.User);
-    query.find({
-      success: function(result) {
-        for(var i=0;i<result.length;i++)
-       { 
-        $rootScope.userVariable.push({'name':result[i].attributes.name,'userName':result[i].attributes.username,'id':result[i].id});
-      }
-      }
-    });
-  }
+    $rootScope.userVariable = [];
+    $rootScope.userDetails = [];
+    $rootScope.currentUser = Parse.User.current();
+    $rootScope.getAllUsers=function() {
+      var userDetails = [];
+      var query = new Parse.Query(Parse.User);
+      query.find({success:function(results){
+        console.log(results);
+        _.each(results,function(user){
+          userDetails.push({'id':user.id,'name':user.attributes.name,'userName':user.attributes.username});
+        });
+        $rootScope.userDetails = userDetails;
+      }})
+    }
 
-  $scope.getUserById();
+    $rootScope.gotoPage = function(val)
+    { 
+      $location.path(val);
+    }
+})
+
+.controller('loginCtrl',function($scope,$location,$rootScope,$ionicLoading,$mdDialog,$ionicPopover){
+  
+  $scope.user = {};
+  $scope.isError = false;
 
   $scope.show = function() {
     $ionicLoading.show({
@@ -26,16 +36,18 @@ angular.module('starter.controllers', [])
   $scope.hide = function(){
     $ionicLoading.hide();
   };
-  $scope.isError = false;
+
   $scope.gotoMainPage = function(user)
   { 
-
     $scope.show();
     Parse.User.logIn(user.uName, user.pName, {
       success: function(user) {
+
         $scope.isError = false;
+        $rootScope.getAllUsers();
+        $rootScope.currentUser = user;
         $location.path('/tab/dash');
-         $scope.hide();
+        $scope.hide();
         $scope.user = {};
         $scope.$apply();
       },
@@ -45,11 +57,39 @@ angular.module('starter.controllers', [])
         $scope.errorMsg = error;
       }
     });
-    //$location.path('/tab/dash');
+  }
+
+
+  $scope.registerUser = function(form)
+  {
+    var user = new Parse.User();
+    user.set("username", form.username);
+    user.set("name", form.uname);
+    user.set("password", form.password);
+    user.set("email", form.email);
+
+    // other fields can be set just like with Parse.Object
+    user.signUp(null, {
+      success: function(user) {
+        $mdDialog.show(
+          $mdDialog.alert()
+            .parent(angular.element(document.body))
+            .title('Alert Message')
+            .content('You Have successfully Registered')
+            .ariaLabel('Alert Dialog Demo')
+            .ok('Got it!')
+        );
+        $location.path('/login');
+        // Hooray! Let them use the app now.
+      },
+      error: function(user, error) {
+        // Show the error message somewhere and let the user try again.
+        alert("Error: " + error.code + " " + error.message);
+      }
+    });
   }
 })
-.controller('expenseCtrl',function($scope,$ionicLoading,$ionicPopover,$mdToast){
-
+.controller('expenseCtrl',function($scope,$ionicLoading,$ionicPopover,$mdToast,$rootScope,$mdDialog){
       $scope.expensesItem = [];
     //$scope.loading = false;
     var expObj = Parse.Object.extend('expenses');
@@ -67,6 +107,21 @@ angular.module('starter.controllers', [])
     $scope.popover.show($event);
   }
 
+  $scope.calculateTotal = function($event) {
+    var arr = [];
+    var arr = _.pluck($scope.expensesItem, 'amount');
+    var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0);
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent(angular.element(document.body))
+        .title('Alert')
+        .content('Your Total is Rs:'+sum)
+        .ariaLabel('Alert Dialog Demo')
+        .ok('Got it!')
+        
+    );
+  }
+
     //var query = new Parse.
     $scope.getExpenses = function()
     { 
@@ -75,10 +130,16 @@ angular.module('starter.controllers', [])
       var query = new Parse.Query(GameScore);
       query.find({
         success:function(results){
-          
           for(var i=0;i<results.length;i++)
-          {
-            expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount,'date':results[i].updatedAt});
+          { var createdBy='';
+            for(var j = 0 ;j<$rootScope.userDetails.length;j++)
+            {
+              if(results[i].attributes.parent === $rootScope.userDetails[j].id)
+              { console.log($rootScope.userDetails[j])
+                createdBy = $scope.userDetails[j].name;
+              }
+            }
+            expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount,'date':results[i].updatedAt,'createdBy':createdBy});
           }
 
           $scope.expensesItem = expensesItems;
@@ -100,15 +161,25 @@ angular.module('starter.controllers', [])
 
       obj.save(null,{
         success:function(results){
-
-          $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount,'date':results.updatedAt});
+          var createdBy = '';
+          for(var j = 0 ;j<$rootScope.userDetails.length;j++)
+            {
+              if(results.attributes.parent === $rootScope.userDetails[j].id)
+              {
+                createdBy = $scope.userDetails[j].name;
+              }
+            }
+          $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount,'date':results.updatedAt,'createdBy':createdBy});
           $scope.popover.hide();
-          $mdToast.show({
-            controller: 'ToastCtrl',
-            templateUrl: 'templates/toastTemplate.html',
-            hideDelay: 6000,
-            position: 'right'
-          });
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.body))
+              .title('Alert')
+              .content('Your Expense has been added')
+              .ariaLabel('Alert Dialog Demo')
+              .ok('Got it!')
+              
+          );
           $scope.expenses = {};
           $scope.$apply();
           
@@ -118,21 +189,27 @@ angular.module('starter.controllers', [])
         }
       });
     }
-
 })
 
-.controller('DashCtrl', function($scope,$location) {
+.controller('DashCtrl', function($scope,$location,$rootScope) {
  // $rootScope.getUserById(Parse.User.current().id);
-
+    var userDetails = [];
     $scope.expensesItem = [];
-    $scope.currentUser = Parse.User.current();
+    getAllUsers();
+    function getAllUsers() {
+      var query = new Parse.Query(Parse.User);
+      query.find({success:function(results){
+        _.each(results,function(user){
+          userDetails.push({'id':user.id,'name':user.attributes.name,'userName':user.attributes.username});
+        });
+        $rootScope.userDetails = userDetails;
+      }})
+    }
+    
     //$scope.loading = false;
     var expObj = Parse.Object.extend('expenses');
 
-    $scope.gotoPage = function(val)
-    { console.log(val);
-      $location.path(val);
-    }
+    
 })
 
 .controller('ChatsCtrl', function($scope, Chats,$rootScope,Data) {
@@ -157,7 +234,7 @@ angular.module('starter.controllers', [])
           finalArray.push({'id':results[i].attributes.parent,'exp':results[i].attributes.amount,'expName':results[i].attributes.name});
           //finalId.push(results[i].attributes.parent);
         }
-        $scope.users = Data.calculateSummary(finalArray,$rootScope.userVariable);
+        $scope.users = Data.calculateSummary(finalArray,$rootScope.userDetails);
         $scope.$broadcast('scroll.refreshComplete');
         $scope.isRead = true;
         $scope.$apply();

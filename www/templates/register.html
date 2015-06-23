@@ -1,0 +1,46 @@
+<ion-view>
+  <ion-header-bar class='bar-positive'>
+    <h1 class="title">Register</h1>
+  </ion-header-bar>
+  <ion-content class='padding'>
+    <form ng-submit='registerUser(user)'>
+      <div class="">
+        <label class="">
+          <md-input-container flex>
+            <label>First name</label>
+            <input ng-model='user.uname' type="text" required>
+          </md-input-container>
+        </label>
+        <label class="">
+          <md-input-container flex>
+            <label>User Name</label>
+            <input ng-model='user.username' type="text" required>
+          </md-input-container>
+        </label>
+        <label class="">
+          <md-input-container flex>
+            <label>Email Id</label>
+            <input ng-model='user.email' type="text" required>
+          </md-input-container>
+        </label>
+        <label class="">
+          <md-input-container flex>
+            <label>Password</label>
+            <input ng-model='user.password' type="password" required>
+          </md-input-container>
+        </label>
+        <label class="">
+          <md-input-container flex>
+            <label>Confirm Password</label>
+            <input type="password" required>
+          </md-input-container>
+        </label>
+        <label>
+        	<md-button type='submit' class="md-raised md-primary">
+        		Submit
+      	</md-button>
+        </label>
+      </div>
+    </form>
+  </ion-content>
+</ion-view>
