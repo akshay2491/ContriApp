@@ -137,4 +137,27 @@ angular.module('starter.services', ['underscore'])
     return {
       calculateSummary:calculateSummary
     }
+})
+
+.factory('mySharedService', function($rootScope) {
+    var sharedService = {};
+    
+    sharedService.message = [];
+    sharedService.idVal = '';
+
+    sharedService.prepForBroadcast = function(msg,id) {
+        console.log(msg)
+        this.message = msg;
+        this.idVal = id;
+        console.log(sharedService)
+        $rootScope.$broadcast('handleBroadcast');
+        //this.broadcastItem();
+    };
+
+    sharedService.broadcastItem = function() {
+        $rootScope.$broadcast('handleBroadcast');
+
+    };
+
+    return sharedService;
 });

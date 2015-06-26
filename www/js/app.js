@@ -42,6 +42,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
     controller:'loginCtrl'
   })
 
+      .state('internal',{
+    url:'/internal',
+    templateUrl:'templates/trip-expenses.html',
+    controller:'tripExpCtrl'
+  })
+
    .state('trip',{
     url:'/trip',
     templateUrl:'templates/trip-main.html',

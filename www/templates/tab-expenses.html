@@ -1,6 +1,6 @@
-<ion-view ng-init='getExpenses()'>
-<div class='add-pos-button'>
-<!-- 	<md-fab-speed-dial md-open="false" md-direction="down" class="md-fling">
+<ion-view>
+<!-- <div class='add-pos-button'>
+	<md-fab-speed-dial md-open="false" md-direction="down" class="md-fling">
 		<md-fab-trigger>
 			<md-button  class="md-mini md-fab md-primary">
 				<i class='ion ion-navicon-round'></i>
@@ -26,7 +26,7 @@
 				</md-tooltip>
 			</md-button>
 		</md-fab-actions>
-	</md-fab-speed-dial> -->
+	</md-fab-speed-dial>
 	<md-button class="md-mini md-fab md-primary" ng-click="openPopover($event)">
 		<i class='ion ion-plus'></i>
 		<md-tooltip md-direction='left'>
@@ -46,17 +46,24 @@
 		</md-tooltip>
 	</md-button>
 </div>
-
-
-	<ion-header-bar class='bar-positive bar bar-header'>
+ -->	<ion-header-bar class='bar-positive bar bar-header'>
 	   <h1 class="title">Expenses</h1>
 	   <button class="button ion-android-notifications-none" type="button">
 	      <span class="badge">4</span>
 	    </button>
 	</ion-header-bar>
 	<ion-content class="padding">
+
+	<md-button  class="md-raised md-primary" ng-click="findTripForMember()">
+		Get Trip
+		
+	</md-button>
+	 <ion-refresher 
+	 	pulling-text="Pull to refresh..."
+	 on-refresh="findTripForMember()">
+      </ion-refresher>
 	<div ng-repeat='tp in tripsArray'>
-		<div class="list card">
+		<div class="list card" ng-click='getExpenseFromTrip($index)'>
 	    <div class="item item-divider">{{tp.name}}</div>
 	    <div class="item item-body">
 	      <div>

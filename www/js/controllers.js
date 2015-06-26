@@ -90,13 +90,13 @@ angular.module('starter.controllers', [])
     });
   }
 })
-.controller('expenseCtrl',function($scope,$ionicLoading,$ionicPopover,$mdToast,$rootScope,$mdDialog){
+.controller('expenseCtrl',function($scope,$ionicLoading,$location,$ionicPopover,$mdToast,$rootScope,$mdDialog,mySharedService){
       $scope.expensesItem = [];
     //$scope.loading = false;
     var expObj = Parse.Object.extend('expenses');
 
 
-  $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
+/*  $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
     scope: $scope
   }).then(function(popover) {
     console.log(popover)
@@ -106,9 +106,9 @@ angular.module('starter.controllers', [])
   $scope.openPopover = function($event)
   {
     $scope.popover.show($event);
-  }
+  }*/
 
-  $scope.calculateTotal = function($event) {
+  /*$scope.calculateTotal = function($event) {
     var arr = [];
     var arr = _.pluck($scope.expensesItem, 'amount');
     var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0);
@@ -121,10 +121,12 @@ angular.module('starter.controllers', [])
         .ok('Got it!')
         
     );
-  }
+  }*/
 
   $scope.findTripForMember = function() {
+    console.log('in')
     var tripsArray = [];
+    console.log($rootScope.userDetails)
     var query = new Parse.Query('trips');
     console.log($rootScope.currentUser.id)
     query.equalTo('members',$rootScope.currentUser.id);
@@ -139,15 +141,44 @@ angular.module('starter.controllers', [])
             createdBy = $rootScope.userDetails[i].name;
           }
         }
-        tripsArray.push({'name':arr.attributes.name,'members':arr.attributes.members,'createdBy':createdBy,'date':arr.attributes.date});
+        tripsArray.push({'id':arr.id,'name':arr.attributes.name,'members':arr.attributes.members,'createdBy':createdBy,'date':arr.attributes.date});
       });
       $scope.tripsArray = tripsArray;
+      $scope.$broadcast('scroll.refreshComplete');
+      $scope.$apply();
       //console.log(results);
     },
     error:function(errorMsg){
 
     }});
   }
+
+  $scope.getExpenseFromTrip = function(index) {
+    var expensesItems = [];
+    console.log($scope.tripsArray[index]);
+    var query = new Parse.Query('expenses');
+    query.equalTo('tripId',$scope.tripsArray[index].id);
+    query.find({success:function(results){
+      for(var i=0;i<results.length;i++)
+          { var createdBy='';
+            for(var j = 0 ;j<$rootScope.userDetails.length;j++)
+            {
+              if(results[i].attributes.parent === $rootScope.userDetails[j].id)
+              { console.log($rootScope.userDetails[j])
+                createdBy = $scope.userDetails[j].name;
+              }
+            }
+            expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount,'date':results[i].updatedAt,'createdBy':createdBy});
+          }
+           mySharedService.prepForBroadcast(expensesItems,$scope.tripsArray[index].id);
+           console.log('in')
+           $location.path('/internal');
+           $scope.$apply();
+    },error:function(err){
+
+    }});
+  }
+
 
     //var query = new Parse.
     $scope.getExpenses = function()
@@ -178,7 +209,7 @@ angular.module('starter.controllers', [])
       });
     }
 
-    $scope.addExpenses = function(exp)
+   /* $scope.addExpenses = function(exp)
     {
       var expObj = Parse.Object.extend('expenses');
       var obj = new expObj();
@@ -215,7 +246,7 @@ angular.module('starter.controllers', [])
           console.log(err);
         }
       });
-    }
+    }*/
 })
 
 .controller('DashCtrl', function($scope,$location,$rootScope) {
@@ -395,6 +426,7 @@ angular.module('starter.controllers', [])
     $scope.modal = modal;
   });
 
+
   $scope.openContacts = function() {
 
     $scope.resultUser = [];
@@ -444,5 +476,77 @@ angular.module('starter.controllers', [])
     console.log(popover)
     $scope.popover = popover;
   });*/
+
+})
+.controller('tripExpCtrl',function($scope,mySharedService,$mdDialog,$ionicPopover,$rootScope){
+
+    $scope.expensesItem =  mySharedService.message;
+
+     $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
+    scope: $scope
+  }).then(function(popover) {
+    console.log(popover)
+    $scope.popover = popover;
+  });
+
+  $scope.openPopover = function($event)
+  {
+    $scope.popover.show($event);
+  }
+
+  $scope.calculateTotal = function($event) {
+    var arr = [];
+    var arr = _.pluck($scope.expensesItem, 'amount');
+    var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0);
+    $mdDialog.show(
+      $mdDialog.alert()
+        .parent(angular.element(document.body))
+        .title('Alert')
+        .content('Your Total is Rs:'+sum)
+        .ariaLabel('Alert Dialog Demo')
+        .ok('Got it!')
+        
+    );
+  }
+
+  $scope.addExpenses = function(exp)
+    {
+      var expObj = Parse.Object.extend('expenses');
+      var obj = new expObj();
+      obj.set('name',exp.name);
+      obj.set('amount',parseInt(exp.amount));
+      obj.set('tripId',mySharedService.idVal);
+      obj.set('parent',Parse.User.current().id);
+
+      obj.save(null,{
+        success:function(results){
+          var createdBy = '';
+          for(var j = 0 ;j<$rootScope.userDetails.length;j++)
+            {
+              if(results.attributes.parent === $rootScope.userDetails[j].id)
+              {
+                createdBy = $scope.userDetails[j].name;
+              }
+            }
+          $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount,'date':results.updatedAt,'createdBy':createdBy});
+          $scope.popover.hide();
+          $mdDialog.show(
+            $mdDialog.alert()
+              .parent(angular.element(document.body))
+              .title('Alert')
+              .content('Your Expense has been added')
+              .ariaLabel('Alert Dialog Demo')
+              .ok('Got it!')
+              
+          );
+          $scope.expenses = {};
+          $scope.$apply();
+          
+        },
+        error:function(err){
+          console.log(err);
+        }
+      });
+    }
 
 });
