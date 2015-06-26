@@ -18,6 +18,12 @@
 					Total
 				</md-tooltip>
 			</md-button>
+			<md-button side="right" class="md-mini md-fab md-warning" ng-click="findTripForMember()">
+				<i class='ion ion-ios-compose-outline'></i>
+				<md-tooltip md-direction='left'>
+					TimePass
+				</md-tooltip>
+			</md-button>
 		</md-fab-actions>
 	</md-fab-speed-dial>
 </div>
@@ -29,16 +35,30 @@
 	    </button>
 	</ion-header-bar>
 	<ion-content class="padding">
-		<div ng-repeat="expense in expensesItem |orderBy: '-date'">
-		  <div class="list card">
-		    <div class="item item-divider">{{expense.name}}</div>
-		    <div class="item item-body">
-		      <div>
-		        Amount is Rs.<b>{{expense.amount}}</b>
-		        <h4 style='float:right;'>Created By {{expense.createdBy}}</h4>
-		      </div>
-		    </div>
-		  </div>
-		</div>
+	<div ng-repeat='tp in tripsArray'>
+		<div class="list card">
+	    <div class="item item-divider">{{tp.name}}</div>
+	    <div class="item item-body">
+	      <div>
+	        <div style='float:left;'><h4>Total Members: {{tp.members.length}}</h4>
+							<h4>Created By: {{tp.createdBy}}</h4>
+	        </div>
+	        <h4 style='float:right;'><span>Trip Date:</span>{{tp.date.getUTCDate()}}/ {{tp.date.getUTCMonth() + 1}} / {{tp.date.getUTCFullYear()}}</h4>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+		<!-- <div ng-repeat="expense in expensesItem |orderBy: '-date'">
+			  <div class="list card">
+			    <div class="item item-divider">{{expense.name}}</div>
+			    <div class="item item-body">
+			      <div>
+			        Amount is Rs.<b>{{expense.amount}}</b>
+			        <h4 style='float:right;'>Created By {{expense.createdBy}}</h4>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			 -->	
 	</ion-content>
 </ion-view>

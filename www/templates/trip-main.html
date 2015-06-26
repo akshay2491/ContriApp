@@ -1,0 +1,41 @@
+<ion-view>
+	<ion-header-bar class='bar-positive'>
+		<h1 class="title">New Trip</h1>
+	</ion-header-bar>
+	<ion-content class='padding' >
+	<div style='padding-top:20px;'>
+		<md-whiteframe  class="md-3-line md-whiteframe-z1" layout='column'  layout-align=" center">
+			<md-input-container>
+				<label>Name of the trip</label>
+				<input type='text' ng-model='trip.name'>
+			</md-input-container>
+			<md-input-container md-no-float>
+				<label>Date of the trip</label>
+				<input type='date' ng-model='trip.date'>
+			</md-input-container>
+		</md-whiteframe>
+	</div>
+	<md-divider></md-divider>
+	<div class=''>
+		<md-button ng-click='openContacts()' side="right" class="md-mini md-primary">
+			Add Members
+		</md-button>
+	</div>
+	<div>
+		<div ng-repeat='user in members'>
+			<div class="card">
+			  <div class="item item-text-wrap">
+					      <h2>{{user.name}}</h2>
+					      <p>Back off, man. I'm a scientist.</p>
+					      <div ng-click='removeMembers(user)' class=" cursor icon ion-close-round"style='position: absolute;top:10px;right: 20px;'></div>
+			  </div>
+			</div>
+		</div>
+	</div>
+	</ion-content>
+	<div class='submit-position'>
+	<md-button  class="md-raised md-primary" ng-click="submitTrip(trip)">
+		Submit
+	</md-button>
+</div>
+</ion-view>

@@ -14,4 +14,11 @@
 	z-index: 5;
 }
 
+.submit-position {
+	position: fixed;
+  z-index: 5;
+  top: 50px;
+  right: 5px;
+}
+
 .cursor { cursor: pointer;}

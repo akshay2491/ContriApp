@@ -21,6 +21,7 @@ angular.module('starter.controllers', [])
     { 
       $location.path(val);
     }
+
 })
 
 .controller('loginCtrl',function($scope,$location,$rootScope,$ionicLoading,$mdDialog,$ionicPopover){
@@ -120,6 +121,32 @@ angular.module('starter.controllers', [])
         .ok('Got it!')
         
     );
+  }
+
+  $scope.findTripForMember = function() {
+    var tripsArray = [];
+    var query = new Parse.Query('trips');
+    console.log($rootScope.currentUser.id)
+    query.equalTo('members',$rootScope.currentUser.id);
+    query.find({success:function(results){
+      console.log(results)
+      _.each(results,function(arr){
+        var createdBy = '';
+        for(var i = 0 ;i <$rootScope.userDetails.length;i++)
+        { 
+          if(arr.attributes.parent === $rootScope.userDetails[i].id)
+          {
+            createdBy = $rootScope.userDetails[i].name;
+          }
+        }
+        tripsArray.push({'name':arr.attributes.name,'members':arr.attributes.members,'createdBy':createdBy,'date':arr.attributes.date});
+      });
+      $scope.tripsArray = tripsArray;
+      //console.log(results);
+    },
+    error:function(errorMsg){
+
+    }});
   }
 
     //var query = new Parse.
@@ -263,4 +290,159 @@ angular.module('starter.controllers', [])
   $scope.closeToast = function(){
     $mdToast.hide();
   }
+})
+.controller('tripCtrl',function($scope,$rootScope,$location,$ionicPopover,$ionicModal,$mdDialog){
+
+  $scope.showUser = false;
+  $scope.members = [];
+  $scope.trip = {};
+  $scope.getUserFromSearch = function(name)
+  { 
+    
+    console.log($scope.members);
+     var resultUser = [];
+    //$scope.resultUser = [];
+    var query = new Parse.Query(Parse.User);
+      query.find({success:function(results){
+        _.each(results,function(user){
+            if(user.attributes.name.toUpperCase() === name.name.toUpperCase() || user.attributes.username.toUpperCase() === name.name.toUpperCase())
+            { 
+              var resultUserObj = {name:'',email:'',id:''};
+              if($scope.members.length != 0) 
+              { 
+              var isPresent = false;
+              for(var i = 0 ;i<$scope.members.length;i++) {
+                if($scope.members[i].id == user.id)
+                {
+                  isPresent = true;
+                }
+              }
+              if(!isPresent)
+              {
+                resultUserObj.name = user.attributes.name;
+                  resultUserObj.email = user.attributes.username;
+                  resultUserObj.id = user.id;
+                  resultUserObj.isAdded = true;
+                resultUser.push(resultUserObj);
+              }
+              
+            }
+            else
+            {
+              resultUserObj.name = user.attributes.name;
+              resultUserObj.email = user.attributes.username;
+              resultUserObj.isAdded = true;
+              resultUserObj.id = user.id;
+              resultUser.push(resultUserObj);
+            }
+            }    
+        });
+         $scope.showUser = true;
+        $scope.resultUser = resultUser;
+        $scope.$apply();
+      }})
+
+  }
+
+  $scope.addMembers = function(user) {
+
+    if($scope.members.length !=0)
+    {
+          var resultUserObj = {name:'',email:'',id:''};
+          resultUserObj.name = user.name;
+          resultUserObj.email = user.username;
+          resultUserObj.id = user.id;
+           for(var i = 0 ;i < $scope.resultUser.length;i++)
+          {
+            if($scope.resultUser[i].id == user.id) 
+            {
+              $scope.resultUser[i].isAdded = false;
+              $scope.resultUser[i] = {};
+              $scope.members.push(resultUserObj);
+            }
+          }
+    }
+    else
+    {
+      for(var i = 0 ;i < $scope.resultUser.length;i++)
+          {
+            if($scope.resultUser[i].id == user.id) {
+              var resultUserObj = {name:'',email:'',id:''};
+              resultUserObj.name = user.name;
+              resultUserObj.email = user.username;
+              resultUserObj.id = user.id;
+              console.log($scope.resultUser);
+              $scope.resultUser[i].isAdded = false;
+              $scope.resultUser[i] = {};
+              $scope.members.push(resultUserObj);
+            }
+          }
+    }
+  }
+
+  $scope.removeMembers = function(user) {
+    for(var i = 0 ;i < $scope.members.length;i++)
+    {
+      if($scope.members[i].id == user.id) {
+        $scope.members.splice(user,1);
+      }
+    }
+  }
+
+  $ionicModal.fromTemplateUrl('templates/my-modal.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.openContacts = function() {
+
+    $scope.resultUser = [];
+    $scope.searchName = {};
+    $scope.modal.show();
+  };
+
+  $scope.closePopover = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.submitTrip = function(tripDetails){
+    console.log(tripDetails)
+    var userArray = _.pluck($scope.members,'id');
+    console.log(userArray)
+    var tripObj = Parse.Object.extend('trips');
+    var obj = new tripObj();
+    obj.set('name',tripDetails.name);
+    obj.set('date',tripDetails.date);
+    obj.set('parent',$rootScope.currentUser.id);
+    obj.set('members',userArray);
+    obj.save(null,{
+      success:function(results){
+        console.log(results);
+        $mdDialog.show(
+          $mdDialog.alert()
+            .parent(angular.element(document.body))
+            .title('Alert Message')
+            .content('You Have successfully Created a Trip')
+            .ariaLabel('Alert Dialog Demo')
+            .ok('Got it!')
+        );
+        $scope.tripDetails = {};
+        $scope.members = [];
+        $location.path('/tab/dash');
+    },error:function(err){
+
+    }
+  });
+
+
+  }
+
+/*  $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
+    scope: $scope
+  }).then(function(popover) {
+    console.log(popover)
+    $scope.popover = popover;
+  });*/
+
 });
