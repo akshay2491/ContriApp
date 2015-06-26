@@ -1,6 +1,6 @@
 <ion-view ng-init='getExpenses()'>
 <div class='add-pos-button'>
-	<md-fab-speed-dial md-open="false" md-direction="down" class="md-fling">
+<!-- 	<md-fab-speed-dial md-open="false" md-direction="down" class="md-fling">
 		<md-fab-trigger>
 			<md-button  class="md-mini md-fab md-primary">
 				<i class='ion ion-navicon-round'></i>
@@ -26,8 +26,28 @@
 				</md-tooltip>
 			</md-button>
 		</md-fab-actions>
-	</md-fab-speed-dial>
+	</md-fab-speed-dial> -->
+	<md-button class="md-mini md-fab md-primary" ng-click="openPopover($event)">
+		<i class='ion ion-plus'></i>
+		<md-tooltip md-direction='left'>
+			Add Expense
+		</md-tooltip>
+	</md-button>
+	<md-button class="md-mini md-fab md-warning" ng-click="calculateTotal($event)">
+		<i class='ion ion-ios-compose-outline'></i>
+		<md-tooltip md-direction='left'>
+			Total
+		</md-tooltip>
+	</md-button>
+	<md-button  class="md-mini md-fab md-warning" ng-click="findTripForMember()">
+		<i class='ion ion-ios-compose-outline'></i>
+		<md-tooltip md-direction='left'>
+			TimePass
+		</md-tooltip>
+	</md-button>
 </div>
+
+
 	<ion-header-bar class='bar-positive bar bar-header'>
 	   <h1 class="title">Expenses</h1>
 	   <button class="button ion-android-notifications-none" type="button">
