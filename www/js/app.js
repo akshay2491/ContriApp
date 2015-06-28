@@ -7,15 +7,15 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore','ngMaterial'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform,$ionicPopup) {
 
-   $ionicPlatform.registerBackButtonAction(function (event) {
-      if($state.current.name=="tab.dash") { // your check here
+   $ionicPlatform.onHardwareBackButton(function (event) {
+      if(true) { // your check here
           $ionicPopup.confirm({
             title: 'System warning',
             template: 'are you sure you want to exit?'
           }).then(function(res){
-            if( res ){
+            if(res){
               navigator.app.exitApp();
             }
           })
