@@ -53,7 +53,8 @@ angular.module('starter.controllers', [])
         $rootScope.currentUser = user;
         $ionicHistory.nextViewOptions({
             disableAnimate: true,
-            disableBack: true
+            disableBack: true,
+            historyRoot: true
         });
         $state.go('tab.dash');
         $scope.hide();
