@@ -54,7 +54,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
   $stateProvider
   .state('login',{
     url:'/login',
-    cache:false,
     templateUrl:'templates/login.html',
     controller:'loginCtrl'
   })
