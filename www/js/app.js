@@ -9,8 +9,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 
 .run(function($ionicPlatform) {
 
-/*   $ionicPlatform.onHardwareBackButton(function () {
-      if(true) { // your check here
+   $ionicPlatform.onHardwareBackButton(function () {
+      if($state.current.name=="tab.dash") { // your check here
           $ionicPopup.confirm({
             title: 'System warning',
             template: 'are you sure you want to exit?'
@@ -20,16 +20,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
             }
           })
       }
-  });*/
+  });
 
-  $ionicPlatform.registerBackButtonAction(function (event) {
+/*  $ionicPlatform.registerBackButtonAction(function (event) {
     if($state.current.name=="tab.dash"){
       navigator.app.exitApp();
     }
     else {
       navigator.app.backHistory();
     }
-  }, 100);
+  }, 100);*/
 
   Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
   $ionicPlatform.ready(function() {

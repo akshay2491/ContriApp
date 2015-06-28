@@ -2,6 +2,7 @@ angular.module('starter.controllers', [])
 
 .controller('MainCtrl',function($scope,$rootScope,$state){
   console.log('inMain')
+  console.log($state.current.name)
     $rootScope.userVariable = [];
     $rootScope.userDetails = [];
     $rootScope.currentUser = Parse.User.current();
@@ -94,6 +95,7 @@ angular.module('starter.controllers', [])
   }
 })
 .controller('expenseCtrl',function($scope,$ionicLoading,$state,$ionicPopover,$mdToast,$rootScope,$mdDialog,mySharedService){
+
     console.log('in')
       $scope.expensesItem = [];
     //$scope.loading = false;
