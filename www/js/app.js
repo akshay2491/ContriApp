@@ -9,7 +9,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 
 .run(function($ionicPlatform) {
 
-   $ionicPlatform.onHardwareBackButton(function () {
+   $ionicPlatform.registerBackButtonAction(function (event) {
       if($state.current.name=="tab.dash") { // your check here
           $ionicPopup.confirm({
             title: 'System warning',
