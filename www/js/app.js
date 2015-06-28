@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore','ngMaterial'])
 
-.run(function($ionicPlatform,$ionicPopup) {
+.run(function($ionicPlatform,$ionicPopup,$state) {
 
    $ionicPlatform.onHardwareBackButton(function (event) {
       if($state.current.name === 'tab.dash') { // your check here
