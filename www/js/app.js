@@ -9,7 +9,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 
 .run(function($ionicPlatform,$ionicPopup,$state) {
 
-   $ionicPlatform.onHardwareBackButton(function (event) {
+/*   $ionicPlatform.onHardwareBackButton(function (event) {
       if($state.current.name === 'tab.dash') { // your check here
           $ionicPopup.confirm({
             title: 'System warning',
@@ -20,7 +20,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
             }
           })
       }
-  });
+  });*/
 
 /*  $ionicPlatform.registerBackButtonAction(function (event) {
     if($state.current.name=="tab.dash"){
@@ -54,7 +54,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
   $stateProvider
   .state('login',{
     url:'/login',
-    cache:false,
     templateUrl:'templates/login.html',
     controller:'loginCtrl'
   })
