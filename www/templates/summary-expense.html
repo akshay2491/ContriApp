@@ -1,0 +1,39 @@
+<ion-view>
+	<ion-header-bar class='bar-positive bar bar-header'>
+	 <button ng-click="gotoPage('tab.expenses')" class="button icon ion-arrow-left-a"></button>
+		 <h1 class="title">Expenses</h1>
+	</ion-header-bar>
+	<ion-content class='padding'>
+		<div class="list">
+		  <div  ng-repeat="chat in users">
+		    <div ng-show='chat.id === currentUser.id'>
+		    <div ng-show='chat.lend.length>0'>
+		     <div>
+		      <div class="list" ng-repeat='inside in chat.lend'>
+		        <a class="item item-avatar" href="#">
+		          <img src="http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png">
+		          <h2>{{inside.name}}</h2>
+		          <p>You Owe Rs.{{inside.amount}}</p>
+		        </a>
+		      </div>
+		     <!--   <div class="item item-divider item-text-wrap">{{chat.name}} lended to {{inside.name}} amount {{inside.amount}}
+		     </div> -->
+		     </div>
+		   </div>
+		   <div ng-show='chat.owe.length>0'>
+		     <div>
+		      <div class="list" ng-repeat='inside in chat.owe'>
+		        <a class="item item-avatar" href="#">
+		          <img src="http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png">
+		          <h2>{{inside.name}}</h2>
+		          <p>Owes You Rs.{{inside.amount}}</p>
+		        </a>
+		      </div>
+		     <!--  <h3 class="item item-divider item-text-wrap">{{inside.name}} owes {{chat.name}} amount Rs. {{inside.amount}}</h3> -->
+		     </div>
+		   </div>
+		 </div>
+		 </div>
+ 		</div> 
+	</ion-content>
+</ion-view>

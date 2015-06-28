@@ -9,6 +9,28 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 
 .run(function($ionicPlatform) {
 
+/*   $ionicPlatform.onHardwareBackButton(function () {
+      if(true) { // your check here
+          $ionicPopup.confirm({
+            title: 'System warning',
+            template: 'are you sure you want to exit?'
+          }).then(function(res){
+            if( res ){
+              navigator.app.exitApp();
+            }
+          })
+      }
+  });*/
+
+  $ionicPlatform.registerBackButtonAction(function (event) {
+    if($state.current.name=="tab.dash"){
+      navigator.app.exitApp();
+    }
+    else {
+      navigator.app.backHistory();
+    }
+  }, 100);
+
   Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -32,6 +54,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
   $stateProvider
   .state('login',{
     url:'/login',
+    cache:false,
     templateUrl:'templates/login.html',
     controller:'loginCtrl'
   })
@@ -44,12 +67,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 
       .state('internal',{
     url:'/internal',
+    cache:false,
     templateUrl:'templates/trip-expenses.html',
     controller:'tripExpCtrl'
   })
 
+    .state('external',{
+    url:'/external',
+    cache:false,
+    templateUrl:'templates/summary-expense.html',
+    controller:'sumExpCtrl'
+  })
+
    .state('trip',{
     url:'/trip',
+    cache:false,
     templateUrl:'templates/trip-main.html',
     controller:'tripCtrl'
   })

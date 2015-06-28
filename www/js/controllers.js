@@ -1,9 +1,11 @@
 angular.module('starter.controllers', [])
 
-.controller('MainCtrl',function($scope,$rootScope,$location){
+.controller('MainCtrl',function($scope,$rootScope,$state){
+  console.log('inMain')
     $rootScope.userVariable = [];
     $rootScope.userDetails = [];
     $rootScope.currentUser = Parse.User.current();
+    console.log($rootScope.currentUser)
 
     $rootScope.getAllUsers=function() {
       var userDetails = [];
@@ -19,13 +21,13 @@ angular.module('starter.controllers', [])
 
     $rootScope.gotoPage = function(val)
     { 
-      $location.path(val);
+      $state.go(val);
     }
 
 })
 
-.controller('loginCtrl',function($scope,$location,$rootScope,$ionicLoading,$mdDialog,$ionicPopover){
-  
+.controller('loginCtrl',function($scope,$state,$rootScope,$ionicLoading,$mdDialog,$ionicPopover,$ionicHistory){
+  console.log('inlogin')
   $scope.user = {};
   $scope.isError = false;
 
@@ -40,6 +42,7 @@ angular.module('starter.controllers', [])
 
   $scope.gotoMainPage = function(user)
   { 
+    console.log($rootScope.currentUser)
     $scope.show();
     Parse.User.logIn(user.uName, user.pName, {
       success: function(user) {
@@ -47,7 +50,7 @@ angular.module('starter.controllers', [])
         $scope.isError = false;
         $rootScope.getAllUsers();
         $rootScope.currentUser = user;
-        $location.path('/tab/dash');
+        $state.go('tab.dash');
         $scope.hide();
         $scope.user = {};
         $scope.$apply();
@@ -80,7 +83,7 @@ angular.module('starter.controllers', [])
             .ariaLabel('Alert Dialog Demo')
             .ok('Got it!')
         );
-        $location.path('/login');
+        $state.go('login');
         // Hooray! Let them use the app now.
       },
       error: function(user, error) {
@@ -90,7 +93,8 @@ angular.module('starter.controllers', [])
     });
   }
 })
-.controller('expenseCtrl',function($scope,$ionicLoading,$location,$ionicPopover,$mdToast,$rootScope,$mdDialog,mySharedService){
+.controller('expenseCtrl',function($scope,$ionicLoading,$state,$ionicPopover,$mdToast,$rootScope,$mdDialog,mySharedService){
+    console.log('in')
       $scope.expensesItem = [];
     //$scope.loading = false;
     var expObj = Parse.Object.extend('expenses');
@@ -126,12 +130,9 @@ angular.module('starter.controllers', [])
   $scope.findTripForMember = function() {
     console.log('in')
     var tripsArray = [];
-    console.log($rootScope.userDetails)
     var query = new Parse.Query('trips');
-    console.log($rootScope.currentUser.id)
     query.equalTo('members',$rootScope.currentUser.id);
     query.find({success:function(results){
-      console.log(results)
       _.each(results,function(arr){
         var createdBy = '';
         for(var i = 0 ;i <$rootScope.userDetails.length;i++)
@@ -155,7 +156,6 @@ angular.module('starter.controllers', [])
 
   $scope.getExpenseFromTrip = function(index) {
     var expensesItems = [];
-    console.log($scope.tripsArray[index]);
     var query = new Parse.Query('expenses');
     query.equalTo('tripId',$scope.tripsArray[index].id);
     query.find({success:function(results){
@@ -164,15 +164,14 @@ angular.module('starter.controllers', [])
             for(var j = 0 ;j<$rootScope.userDetails.length;j++)
             {
               if(results[i].attributes.parent === $rootScope.userDetails[j].id)
-              { console.log($rootScope.userDetails[j])
+              { 
                 createdBy = $scope.userDetails[j].name;
               }
             }
             expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount,'date':results[i].updatedAt,'createdBy':createdBy});
           }
            mySharedService.prepForBroadcast(expensesItems,$scope.tripsArray[index].id);
-           console.log('in')
-           $location.path('/internal');
+           $state.go('internal');
            $scope.$apply();
     },error:function(err){
 
@@ -193,7 +192,7 @@ angular.module('starter.controllers', [])
             for(var j = 0 ;j<$rootScope.userDetails.length;j++)
             {
               if(results[i].attributes.parent === $rootScope.userDetails[j].id)
-              { console.log($rootScope.userDetails[j])
+              {
                 createdBy = $scope.userDetails[j].name;
               }
             }
@@ -249,7 +248,7 @@ angular.module('starter.controllers', [])
     }*/
 })
 
-.controller('DashCtrl', function($scope,$location,$rootScope) {
+.controller('DashCtrl', function($scope,$state,$rootScope) {
  // $rootScope.getUserById(Parse.User.current().id);
     var userDetails = [];
     $scope.expensesItem = [];
@@ -270,11 +269,10 @@ angular.module('starter.controllers', [])
     
 })
 
-.controller('summaryCtrl', function($scope, Chats,$rootScope,Data) {
+.controller('summaryCtrl', function($scope, Chats,$rootScope,Data,mySharedService,$state) {
   $scope.isRead = false;
 
   $scope.getExpensesDetails=function() {
-    console.log($rootScope.userDetails)
     $scope.users = [];
     var expObj = Parse.Object.extend('expenses');
     var query = new Parse.Query(expObj);
@@ -288,13 +286,76 @@ angular.module('starter.controllers', [])
           //finalId.push(results[i].attributes.parent);
         }
         $scope.users = Data.calculateSummary(finalArray,$rootScope.userDetails); 
-        console.log($scope.users)
         $scope.$broadcast('scroll.refreshComplete');
         $scope.isRead = true;
         $scope.$apply();
       }
     });
   }
+
+   $scope.findTripForMember = function() {
+    var tripsArray = [];
+    var query = new Parse.Query('trips');
+    query.equalTo('members',$rootScope.currentUser.id);
+    query.find({success:function(results){
+      _.each(results,function(arr){
+        var createdBy = '';
+        for(var i = 0 ;i <$rootScope.userDetails.length;i++)
+        { 
+          if(arr.attributes.parent === $rootScope.userDetails[i].id)
+          {
+            createdBy = $rootScope.userDetails[i].name;
+          }
+        }
+        tripsArray.push({'id':arr.id,'name':arr.attributes.name,'members':arr.attributes.members,'createdBy':createdBy,'date':arr.attributes.date,'members':arr.attributes.members});
+      });
+      $scope.tripsArray = tripsArray;
+      $scope.$broadcast('scroll.refreshComplete');
+      $scope.$apply();
+      //console.log(results);
+    },
+    error:function(errorMsg){
+
+    }});
+  }
+
+  $scope.getExpenseFromTrip = function(index) {
+    var expensesItems = [];
+    var userDetails = [];
+    var query = new Parse.Query('expenses');
+    query.equalTo('tripId',$scope.tripsArray[index].id);
+    query.find({success:function(results){
+      for(var i=0;i<results.length;i++)
+          { var createdBy='';
+            for(var j = 0 ;j<$rootScope.userDetails.length;j++)
+            {
+              if(results[i].attributes.parent === $rootScope.userDetails[j].id)
+              { 
+                createdBy = $scope.userDetails[j].name;
+              }
+            }
+            //finalArray.push({'id':results[i].attributes.parent,'exp':results[i].attributes.amount,'expName':results[i].attributes.name});
+            expensesItems.push({'id':results[i].attributes.parent,'expName':results[i].attributes.name,'exp':results[i].attributes.amount,'date':results[i].updatedAt,'createdBy':createdBy});
+          }
+             _.each($scope.tripsArray[index].members,function(user){
+              _.each($rootScope.userDetails,function(members){
+                if(members.id === user) {
+                  userDetails.push({'id':user,'name':members.name});
+                }
+              })
+            })
+
+          var imp =Data.calculateSummary(expensesItems,userDetails);
+          mySharedService.prepForExpSummary(imp);
+           $state.go('external');
+           $scope.$apply();
+    },error:function(err){
+
+    }});
+  }
+
+
+
 
   $scope.chats = Chats.all();
   $scope.remove = function(chat) {
@@ -306,14 +367,17 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope,$location,$ionicModal) {
+.controller('AccountCtrl', function($scope,$state,$ionicModal,$ionicHistory,$rootScope) {
   $scope.settings = {
     enableFriends: true
   };
   $scope.logOutUser = function()
   {
+    $rootScope.currentUser = null;
     Parse.User.logOut();
-    $location.path('/login');  
+    $ionicHistory.clearCache();
+    $ionicHistory.clearHistory();
+    $state.go('login');  
     
   }
 })
@@ -322,7 +386,7 @@ angular.module('starter.controllers', [])
     $mdToast.hide();
   }
 })
-.controller('tripCtrl',function($scope,$rootScope,$location,$ionicPopover,$ionicModal,$mdDialog){
+.controller('tripCtrl',function($scope,$rootScope,$state,$ionicPopover,$ionicModal,$mdDialog){
 
   $scope.showUser = false;
   $scope.members = [];
@@ -439,9 +503,9 @@ angular.module('starter.controllers', [])
   };
 
   $scope.submitTrip = function(tripDetails){
-    console.log(tripDetails)
+    console.log(tripDetails);
+    console.log($scope.members)
     var userArray = _.pluck($scope.members,'id');
-    console.log(userArray)
     var tripObj = Parse.Object.extend('trips');
     var obj = new tripObj();
     obj.set('name',tripDetails.name);
@@ -461,7 +525,7 @@ angular.module('starter.controllers', [])
         );
         $scope.tripDetails = {};
         $scope.members = [];
-        $location.path('/tab/dash');
+        $state.go('tab.dash');
     },error:function(err){
 
     }
@@ -549,4 +613,8 @@ angular.module('starter.controllers', [])
       });
     }
 
+})
+.controller('sumExpCtrl',function($scope,$rootScope,mySharedService){
+    $scope.users = mySharedService.exp;
+    console.log($scope.users);
 });
