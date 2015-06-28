@@ -257,7 +257,10 @@ angular.module('starter.controllers', [])
     }*/
 })
 
-.controller('DashCtrl', function($scope,$state,$rootScope) {
+.controller('DashCtrl', function($scope,$state,$rootScope,$ionicHistory) {
+  console.log('in')
+  $ionicHistory.clearCache();
+  $ionicHistory.clearHistory();
  // $rootScope.getUserById(Parse.User.current().id);
     var userDetails = [];
     $scope.expensesItem = [];

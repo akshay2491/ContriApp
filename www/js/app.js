@@ -10,7 +10,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 .run(function($ionicPlatform,$ionicPopup,$state) {
 
    $ionicPlatform.onHardwareBackButton(function (event) {
-      if($state.current.name === 'tab.dash') { // your check here
+      if($state.current.name === 'tab.dash') {
+       // your check here
           $ionicPopup.confirm({
             title: 'System warning',
             template: 'are you sure you want to exit?'
@@ -96,6 +97,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 
   .state('tab.dash', {
     url: '/dash',
+    cache:false,
     views: {
       'tab-dash': {
         templateUrl: 'templates/tab-dash.html',
