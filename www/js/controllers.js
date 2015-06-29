@@ -3,6 +3,7 @@ angular.module('starter.controllers', [])
 .controller('MainCtrl',function($scope,$rootScope,$state){
     $rootScope.userVariable = [];
     $rootScope.userDetails = [];
+    $rootScope.notificationObj = [];
     $rootScope.currentUser = Parse.User.current();
     $rootScope.getAllUsers=function(callback) {
       var userDetails = [];
@@ -17,14 +18,13 @@ angular.module('starter.controllers', [])
     }
 
     $scope.getNotification = function(){
-      $rootScope.notificationObj = [];
       var query = new Parse.Query('notification');
       query.equalTo('userTripId',$rootScope.currentUser.id);
       query.find({success:function(results){
         _.each(results,function(individual){
           _.each($rootScope.userDetails,function(user){
             if(user.id === individual.attributes.parent) {
-              $rootScope.notificationObj.push({'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
+              $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
               $scope.$apply();
             }
           })
@@ -262,7 +262,23 @@ angular.module('starter.controllers', [])
     for(var i=0;i<$rootScope.notificationObj.length;i++) {
       if($rootScope.notificationObj[i].id === user.id) {
         $rootScope.notificationObj[i].confirmed = true;
+        var query = new Parse.Query('notification');
+        query.equalTo('objectId',$rootScope.notificationObj[i].id);
         $rootScope.notificationObj.splice(user,1);
+        query.find({success:function(results){
+          var newQuery = new Parse.Query('trips');
+          newQuery.equalTo('objectId',results[0].attributes.tripId);
+          newQuery.equalTo('parent',results[0].attributes.parent);
+          newQuery.first({success:function(result){
+            var arr = result.attributes.members;
+            arr.push(results[0].attributes.userTripId);
+            result.set('members',arr);
+            result.save({success:function(res){
+              results[0].destroy({});
+            }});
+          }})          
+        }
+      });
       }
     }
   }
@@ -403,11 +419,11 @@ angular.module('starter.controllers', [])
   $scope.logOutUser = function()
   {
     $rootScope.currentUser = null;
+    $rootScope.notificationObj = [];
     Parse.User.logOut();
     $ionicHistory.clearCache();
     $ionicHistory.clearHistory();
     $state.go('login');  
-    
   }
 })
 
@@ -532,7 +548,8 @@ angular.module('starter.controllers', [])
   };
 
   $scope.submitTrip = function(tripDetails){
-    var userArray = _.pluck($scope.members,'id');
+    var userTemp = _.pluck($scope.members,'id');
+    var userArray = [];
     var tripObj = Parse.Object.extend('trips');
     var obj = new tripObj();
    
@@ -543,7 +560,7 @@ angular.module('starter.controllers', [])
     obj.save(null,{
       success:function(results){
         console.log(results)
-        _.each(results.attributes.members,function(list){
+        _.each(userTemp,function(list){
            var notificationObj = Parse.Object.extend('notification');
           var newObj = new notificationObj();
           newObj.set('name',results.attributes.name);
