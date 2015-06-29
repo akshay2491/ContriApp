@@ -17,10 +17,14 @@
 			Back
 		</md-tooltip>
 	</md-button>
-	<div ng-repeat="user in notificationObj ">
+  <ion-refresher pulling-text="Pull to refresh..."
+   on-refresh="getNotification()">
+
+  </ion-refresher>
+	<div ng-repeat="user in notificationObj">
 		<div ng-show='!user.confirmed'>
 		<div class="list card" >
-		  <div class="item item-avatar">
+		  <div class="item item-avatar item-text-wrap">
 		    <h3>{{user.createdBy}} wants you to join {{user.tripName}} Trip</h3>
 		  </div>
 	    <div class="item tabs tabs-secondary tabs-icon-left">

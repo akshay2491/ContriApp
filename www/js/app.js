@@ -46,7 +46,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
   });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider,$mdThemingProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -86,6 +86,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
     controller:'tripCtrl'
   })
 
+   .state('profile',{
+    url:'/profile',
+    cache:false,
+    templateUrl:'templates/profile-main.html',
+    controller:'profileCtrl'
+  })
+
   // setup an abstract state for the tabs directive
     .state('tab', {
     url: "/tab",
@@ -97,6 +104,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 
   .state('tab.dash', {
     url: '/dash',
+    cache:false,
     views: {
       'tab-dash': {
         templateUrl: 'templates/tab-dash.html',
@@ -133,13 +141,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
       }
     })
 
+   /*    .state('profile',{
+    url:'/profile',
+    cache:false,
+    templateUrl:'templates/profile-main.html',
+    controller:'profileCtrl'
+  })*/
 
-  .state('tab.account', {
-    url: '/account',
+
+  .state('tab.profile', {
+    url: '/profile',
+    cache:false,
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-profile': {
+        templateUrl: 'templates/profile-main.html',
+        controller: 'profileCtrl'
       }
     }
   });

@@ -1,0 +1,53 @@
+<ion-view>
+	<ion-header-bar class='bar-positive'>
+	<button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
+		<h1 class='title'>Profile</h1>
+	</ion-header-bar>
+	<ion-content class='padding'>
+	 <md-whiteframe class="md-whiteframe-z2" layout layout-align="center center">
+    	 <md-content  layout-padding layout="row" layout-sm="column">
+    <md-input-container>
+      <label>Name</label>
+      <input ng-disabled="isFieldEnabled" ng-model="profileUser.name">
+    </md-input-container>
+    <md-input-container>
+      <label>User Name</label>
+      <input ng-disabled="true" ng-model="profileUser.userName">
+    </md-input-container>
+    <md-input-container>
+      <label>Email Address</label>
+      <input ng-disabled="isFieldEnabled" ng-model="profileUser.emailId">
+    </md-input-container>
+    <!-- <md-input-container>
+      <label>Change Password</label>
+      <input  ng-disabled="isFieldEnabled" ng-model="profileUser.password">
+    </md-input-container>
+    <md-input-container>
+      <label>Confirm Password</label>
+      <input  ng-disabled="isFieldEnabled" ng-model="profileUser.cPassword">
+    </md-input-container> -->
+    <md-content>
+    <section layout="row" layout-sm="row" layout-align="center center">
+    	<md-input-container>
+      <label>Change Password</label>
+      <input  ng-disabled="isFieldEnabled" ng-model="profileUser.password">
+    </md-input-container>
+    <md-input-container>
+      <label>Confirm Password</label>
+      <input  ng-disabled="isFieldEnabled" ng-model="profileUser.cPassword">
+    </md-input-container>
+    </section>
+     <section layout="row" layout-sm="row" layout-align="center center">
+      <md-button ng-click='editFields()' class="md-raised">Edit</md-button>
+      <md-button ng-click='updateFields(profileUser)'class="md-raised md-primary">Update</md-button>
+      <!-- <md-button ng-disabled="true" class="md-raised md-primary">Disabled</md-button>
+      <md-button class="md-raised md-warn">Warn</md-button>
+      <div class="label">Raised</div> -->
+    </section>
+
+  </md-whiteframe>
+  <section layout="row" layout-align="center center">
+    <md-button ng-click='logOutUser()' class="md-raised md-warn">Log Out</md-button>
+    </section>
+	</ion-content>
+</ion-view>

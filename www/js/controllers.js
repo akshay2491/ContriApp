@@ -21,14 +21,23 @@ angular.module('starter.controllers', [])
       var query = new Parse.Query('notification');
       query.equalTo('userTripId',$rootScope.currentUser.id);
       query.find({success:function(results){
+        if(results.length!=0)
+        {
         _.each(results,function(individual){
           _.each($rootScope.userDetails,function(user){
             if(user.id === individual.attributes.parent) {
               $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
+              $scope.$broadcast('scroll.refreshComplete');
               $scope.$apply();
             }
           })
         })
+      }
+      else
+      {
+        $scope.$broadcast('scroll.refreshComplete');
+        $scope.$apply();
+      }
         }
       })
     }
@@ -678,4 +687,49 @@ angular.module('starter.controllers', [])
 })
 .controller('sumExpCtrl',function($scope,$rootScope,mySharedService){
     $scope.users = mySharedService.exp;
+})
+.controller('profileCtrl',function($scope,$rootScope,$ionicHistory,$state){
+    var profileUser = {};
+    $scope.profileUser = {};
+    $scope.isFieldEnabled = true;
+    profileUser.id = $rootScope.currentUser.id;
+    profileUser.name = $rootScope.currentUser.attributes.name;
+    profileUser.userName = $rootScope.currentUser.attributes.username;
+    profileUser.emailId = $rootScope.currentUser.attributes.email;
+    $scope.profileUser = profileUser;
+
+    $scope.editFields = function() {
+      $scope.isFieldEnabled = false;
+    }
+
+    $scope.updateFields =function(user) {
+      console.log(user)
+      var query = new Parse.Query(Parse.User);
+      query.equalTo('objectId',$rootScope.currentUser.id);
+      query.first({success:function(obj){
+        obj.set('name',user.name);
+        obj.set('email',user.emailId);
+        if(user.hasOwnProperty('password')){
+          obj.set('password',user.password);
+        }
+        obj.save(null,{success:function(res){
+          $scope.isFieldEnabled = true;
+          /*$ionicHistory.clearCache();
+          $ionicHistory.clearHistory();*/
+          /*$rootScope.currentUser = Parse.User.current();
+          $rootScope.getAllUsers($scope.getNotification);*/
+          $scope.$apply();
+        }})
+      }})
+    }
+
+    $scope.logOutUser = function()
+    {
+      $rootScope.currentUser = null;
+      $rootScope.notificationObj = [];
+      Parse.User.logOut();
+      $ionicHistory.clearCache();
+      $ionicHistory.clearHistory();
+      $state.go('login');  
+    }
 });
