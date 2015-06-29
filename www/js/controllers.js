@@ -13,22 +13,28 @@ angular.module('starter.controllers', [])
           userDetails.push({'id':user.id,'name':user.attributes.name,'userName':user.attributes.username});
         });
         $rootScope.userDetails = userDetails;
+        $scope.$apply();
         callback();
       }})
     }
 
     $scope.getNotification = function(){
+      console.log('in');
       $rootScope.notificationObj = [];
       console.log($rootScope.notificationObj)
       var query = new Parse.Query('notification');
       query.equalTo('userTripId',$rootScope.currentUser.id);
       query.find({success:function(results){
+        console.log(results)
         if(results.length!=0)
         {
         _.each(results,function(individual){
+          console.log(individual)
           _.each($rootScope.userDetails,function(user){
+            console.log(user)
             if(user.id === individual.attributes.parent) {
               $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
+              console.log($rootScope.notificationObj)
               $scope.$broadcast('scroll.refreshComplete');
               $scope.$apply();
             }
@@ -71,6 +77,7 @@ angular.module('starter.controllers', [])
       success: function(user) {
 
         $scope.isError = false;
+        $rootScope.notificationObj = [];
         $rootScope.getAllUsers($scope.getNotification);
         $rootScope.currentUser = user;
         /*$ionicHistory.nextViewOptions({
@@ -250,9 +257,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('DashCtrl', function($scope,$state,$rootScope,$ionicHistory,$ionicModal) {
-  $ionicHistory.clearCache();
-  $ionicHistory.clearHistory();
-
+  /*$ionicHistory.clearCache();
+  $ionicHistory.clearHistory();*/
 
  // $rootScope.getUserById(Parse.User.current().id);
     var userDetails = [];
