@@ -18,6 +18,7 @@ angular.module('starter.controllers', [])
     }
 
     $scope.getNotification = function(){
+      console.log($rootScope.notificationObj)
       var query = new Parse.Query('notification');
       query.equalTo('userTripId',$rootScope.currentUser.id);
       query.find({success:function(results){

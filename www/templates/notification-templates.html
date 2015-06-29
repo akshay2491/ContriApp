@@ -21,7 +21,7 @@
    on-refresh="getNotification()">
 
   </ion-refresher>
-	<div ng-repeat="user in notificationObj">
+	<div ng-repeat="user in notificationObj track by $index">
 		<div ng-show='!user.confirmed'>
 		<div class="list card" >
 		  <div class="item item-avatar item-text-wrap">
