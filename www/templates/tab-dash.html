@@ -2,8 +2,8 @@
 <ion-view view-title="Dashboard">
 <ion-header-bar class='bar-positive bar bar-header'>
    <h1 class="title">Home</h1>
-   <button class="button ion-android-notifications-none" type="button">
-      <span class="badge">4</span>
+   <button ng-click='openNotification()' class="button ion-android-notifications-none" type="button">
+      <span class="badge">{{notificationObj.length}}</span>
     </button>
 </ion-header-bar>
 <ion-content class='padding'>

@@ -1,0 +1,79 @@
+ <ion-modal-view>
+<ion-header-bar class='bar-positive'>
+  <h1 class="title">Notification</h1>
+</ion-header-bar>
+ <!--   <md-toolbar>
+  <div class="md-toolbar-tools">
+    <md-input-container flex>
+      <label>Search</label>
+      <input ng-model="searchedUser">
+    </md-input-container>
+  </div>
+   </md-toolbar> -->
+    <ion-content class='padding'>
+    <md-button  class="md-mini md-fab md-primary" ng-click="closePopover($event)">
+		<i class='ion ion-arrow-left-a'></i>
+		<md-tooltip md-direction='right'>
+			Back
+		</md-tooltip>
+	</md-button>
+	<div ng-repeat="user in notificationObj ">
+		<div ng-show='!user.confirmed'>
+		<div class="list card" >
+		  <div class="item item-avatar">
+		    <h3>{{user.createdBy}} wants you to join {{user.tripName}} Trip</h3>
+		  </div>
+	    <div class="item tabs tabs-secondary tabs-icon-left">
+	    	<div>
+			    <div class="tab-item" ng-click='confirmTrip(user)'>
+			      <i class="icon ion-thumbsup"></i>
+			      Confirm
+			    </div>
+			</div>
+			<div>
+			    <div class="tab-item" ng-click='declineTrip(user)'>
+			      <i class="icon ion-chatbox"></i>
+			      Decline
+			    </div>
+			</div>
+		  </div>
+		</div>
+	</div>
+	</div>
+  <!--   <div class="list">
+  	  <div class="item item-input-inset">
+  	    <label class="item-input-wrapper">
+  	      <input type="text" ng-model='searchName.name' placeholder="Search for User">
+  	    </label>
+  	    <button ng-click='getUserFromSearch(searchName)' class="button button-small">
+  	      Submit
+  	    </button>
+  	  </div>
+  	</div>
+  	<div ng-show='showUser'>
+  		<div ng-repeat="user in resultUser track by $index"  >
+  			<div class="list card" ng-show='user.isAdded'>
+  			  <div class="item item-avatar">
+  			    <img src="http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png">
+  			    <h2>{{user.name}}</h2>
+  			    <p>{{user.email}}</p>
+  			  </div>
+  		    <div class="item tabs tabs-secondary tabs-icon-left">
+  		    	<div>
+  				    <div class="tab-item" ng-click='addMembers(user)'>
+  				      <i class="icon ion-thumbsup"></i>
+  				      Add
+  				    </div>
+  				</div>
+  				<div>
+  				    <div class="tab-item" ng-click='removeMembers(user)'>
+  				      <i class="icon ion-chatbox"></i>
+  				      Remove
+  				    </div>
+  				</div>
+  			  </div>
+  			</div>
+  		</div>
+  	</div> -->
+    </ion-content>
+  </ion-modal-view>

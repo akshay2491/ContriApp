@@ -1,23 +1,36 @@
 angular.module('starter.controllers', [])
 
 .controller('MainCtrl',function($scope,$rootScope,$state){
-  console.log('inMain')
-  console.log($state.current.name)
     $rootScope.userVariable = [];
     $rootScope.userDetails = [];
     $rootScope.currentUser = Parse.User.current();
-    console.log($rootScope.currentUser)
-
-    $rootScope.getAllUsers=function() {
+    $rootScope.getAllUsers=function(callback) {
       var userDetails = [];
       var query = new Parse.Query(Parse.User);
       query.find({success:function(results){
-        console.log(results);
         _.each(results,function(user){
           userDetails.push({'id':user.id,'name':user.attributes.name,'userName':user.attributes.username});
         });
         $rootScope.userDetails = userDetails;
+        callback();
       }})
+    }
+
+    $scope.getNotification = function(){
+      $rootScope.notificationObj = [];
+      var query = new Parse.Query('notification');
+      query.equalTo('userTripId',$rootScope.currentUser.id);
+      query.find({success:function(results){
+        _.each(results,function(individual){
+          _.each($rootScope.userDetails,function(user){
+            if(user.id === individual.attributes.parent) {
+              $rootScope.notificationObj.push({'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
+              $scope.$apply();
+            }
+          })
+        })
+        }
+      })
     }
 
     $rootScope.gotoPage = function(val)
@@ -28,7 +41,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('loginCtrl',function($scope,$state,$rootScope,$ionicLoading,$mdDialog,$ionicPopover,$ionicHistory){
-  console.log('inlogin')
   $scope.user = {};
   $scope.isError = false;
 
@@ -43,13 +55,12 @@ angular.module('starter.controllers', [])
 
   $scope.gotoMainPage = function(user)
   { 
-    console.log($rootScope.currentUser)
     $scope.show();
     Parse.User.logIn(user.uName, user.pName, {
       success: function(user) {
 
         $scope.isError = false;
-        $rootScope.getAllUsers();
+        $rootScope.getAllUsers($scope.getNotification);
         $rootScope.currentUser = user;
         /*$ionicHistory.nextViewOptions({
             disableAnimate: true,
@@ -103,41 +114,11 @@ angular.module('starter.controllers', [])
 })
 .controller('expenseCtrl',function($scope,$ionicLoading,$state,$ionicPopover,$mdToast,$rootScope,$mdDialog,mySharedService){
 
-    console.log('in')
       $scope.expensesItem = [];
     //$scope.loading = false;
     var expObj = Parse.Object.extend('expenses');
 
-
-/*  $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
-    scope: $scope
-  }).then(function(popover) {
-    console.log(popover)
-    $scope.popover = popover;
-  });
-
-  $scope.openPopover = function($event)
-  {
-    $scope.popover.show($event);
-  }*/
-
-  /*$scope.calculateTotal = function($event) {
-    var arr = [];
-    var arr = _.pluck($scope.expensesItem, 'amount');
-    var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0);
-    $mdDialog.show(
-      $mdDialog.alert()
-        .parent(angular.element(document.body))
-        .title('Alert')
-        .content('Your Total is Rs:'+sum)
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Got it!')
-        
-    );
-  }*/
-
   $scope.findTripForMember = function() {
-    console.log('in')
     var tripsArray = [];
     var query = new Parse.Query('trips');
     query.equalTo('members',$rootScope.currentUser.id);
@@ -257,14 +238,50 @@ angular.module('starter.controllers', [])
     }*/
 })
 
-.controller('DashCtrl', function($scope,$state,$rootScope,$ionicHistory) {
-  console.log('in')
+.controller('DashCtrl', function($scope,$state,$rootScope,$ionicHistory,$ionicModal) {
   $ionicHistory.clearCache();
   $ionicHistory.clearHistory();
+
+
  // $rootScope.getUserById(Parse.User.current().id);
     var userDetails = [];
     $scope.expensesItem = [];
-    getAllUsers();
+
+      $ionicModal.fromTemplateUrl('templates/notification-templates.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+
+  $scope.closePopover = function() {
+    $scope.modal.hide();
+  };
+
+  $scope.confirmTrip = function(user) {
+    for(var i=0;i<$rootScope.notificationObj.length;i++) {
+      if($rootScope.notificationObj[i].id === user.id) {
+        $rootScope.notificationObj[i].confirmed = true;
+        $rootScope.notificationObj.splice(user,1);
+      }
+    }
+  }
+
+/*    $scope.getNotification = function() {
+      var query = new Parse.Query('notification');
+      query.containedIn('userTripId',$rootScope.currentUser.id);
+      query.find({success:function(results){
+          console.log(results);
+        },error:function(err){
+
+        }
+      })
+    }*/
+
+    $scope.openNotification = function(){
+      $scope.modal.show();
+    }
+/*    getAllUsers();
     function getAllUsers() {
       var query = new Parse.Query(Parse.User);
       query.find({success:function(results){
@@ -273,10 +290,10 @@ angular.module('starter.controllers', [])
         });
         $rootScope.userDetails = userDetails;
       }})
-    }
+    }*/
     
     //$scope.loading = false;
-    var expObj = Parse.Object.extend('expenses');
+    //var expObj = Parse.Object.extend('expenses');
 
     
 })
@@ -393,6 +410,8 @@ angular.module('starter.controllers', [])
     
   }
 })
+
+
 .controller('ToastCtrl',function($scope,$mdToast){
   $scope.closeToast = function(){
     $mdToast.hide();
@@ -406,7 +425,6 @@ angular.module('starter.controllers', [])
   $scope.getUserFromSearch = function(name)
   { 
     
-    console.log($scope.members);
      var resultUser = [];
     //$scope.resultUser = [];
     var query = new Parse.Query(Parse.User);
@@ -478,7 +496,6 @@ angular.module('starter.controllers', [])
               resultUserObj.name = user.name;
               resultUserObj.email = user.username;
               resultUserObj.id = user.id;
-              console.log($scope.resultUser);
               $scope.resultUser[i].isAdded = false;
               $scope.resultUser[i] = {};
               $scope.members.push(resultUserObj);
@@ -515,18 +532,35 @@ angular.module('starter.controllers', [])
   };
 
   $scope.submitTrip = function(tripDetails){
-    console.log(tripDetails);
-    console.log($scope.members)
     var userArray = _.pluck($scope.members,'id');
     var tripObj = Parse.Object.extend('trips');
     var obj = new tripObj();
+   
     obj.set('name',tripDetails.name);
     obj.set('date',tripDetails.date);
     obj.set('parent',$rootScope.currentUser.id);
     obj.set('members',userArray);
     obj.save(null,{
       success:function(results){
-        console.log(results);
+        console.log(results)
+        _.each(results.attributes.members,function(list){
+           var notificationObj = Parse.Object.extend('notification');
+          var newObj = new notificationObj();
+          newObj.set('name',results.attributes.name);
+          newObj.set('date',results.attributes.date);
+          newObj.set('parent',results.attributes.parent);
+          newObj.set('tripId',results.id);
+          newObj.set('confirmed',false);
+          console.log(list)
+          newObj.set('userTripId',list);
+          newObj.save(null,{
+            success:function(result){
+              console.log(result);
+            },error:function(err){
+
+            }
+          })
+        })
         $mdDialog.show(
           $mdDialog.alert()
             .parent(angular.element(document.body))
@@ -561,7 +595,6 @@ angular.module('starter.controllers', [])
      $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
     scope: $scope
   }).then(function(popover) {
-    console.log(popover)
     $scope.popover = popover;
   });
 
@@ -628,5 +661,4 @@ angular.module('starter.controllers', [])
 })
 .controller('sumExpCtrl',function($scope,$rootScope,mySharedService){
     $scope.users = mySharedService.exp;
-    console.log($scope.users);
 });
