@@ -725,7 +725,7 @@ angular.module('starter.controllers', [])
 .controller('sumExpCtrl',function($scope,$rootScope,mySharedService){
     $scope.users = mySharedService.exp;
 })
-.controller('profileCtrl',function($scope,$rootScope,$ionicHistory,$state,$cordovaToast){
+.controller('profileCtrl',function($scope,$rootScope,$ionicHistory,$state){
     var profileUser = {};
     $scope.profileUser = {};
     $scope.isFieldEnabled = true;
@@ -760,23 +760,13 @@ angular.module('starter.controllers', [])
       }})
     }
 
-    $ionicPlatform.ready(function() {
     $scope.logOutUser = function()
     {
-      $cordovaToast
-    .show('Here is a message', 'long', 'center')
-    .then(function(success) {
       $rootScope.currentUser = null;
       $rootScope.notificationObj = [];
       Parse.User.logOut();
       $ionicHistory.clearCache();
       $ionicHistory.clearHistory();
       $state.go('login');  
-      // success
-    }, function (error) {
-      // error
-    });
-      
     }
-  })
 });
