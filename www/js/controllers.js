@@ -284,7 +284,7 @@ angular.module('starter.controllers', [])
             if(user.id === individual.attributes.parent) {
               $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
               console.log($rootScope.notificationObj)
-              //$scope.$broadcast('scroll.refreshComplete');
+              $scope.$broadcast('scroll.refreshComplete');
               $scope.$apply();
             }
           })
@@ -292,7 +292,7 @@ angular.module('starter.controllers', [])
       }
       else
       {
-        //$scope.$broadcast('scroll.refreshComplete');
+        $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
       }
         }

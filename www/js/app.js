@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore','ngMaterial','ngCordova'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore','ngMaterial','ngCordova','ngToast'])
 
 .run(function($ionicPlatform,$ionicPopup,$state) {
 
@@ -22,15 +22,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
           })
       }
   });
-
-/*  $ionicPlatform.registerBackButtonAction(function (event) {
-    if($state.current.name=="tab.dash"){
-      navigator.app.exitApp();
-    }
-    else {
-      navigator.app.backHistory();
-    }
-  }, 100);*/
 
   Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
   $ionicPlatform.ready(function() {
