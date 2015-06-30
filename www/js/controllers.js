@@ -778,5 +778,5 @@ angular.module('starter.controllers', [])
     });
       
     }
-  }
+  })
 });
