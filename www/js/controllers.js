@@ -3,9 +3,9 @@ angular.module('starter.controllers', [])
 .controller('MainCtrl',function($scope,$rootScope,$state){
     $rootScope.userVariable = [];
     $rootScope.userDetails = [];
-    $rootScope.notificationObj = [];
+    //$rootScope.notificationObj = [];
     $rootScope.currentUser = Parse.User.current();
-    $rootScope.getAllUsers=function(callback) {
+    $rootScope.getAllUsers=function() {
       var userDetails = [];
       var query = new Parse.Query(Parse.User);
       query.find({success:function(results){
@@ -14,14 +14,12 @@ angular.module('starter.controllers', [])
         });
         $rootScope.userDetails = userDetails;
         $scope.$apply();
-        callback();
+        //callback();
       }})
     }
 
     $scope.getNotification = function(){
-      console.log('in');
       $rootScope.notificationObj = [];
-      console.log($rootScope.notificationObj)
       var query = new Parse.Query('notification');
       query.equalTo('userTripId',$rootScope.currentUser.id);
       query.find({success:function(results){
@@ -35,7 +33,7 @@ angular.module('starter.controllers', [])
             if(user.id === individual.attributes.parent) {
               $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
               console.log($rootScope.notificationObj)
-              $scope.$broadcast('scroll.refreshComplete');
+              //$scope.$broadcast('scroll.refreshComplete');
               $scope.$apply();
             }
           })
@@ -43,7 +41,7 @@ angular.module('starter.controllers', [])
       }
       else
       {
-        $scope.$broadcast('scroll.refreshComplete');
+        //$scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
       }
         }
@@ -77,8 +75,8 @@ angular.module('starter.controllers', [])
       success: function(user) {
 
         $scope.isError = false;
-        $rootScope.notificationObj = [];
-        $rootScope.getAllUsers($scope.getNotification);
+        //$rootScope.notificationObj = [];
+        $rootScope.getAllUsers();
         $rootScope.currentUser = user;
         /*$ionicHistory.nextViewOptions({
             disableAnimate: true,
@@ -263,12 +261,43 @@ angular.module('starter.controllers', [])
  // $rootScope.getUserById(Parse.User.current().id);
     var userDetails = [];
     $scope.expensesItem = [];
+    $rootScope.notificationObj = [];
 
       $ionicModal.fromTemplateUrl('templates/notification-templates.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
   });
+      $scope.getNotification();
+      $scope.getNotification = function(){
+      $rootScope.notificationObj = [];
+      var query = new Parse.Query('notification');
+      query.equalTo('userTripId',$rootScope.currentUser.id);
+      query.find({success:function(results){
+        console.log(results)
+        if(results.length!=0)
+        {
+        _.each(results,function(individual){
+          console.log(individual)
+          _.each($rootScope.userDetails,function(user){
+            console.log(user)
+            if(user.id === individual.attributes.parent) {
+              $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
+              console.log($rootScope.notificationObj)
+              //$scope.$broadcast('scroll.refreshComplete');
+              $scope.$apply();
+            }
+          })
+        })
+      }
+      else
+      {
+        //$scope.$broadcast('scroll.refreshComplete');
+        $scope.$apply();
+      }
+        }
+      })
+    }
 
 
   $scope.closePopover = function() {
