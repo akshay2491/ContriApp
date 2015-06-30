@@ -58,6 +58,7 @@ angular.module('starter.controllers', [])
 .controller('loginCtrl',function($scope,$state,$rootScope,$ionicLoading,$mdDialog,$ionicPopover,$ionicHistory){
   $scope.user = {};
   $scope.isError = false;
+  $scope.errReg = false;
 
   $scope.show = function() {
     $ionicLoading.show({
@@ -70,10 +71,9 @@ angular.module('starter.controllers', [])
 
   $scope.gotoMainPage = function(user)
   { 
-    $scope.show();
     Parse.User.logIn(user.uName, user.pName, {
       success: function(user) {
-
+        $scope.show();
         $scope.isError = false;
         //$rootScope.notificationObj = [];
         $rootScope.getAllUsers();
@@ -91,7 +91,6 @@ angular.module('starter.controllers', [])
         $scope.$apply();
       },
       error: function(user, error) {
-        console.log('in')
         $scope.isError = true;
         $scope.errorMsg = error;
       }
@@ -123,7 +122,8 @@ angular.module('starter.controllers', [])
       },
       error: function(user, error) {
         // Show the error message somewhere and let the user try again.
-        alert("Error: " + error.code + " " + error.message);
+        $scope.errReg = true;
+        $scope.errorReg = error.message;
       }
     });
   }
@@ -303,6 +303,20 @@ angular.module('starter.controllers', [])
   $scope.closePopover = function() {
     $scope.modal.hide();
   };
+
+  $scope.declineTrip = function(user) {
+    for(var i=0;i<$rootScope.notificationObj.length;i++) {
+      if($rootScope.notificationObj[i].id === user.id) {
+        $rootScope.notificationObj[i].confirmed = true;
+        var query = new Parse.Query('notification');
+        query.equalTo('objectId',$rootScope.notificationObj[i].id);
+        $rootScope.notificationObj.splice(user,1);
+        query.find({success:function(results){
+          results[0].destroy({});
+        }});
+      }
+    }
+  }
 
   $scope.confirmTrip = function(user) {
     for(var i=0;i<$rootScope.notificationObj.length;i++) {
