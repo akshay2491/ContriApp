@@ -128,11 +128,18 @@ angular.module('starter.controllers', [])
     });
   }
 })
-.controller('expenseCtrl',function($scope,$ionicLoading,$state,$ionicPopover,$mdToast,$rootScope,$mdDialog,mySharedService){
+.controller('expenseCtrl',function($scope,$ionicLoading,$state,$ionicPopover,$mdToast,$rootScope,loadingScreen,$mdDialog,mySharedService){
 
       $scope.expensesItem = [];
     //$scope.loading = false;
     var expObj = Parse.Object.extend('expenses');
+
+     $scope.$on('$ionicView.enter', function(){ 
+        console.log("App view (menu) entered.");
+        loadingScreen.showNotification();
+        $scope.findTripForMember();
+
+    });
 
   $scope.findTripForMember = function() {
     var tripsArray = [];
@@ -151,6 +158,7 @@ angular.module('starter.controllers', [])
         tripsArray.push({'id':arr.id,'name':arr.attributes.name,'members':arr.attributes.members,'createdBy':createdBy,'date':arr.attributes.date});
       });
       $scope.tripsArray = tripsArray;
+      loadingScreen.hideNotification();
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$apply();
       //console.log(results);
@@ -254,7 +262,7 @@ angular.module('starter.controllers', [])
     }*/
 })
 
-.controller('DashCtrl', function($scope,$state,$rootScope,$ionicHistory,$ionicModal) {
+.controller('DashCtrl', function($scope,$state,$rootScope,$ionicHistory,$ionicModal,$ionicLoading,loadingScreen) {
   /*$ionicHistory.clearCache();
   $ionicHistory.clearHistory();*/
 
@@ -264,11 +272,27 @@ angular.module('starter.controllers', [])
     $rootScope.notificationObj = [];
 
       $ionicModal.fromTemplateUrl('templates/notification-templates.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-      $scope.getNotification();
+        scope: $scope
+      }).then(function(modal) {
+        $scope.modal = modal;
+      });
+
+     /*  $scope.show = function() {
+          $ionicLoading.show({
+            noBackdrop: true,
+            template: '<p class="item-icon-left">Loading stuff...<ion-spinner icon="lines"/></p>'
+          });
+        };
+        $scope.hide = function(){
+          $ionicLoading.hide();
+        };*/
+
+      $scope.$on('$ionicView.enter',function(){
+        //loadingScreen.showNotification();
+        $scope.getNotification();
+      });
+
+      
       $scope.getNotification = function(){
       $rootScope.notificationObj = [];
       var query = new Parse.Query('notification');
@@ -285,6 +309,7 @@ angular.module('starter.controllers', [])
               $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
               console.log($rootScope.notificationObj)
               $scope.$broadcast('scroll.refreshComplete');
+              //loadingScreen.hideNotification();
               $scope.$apply();
             }
           })
@@ -292,6 +317,7 @@ angular.module('starter.controllers', [])
       }
       else
       {
+        //loadingScreen.hideNotification();
         $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
       }
@@ -374,8 +400,13 @@ angular.module('starter.controllers', [])
     
 })
 
-.controller('summaryCtrl', function($scope, Chats,$rootScope,Data,mySharedService,$state) {
+.controller('summaryCtrl', function($scope, Chats,$rootScope,Data,mySharedService,$state,loadingScreen) {
   $scope.isRead = false;
+
+  $scope.$on('$ionicView.enter',function(){
+    loadingScreen.showNotification();
+    $scope.findTripForMember();
+  });
 
   $scope.getExpensesDetails=function() {
     $scope.users = [];
@@ -415,6 +446,7 @@ angular.module('starter.controllers', [])
         tripsArray.push({'id':arr.id,'name':arr.attributes.name,'members':arr.attributes.members,'createdBy':createdBy,'date':arr.attributes.date,'members':arr.attributes.members});
       });
       $scope.tripsArray = tripsArray;
+      loadingScreen.hideNotification();
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$apply();
       //console.log(results);

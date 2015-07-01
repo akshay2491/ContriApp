@@ -169,4 +169,21 @@ angular.module('starter.services', ['underscore'])
     };
 
     return sharedService;
+})
+.service('loadingScreen',function($ionicLoading){
+     var showNotification = function() {
+          $ionicLoading.show({
+            noBackdrop: true,
+            template: '<p class="item-icon-left">Loading stuff...<ion-spinner icon="lines"/></p>'
+          });
+        };
+
+    var hideNotification = function(){
+      $ionicLoading.hide();
+    };
+
+    return {
+        showNotification : showNotification,
+        hideNotification : hideNotification
+    }
 });
