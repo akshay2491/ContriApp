@@ -134,7 +134,7 @@ angular.module('starter.controllers', [])
     //$scope.loading = false;
     var expObj = Parse.Object.extend('expenses');
 
-     $scope.$on('$ionicView.enter', function(){ 
+     $scope.$on('$ionicView.loaded', function(){ 
         console.log("App view (menu) entered.");
         loadingScreen.showNotification();
         $scope.findTripForMember();
@@ -403,7 +403,7 @@ angular.module('starter.controllers', [])
 .controller('summaryCtrl', function($scope, Chats,$rootScope,Data,mySharedService,$state,loadingScreen) {
   $scope.isRead = false;
 
-  $scope.$on('$ionicView.enter',function(){
+  $scope.$on('$ionicView.loaded',function(){
     loadingScreen.showNotification();
     $scope.findTripForMember();
   });
