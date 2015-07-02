@@ -7,11 +7,10 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore','ngMaterial','ngCordova'])
 
-.run(function($ionicPlatform,$ionicPopup,$state) {
+.run(function($ionicPlatform,$ionicPopup,$state,$ionicHistory) {
 
    $ionicPlatform.onHardwareBackButton(function (event) {
-      if($state.current.name === 'tab.dash') {
-       // your check here
+      if($ionicHistory.currentStateName() == 'tab.dash') {
           $ionicPopup.confirm({
             title: 'System warning',
             template: 'are you sure you want to exit?'
@@ -21,6 +20,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
             }
           })
       }
+   /*   if($state.current.name === 'tab.dash') {
+       // your check here
+          $ionicPopup.confirm({
+            title: 'System warning',
+            template: 'are you sure you want to exit?'
+          }).then(function(res){
+            if(res){
+              navigator.app.exitApp();
+            }
+          })
+      }*/
   });
 
   Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");

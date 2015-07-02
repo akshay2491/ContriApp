@@ -69,6 +69,11 @@ angular.module('starter.controllers', [])
     $ionicLoading.hide();
   };
 
+  $scope.$on('$ionicView.beforeEnter',function(){
+    $ionicHistory.clearHistory();
+    $ionicHistory.clearCache();
+  });
+
   $scope.gotoMainPage = function(user)
   { 
     Parse.User.logIn(user.uName, user.pName, {
@@ -287,8 +292,10 @@ angular.module('starter.controllers', [])
           $ionicLoading.hide();
         };*/
 
-      $scope.$on('$ionicView.enter',function(){
+      $scope.$on('$ionicView.beforeEnter',function(){
         //loadingScreen.showNotification();
+        $ionicHistory.clearCache();
+        $ionicHistory.clearHistory();
         $scope.getNotification();
       });
 
