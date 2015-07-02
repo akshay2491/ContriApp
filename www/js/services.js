@@ -52,8 +52,6 @@ angular.module('starter.services', ['underscore'])
 
   var calculateSummary = function (details,userVar) {
         var finalArray = [];
-        console.log(details)
-        console.log(userVar)
         var name = _.pluck(userVar,'name');
         //var name = ["A", "B", "C","D","E"];
         var arr = [];
@@ -70,7 +68,6 @@ angular.module('starter.services', ['underscore'])
                 'total': sum
             });
         });
-        console.log(arr)
         var sumArray = _.pluck(arr, 'total');
         var total = _.reduce(sumArray, function (memo, num) {
             return memo + num;
@@ -84,14 +81,12 @@ angular.module('starter.services', ['underscore'])
             })
         });
         var tmp = _.pluck(finalArray, 'exp');
-       console.log(tmp);
-        console.log(finalArray);
         var finalUsers = call(tmp,finalArray);
         return finalUsers;
     } 
 
     function call(arrt,user)
-    {   console.log(arrt)
+    {   
         for(var i=0;i<arrt.length;i++)
         {   
             if(arrt[i]>0)
@@ -149,16 +144,13 @@ angular.module('starter.services', ['underscore'])
     sharedService.exp = [];
 
     sharedService.prepForBroadcast = function(msg,id) {
-        console.log(msg)
         this.message = msg;
         this.idVal = id;
-        console.log(sharedService)
         $rootScope.$broadcast('handleBroadcast');
         //this.broadcastItem();
     };
 
     sharedService.prepForExpSummary = function(msg) {
-        console.log(msg)
         this.exp = msg;
         $rootScope.$broadcast('handleBroadcast'); 
     }

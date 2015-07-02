@@ -18,22 +18,17 @@ angular.module('starter.controllers', [])
       }})
     }
 
-    $scope.getNotification = function(){
+/*    $scope.getNotification = function(){
       $rootScope.notificationObj = [];
       var query = new Parse.Query('notification');
       query.equalTo('userTripId',$rootScope.currentUser.id);
       query.find({success:function(results){
-        console.log(results)
         if(results.length!=0)
         {
         _.each(results,function(individual){
-          console.log(individual)
           _.each($rootScope.userDetails,function(user){
-            console.log(user)
             if(user.id === individual.attributes.parent) {
               $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
-              console.log($rootScope.notificationObj)
-              //$scope.$broadcast('scroll.refreshComplete');
               $scope.$apply();
             }
           })
@@ -41,12 +36,11 @@ angular.module('starter.controllers', [])
       }
       else
       {
-        //$scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
       }
         }
       })
-    }
+    }*/
 
     $rootScope.gotoPage = function(val)
     { 
@@ -55,7 +49,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('loginCtrl',function($scope,$state,$rootScope,$ionicLoading,$mdDialog,$ionicPopover,$ionicHistory){
+.controller('loginCtrl',function($scope,$state,$rootScope,$ionicLoading,loadingScreen,$mdDialog,$ionicPopover,$ionicHistory){
   $scope.user = {};
   $scope.isError = false;
   $scope.errReg = false;
@@ -75,10 +69,10 @@ angular.module('starter.controllers', [])
   });
 
   $scope.gotoMainPage = function(user)
-  { 
+  {
+    loadingScreen.showNotification(); 
     Parse.User.logIn(user.uName, user.pName, {
       success: function(user) {
-        $scope.show();
         $scope.isError = false;
         //$rootScope.notificationObj = [];
         $rootScope.getAllUsers();
@@ -90,12 +84,13 @@ angular.module('starter.controllers', [])
         });*/
         $ionicHistory.clearHistory();
         $ionicHistory.clearCache();
+        loadingScreen.hideNotification(); 
         $state.go('tab.dash');
-        $scope.hide();
         $scope.user = {};
         $scope.$apply();
       },
       error: function(user, error) {
+        loadingScreen.hideNotification(); 
         $scope.isError = true;
         $scope.errorMsg = error;
       }
@@ -140,7 +135,6 @@ angular.module('starter.controllers', [])
     var expObj = Parse.Object.extend('expenses');
 
      $scope.$on('$ionicView.loaded', function(){ 
-        console.log("App view (menu) entered.");
         loadingScreen.showNotification();
         $scope.findTripForMember();
 
@@ -174,6 +168,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.getExpenseFromTrip = function(index) {
+    loadingScreen.showNotification();
     var expensesItems = [];
     var query = new Parse.Query('expenses');
     query.equalTo('tripId',$scope.tripsArray[index].id);
@@ -190,6 +185,7 @@ angular.module('starter.controllers', [])
             expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount,'date':results[i].updatedAt,'createdBy':createdBy});
           }
            mySharedService.prepForBroadcast(expensesItems,$scope.tripsArray[index].id);
+           loadingScreen.hideNotification();
            $state.go('internal.addExpense');
            $scope.$apply();
     },error:function(err){
@@ -305,16 +301,12 @@ angular.module('starter.controllers', [])
       var query = new Parse.Query('notification');
       query.equalTo('userTripId',$rootScope.currentUser.id);
       query.find({success:function(results){
-        console.log(results)
         if(results.length!=0)
         {
         _.each(results,function(individual){
-          console.log(individual)
           _.each($rootScope.userDetails,function(user){
-            console.log(user)
             if(user.id === individual.attributes.parent) {
               $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
-              console.log($rootScope.notificationObj)
               $scope.$broadcast('scroll.refreshComplete');
               //loadingScreen.hideNotification();
               $scope.$apply();
@@ -658,7 +650,6 @@ angular.module('starter.controllers', [])
     obj.set('members',userArray);
     obj.save(null,{
       success:function(results){
-        console.log(results)
         _.each(userTemp,function(list){
            var notificationObj = Parse.Object.extend('notification');
           var newObj = new notificationObj();
@@ -667,11 +658,9 @@ angular.module('starter.controllers', [])
           newObj.set('parent',results.attributes.parent);
           newObj.set('tripId',results.id);
           newObj.set('confirmed',false);
-          console.log(list)
           newObj.set('userTripId',list);
           newObj.save(null,{
             success:function(result){
-              console.log(result);
             },error:function(err){
 
             }
@@ -793,7 +782,6 @@ angular.module('starter.controllers', [])
     }
 
     $scope.updateFields =function(user) {
-      console.log(user)
       var query = new Parse.Query(Parse.User);
       query.equalTo('objectId',$rootScope.currentUser.id);
       query.first({success:function(obj){

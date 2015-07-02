@@ -94,6 +94,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
         }
       })
 
+      .state('internal.viewMembers',{
+        url:'/viewMembers',
+        cache:false,
+        views:{
+          'menuContent':{
+            templateUrl:'templates/trip-view-members.html'
+          }
+        }
+      })
+
     .state('external',{
     url:'/external',
     cache:false,
