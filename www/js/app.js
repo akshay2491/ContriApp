@@ -60,9 +60,29 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
       .state('internal',{
     url:'/internal',
     cache:false,
+     abstract: true,
     templateUrl:'templates/trip-expenses.html',
     controller:'tripExpCtrl'
   })
+      .state('internal.addMembers',{
+        url:'/addMembers',
+        cache:false,
+        views:{
+          'menuContent':{
+            templateUrl:'templates/trip-add-members.html'
+          }
+        }
+      })
+
+      .state('internal.addExpense',{
+        url:'/expenses',
+        cache:false,
+        views:{
+          'menuContent':{
+            templateUrl:'templates/trip-add-expenses.html'
+          }
+        }
+      })
 
     .state('external',{
     url:'/external',

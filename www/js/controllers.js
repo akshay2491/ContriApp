@@ -128,7 +128,7 @@ angular.module('starter.controllers', [])
     });
   }
 })
-.controller('expenseCtrl',function($scope,$ionicLoading,$state,$ionicPopover,$mdToast,$rootScope,loadingScreen,$mdDialog,mySharedService){
+.controller('expenseCtrl',function($scope,$ionicLoading,$ionicHistory,$state,$ionicPopover,$mdToast,$rootScope,loadingScreen,$mdDialog,mySharedService){
 
       $scope.expensesItem = [];
     //$scope.loading = false;
@@ -185,7 +185,7 @@ angular.module('starter.controllers', [])
             expensesItems.push({'id':results[i].id,'name':results[i].attributes.name,'amount':results[i].attributes.amount,'date':results[i].updatedAt,'createdBy':createdBy});
           }
            mySharedService.prepForBroadcast(expensesItems,$scope.tripsArray[index].id);
-           $state.go('internal');
+           $state.go('internal.addExpense');
            $scope.$apply();
     },error:function(err){
 
@@ -702,10 +702,10 @@ angular.module('starter.controllers', [])
     $scope.expensesItem =  mySharedService.message;
 
      $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
-    scope: $scope
-  }).then(function(popover) {
-    $scope.popover = popover;
-  });
+        scope: $scope
+      }).then(function(popover) {
+        $scope.popover = popover;
+      });
 
   $scope.openPopover = function($event)
   {

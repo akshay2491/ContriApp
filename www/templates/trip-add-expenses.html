@@ -1,8 +1,14 @@
-<!-- <ion-view>
-	<ion-header-bar class='bar-positive bar bar-header'>
+ <ion-view title="Add Expenses">
+	<!-- <ion-header-bar class='bar-positive bar bar-header'>
 	 <button ng-click="gotoPage('tab.expenses')" class="button icon ion-arrow-left-a"></button>
 		 <h1 class="title">Expenses</h1>
-	</ion-header-bar>
+	</ion-header-bar> -->
+	<ion-nav-buttons side="left">
+    <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button ng-click="gotoPage('tab.expenses')" class="button button-icon icon ion-arrow-return-left"></button>
+  </ion-nav-buttons>
 	<ion-content class='padding'>
 		<md-button class="md-mini md-fab md-primary" ng-click="openPopover($event)">
 			<i class='ion ion-plus'></i>
@@ -28,27 +34,4 @@
 		  </div>
 		</div>
 	</ion-content>
-</ion-view> -->
-<ion-side-menus>
-	<ion-pane ion-side-menu-content>
-	    <ion-nav-bar class="bar-positive">
-	      <!-- <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button> -->
-	    </ion-nav-bar>
-	    <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
-  	</ion-pane>
-  	<ion-side-menu side='left'>
-  	 	<header class="bar bar-header bar-stable">
-      		<h1 class="title">Menu</h1>
-    	</header>
-    	<ion-content class="has-header">
-				 <ion-list>
-        <ion-item nav-clear menu-close href="#/internal/expenses">
-          Add Expenses
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/internal/addMembers">
-          Add Members
-        </ion-item>
-      </ion-list>
-    	</ion-content>
-  	</ion-side-menu>
-</ion-side-menus>
+</ion-view>
