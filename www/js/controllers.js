@@ -49,7 +49,7 @@ angular.module('starter.controllers', [])
 
 })
 
-.controller('loginCtrl',function($scope,$state,$rootScope,$ionicLoading,loadingScreen,$mdDialog,$ionicPopover,$ionicHistory){
+.controller('loginCtrl',function($scope,$state,$rootScope,$ionicLoading,loadingScreen,$mdDialog,$ionicPopover,$ionicHistory,$localstorage){
   $scope.user = {};
   $scope.isError = false;
   $scope.errReg = false;
@@ -63,16 +63,21 @@ angular.module('starter.controllers', [])
     $ionicLoading.hide();
   };
 
-  $scope.$on('$ionicView.beforeEnter',function(){
+  $scope.$on('$ionicView.enter',function(){
     $ionicHistory.clearHistory();
     $ionicHistory.clearCache();
   });
 
-  $scope.gotoMainPage = function(user)
+  $scope.gotoMainPage = function(userList)
   {
     loadingScreen.showNotification(); 
-    Parse.User.logIn(user.uName, user.pName, {
+    Parse.User.logIn(userList.uName, userList.pName, {
       success: function(user) {
+        //$localstorage.set('username',userList.uName);
+        //$localstorage.set('password',userList.pName);
+        //$localstorage.set('isAuthen',true);
+        console.log(user)
+        $localstorage.setObject('User',user);
         $scope.isError = false;
         //$rootScope.notificationObj = [];
         $rootScope.getAllUsers();
@@ -82,8 +87,8 @@ angular.module('starter.controllers', [])
             disableBack: true,
             historyRoot: true
         });*/
-        $ionicHistory.clearHistory();
-        $ionicHistory.clearCache();
+        //$ionicHistory.clearHistory();
+        //$ionicHistory.clearCache();
         loadingScreen.hideNotification(); 
         $state.go('tab.dash');
         $scope.user = {};
@@ -288,7 +293,7 @@ angular.module('starter.controllers', [])
           $ionicLoading.hide();
         };*/
 
-      $scope.$on('$ionicView.beforeEnter',function(){
+      $scope.$on('$ionicView.enter',function(){
         //loadingScreen.showNotification();
         $ionicHistory.clearCache();
         $ionicHistory.clearHistory();
@@ -509,6 +514,7 @@ angular.module('starter.controllers', [])
   };
   $scope.logOutUser = function()
   {
+    $localstorage.deleteObject('User');
     $rootScope.currentUser = null;
     $rootScope.notificationObj = [];
     Parse.User.logOut();

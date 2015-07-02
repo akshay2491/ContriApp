@@ -178,4 +178,25 @@ angular.module('starter.services', ['underscore'])
         showNotification : showNotification,
         hideNotification : hideNotification
     }
+})
+
+.factory('$localstorage',function($window){
+    return {
+        set:function(key,val) {
+            $window.localStorage[key] = val;
+        },
+        get:function(key) {
+            return $window.localStorage[key];
+        },
+        setObject:function(key,val) {
+            $window.localStorage[key] = JSON.stringify(val);
+        },
+        getObject:function(key) {
+            return JSON.stringify($window.localStorage[key]);
+        },
+        deleteObject:function(key) {
+            $window.localStorage.removeItem(key);
+        }
+
+    }
 });

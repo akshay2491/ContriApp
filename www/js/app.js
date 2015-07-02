@@ -7,9 +7,14 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore','ngMaterial','ngCordova'])
 
-.run(function($ionicPlatform,$ionicPopup,$state,$ionicHistory) {
+.run(function($ionicPlatform,$ionicPopup,$state,$ionicHistory,$localstorage) {
+    if($localstorage.getObject('User')) {
+      console.log('yo')
+      $state.go('tab.dash');
+    }
 
    $ionicPlatform.onHardwareBackButton(function (event) {
+
       if($ionicHistory.currentStateName() == 'tab.dash') {
           $ionicPopup.confirm({
             title: 'System warning',
