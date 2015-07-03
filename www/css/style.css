@@ -20,6 +20,13 @@
   right: 5px;
 }
 
+.loading-position {
+  position: fixed;
+  z-index: 5;
+  top: 230px;
+  right: 160px;
+}
+
 .cursor { cursor: pointer;}
 
 .item-icon-left ion-spinner {
