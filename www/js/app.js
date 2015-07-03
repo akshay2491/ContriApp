@@ -16,8 +16,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
       console.log(toState)
       console.log(fromState)
-      if(toState.url === '/dash') {
-        console.log('when')
+      if($ionicHistory.currentStateName() == 'tab.dash') {
         //$ionicHistory.clearHistory();
         $ionicPlatform.onHardwareBackButton(function (event) {
               $ionicPopup.confirm({
