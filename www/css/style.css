@@ -6,6 +6,13 @@
     position:relative;
 }
 
+.custom-position {
+  position: fixed;
+  z-index: 5;
+  top: 270px;
+  right: 160px;
+}
+
 .sum-pos-button {
 	top:100px;
 	right: 20px;
@@ -13,15 +20,20 @@
 	z-index: 5;
 }
 
+.custom-icon {
+  font-size: 30px;
+  color:white;
+}
+
 .pane-loading {
-    background-image: url(../img/splash.jpg); 
+    background-image: url(../img/screen1.png); 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
 }
 
 .submit-position {
-	position: fixed;
+	position: relative;
   z-index: 5;
   top: 50px;
   right: 5px;
@@ -30,7 +42,7 @@
 .loading-position {
   position: fixed;
   z-index: 5;
-  top: 270px;
+  top: 350px;
   right: 160px;
 }
 
