@@ -64,8 +64,8 @@ angular.module('starter.controllers', [])
   };
 
   $scope.$on('$ionicView.enter',function(){
-    $ionicHistory.clearHistory();
-    $ionicHistory.clearCache();
+    //$ionicHistory.clearHistory();
+    //$ionicHistory.clearCache();
   });
 
   $scope.gotoMainPage = function(userList)
