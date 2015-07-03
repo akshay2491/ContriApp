@@ -7,10 +7,25 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore','ngMaterial','ngCordova'])
 
-.run(function($ionicPlatform,$ionicPopup,$state,$ionicHistory,$localstorage) {
+.run(function($ionicPlatform,$ionicPopup,$state,$ionicHistory,$localstorage,$timeout,$rootScope,$location) {
+
+
 
   Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
   $ionicPlatform.ready(function() {
+     if ($localstorage.getObject('User') != undefined) {
+        $timeout(function() {
+            $rootScope.getAllUsers();
+            $location.path('/tab/dash');
+            $rootScope.$apply();
+        },1000);
+  }
+  else {
+        $timeout(function() {
+            $location.path('/login');
+            $rootScope.$apply();
+        },1000);
+    }
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -93,12 +108,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
     controller:'tripCtrl'
   })
 
-   .state('profile',{
+/*   .state('profile',{
     url:'/profile',
     cache:false,
     templateUrl:'templates/profile-main.html',
     controller:'profileCtrl'
-  })
+  })*/
 
   // setup an abstract state for the tabs directive
     .state('tab', {
@@ -147,12 +162,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
       }
     })
 
-   /*    .state('profile',{
-    url:'/profile',
-    cache:false,
-    templateUrl:'templates/profile-main.html',
-    controller:'profileCtrl'
-  })*/
+       .state('loading',{
+    url:'/loading',
+    templateUrl:'templates/loading.html'
+    /*controller:'profileCtrl'*/
+  })
 
 
   .state('tab.profile', {
@@ -167,6 +181,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/loading');
 
 });

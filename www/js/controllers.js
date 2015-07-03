@@ -5,6 +5,7 @@ angular.module('starter.controllers', [])
     $rootScope.userDetails = [];
     //$rootScope.notificationObj = [];
     $rootScope.currentUser = Parse.User.current();
+    console.log($rootScope.currentUser)
     $rootScope.getAllUsers=function() {
       var userDetails = [];
       var query = new Parse.Query(Parse.User);
@@ -64,8 +65,10 @@ angular.module('starter.controllers', [])
   };
 
   $scope.$on('$ionicView.enter',function(){
-    //$ionicHistory.clearHistory();
-    //$ionicHistory.clearCache();
+    console.log($localstorage.getObject('User'))
+    $ionicHistory.clearHistory();
+    $ionicHistory.clearCache();
+    console.log($localstorage.getObject('User'))
   });
 
   $scope.gotoMainPage = function(userList)
@@ -78,6 +81,7 @@ angular.module('starter.controllers', [])
         //$localstorage.set('isAuthen',true);
         console.log(user)
         $localstorage.setObject('User',user);
+        console.log($localstorage.getObject('User'))
         $scope.isError = false;
         //$rootScope.notificationObj = [];
         $rootScope.getAllUsers();
@@ -515,6 +519,8 @@ angular.module('starter.controllers', [])
   $scope.logOutUser = function()
   {
     $localstorage.deleteObject('User');
+    console.log('in')
+    console.log("in"+$localstorage.getObject('User'))
     $rootScope.currentUser = null;
     $rootScope.notificationObj = [];
     Parse.User.logOut();
@@ -773,7 +779,7 @@ angular.module('starter.controllers', [])
 .controller('sumExpCtrl',function($scope,$rootScope,mySharedService){
     $scope.users = mySharedService.exp;
 })
-.controller('profileCtrl',function($scope,$rootScope,$ionicHistory,$state){
+.controller('profileCtrl',function($scope,$rootScope,$ionicHistory,$state,$localstorage){
     var profileUser = {};
     $scope.profileUser = {};
     $scope.isFieldEnabled = true;
@@ -809,11 +815,13 @@ angular.module('starter.controllers', [])
 
     $scope.logOutUser = function()
     {
-      $rootScope.currentUser = null;
-      $rootScope.notificationObj = [];
-      Parse.User.logOut();
-      $ionicHistory.clearCache();
-      $ionicHistory.clearHistory();
-      $state.go('login');  
-    }
+      $localstorage.deleteObject('User');
+    $rootScope.currentUser = null;
+    $rootScope.notificationObj = [];
+    Parse.User.logOut();
+    $ionicHistory.clearCache();
+    $ionicHistory.clearHistory();
+    $state.go('login');  
+  }
+
 });

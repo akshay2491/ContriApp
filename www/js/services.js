@@ -192,7 +192,7 @@ angular.module('starter.services', ['underscore'])
             $window.localStorage[key] = JSON.stringify(val);
         },
         getObject:function(key) {
-            return JSON.stringify($window.localStorage[key]);
+            return $window.localStorage[key];
         },
         deleteObject:function(key) {
             $window.localStorage.removeItem(key);
