@@ -33,7 +33,7 @@
 }
 
 .submit-position {
-	position: relative;
+	position: fixed;
   z-index: 5;
   top: 50px;
   right: 5px;
