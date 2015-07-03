@@ -13,6 +13,13 @@
 	z-index: 5;
 }
 
+.pane-loading {
+    background-image: url(../img/splash.jpg); 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+}
+
 .submit-position {
 	position: fixed;
   z-index: 5;
@@ -23,7 +30,7 @@
 .loading-position {
   position: fixed;
   z-index: 5;
-  top: 230px;
+  top: 270px;
   right: 160px;
 }
 

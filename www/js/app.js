@@ -18,13 +18,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
             $rootScope.getAllUsers();
             $location.path('/tab/dash');
             $rootScope.$apply();
-        },1000);
+        },2500);
   }
   else {
         $timeout(function() {
             $location.path('/login');
             $rootScope.$apply();
-        },1000);
+        },2500);
     }
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
