@@ -7,11 +7,35 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','underscore','ngMaterial','ngCordova'])
 
-.run(function($ionicPlatform,$ionicPopup,$state,$ionicHistory,$localstorage) {
-    if($localstorage.getObject('User')) {
+.run(function($ionicPlatform,$ionicPopup,$state,$ionicHistory,$localstorage,$rootScope) {
+
+   /* if($localstorage.getObject('User')) {
       console.log('yo')
       $state.go('tab.dash');
-    }
+    }*/
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+      if(toState.url === '/dash') {
+        $ionicHistory.clearHistory();
+        $ionicPlatform.onHardwareBackButton(function (event) {
+              $ionicPopup.confirm({
+                title: 'System warning',
+                template: 'are you sure you want to exit?'
+              }).then(function(res){
+                if(res){
+                  navigator.app.exitApp();
+                }
+              })
+           })
+       }
+
+       if(toState.url === '/login') {
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true,
+          disableBack: true,
+          historyRoot:true
+        });
+       }
+    });
 
    $ionicPlatform.onHardwareBackButton(function (event) {
 
