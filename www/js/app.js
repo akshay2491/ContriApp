@@ -14,8 +14,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
       $state.go('tab.dash');
     }*/
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+      console.log(toState)
+      console.log(fromState)
       if(toState.url === '/dash') {
-        $ionicHistory.clearHistory();
+        console.log('when')
+        //$ionicHistory.clearHistory();
         $ionicPlatform.onHardwareBackButton(function (event) {
               $ionicPopup.confirm({
                 title: 'System warning',
@@ -27,16 +30,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
               })
            })
        }
-
-       if(toState.url === '/login') {
-        $ionicHistory.nextViewOptions({
-          disableAnimate: true,
-          disableBack: true,
-          historyRoot:true
-        });
-       }
     });
-
+/*
    $ionicPlatform.onHardwareBackButton(function (event) {
 
       if($ionicHistory.currentStateName() == 'tab.dash') {
@@ -49,18 +44,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
             }
           })
       }
-   /*   if($state.current.name === 'tab.dash') {
-       // your check here
-          $ionicPopup.confirm({
-            title: 'System warning',
-            template: 'are you sure you want to exit?'
-          }).then(function(res){
-            if(res){
-              navigator.app.exitApp();
-            }
-          })
-      }*/
-  });
+   
+  });*/
 
   Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
   $ionicPlatform.ready(function() {
