@@ -14,7 +14,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
       $state.go('tab.dash');
     }*/
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-      if(toState.url === '/dash') {
+      console.log(fromState)
+      if(fromState.url === '/dash') {
+        $ionicPlatform.onHardwareBackButton(function (event) {
         $ionicPopup.confirm({
                 title: 'System warning',
                 template: 'are you sure you want to exit?'
@@ -27,8 +29,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
        /* $ionicPlatform.onHardwareBackButton(function (event) {
               
            })*/
-       }
-    });
+       })
+    }
+  });
 /*
    $ionicPlatform.onHardwareBackButton(function (event) {
 
