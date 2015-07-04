@@ -39,7 +39,8 @@
     </section>
      <section layout="row" layout-sm="row" layout-align="center center">
       <md-button ng-click='editFields()' class="md-raised">Edit</md-button>
-      <md-button ng-click='updateFields(profileUser)'class="md-raised md-primary">Update</md-button>
+      <md-button ng-disabled="isSubmit" ng-click='updateFields(profileUser)'class="md-raised md-primary">Update</md-button>
+     <!--  <md-button ng-click='uploadImage($event)'class="md-raised md-primary">Upload Image</md-button> -->
       <!-- <md-button ng-disabled="true" class="md-raised md-primary">Disabled</md-button>
       <md-button class="md-raised md-warn">Warn</md-button>
       <div class="label">Raised</div> -->

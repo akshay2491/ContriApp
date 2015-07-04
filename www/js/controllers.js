@@ -19,6 +19,7 @@ angular.module('starter.controllers', [])
       }})
     }
 
+
 /*    $scope.getNotification = function(){
       $rootScope.notificationObj = [];
       var query = new Parse.Query('notification');
@@ -65,10 +66,8 @@ angular.module('starter.controllers', [])
   };
 
   $scope.$on('$ionicView.enter',function(){
-    console.log($localstorage.getObject('User'))
     $ionicHistory.clearHistory();
     $ionicHistory.clearCache();
-    console.log($localstorage.getObject('User'))
   });
 
   $scope.gotoMainPage = function(userList)
@@ -79,9 +78,7 @@ angular.module('starter.controllers', [])
         //$localstorage.set('username',userList.uName);
         //$localstorage.set('password',userList.pName);
         //$localstorage.set('isAuthen',true);
-        console.log(user)
         $localstorage.setObject('User',user);
-        console.log($localstorage.getObject('User'))
         $scope.isError = false;
         //$rootScope.notificationObj = [];
         $rootScope.getAllUsers();
@@ -137,7 +134,7 @@ angular.module('starter.controllers', [])
     });
   }
 })
-.controller('expenseCtrl',function($scope,$ionicLoading,$ionicHistory,$state,$ionicPopover,$mdToast,$rootScope,loadingScreen,$mdDialog,mySharedService){
+.controller('expenseCtrl',function($scope,$ionicLoading,$cordovaToast,$ionicHistory,$state,$ionicPopover,$mdToast,$rootScope,loadingScreen,$mdDialog,mySharedService){
 
       $scope.expensesItem = [];
     //$scope.loading = false;
@@ -168,6 +165,7 @@ angular.module('starter.controllers', [])
       $scope.tripsArray = tripsArray;
       loadingScreen.hideNotification();
       $scope.$broadcast('scroll.refreshComplete');
+      $cordovaToast.show('Pull to Refresh','short','bottom');
       $scope.$apply();
       //console.log(results);
     },
@@ -272,7 +270,7 @@ angular.module('starter.controllers', [])
     }*/
 })
 
-.controller('DashCtrl', function($scope,$state,$rootScope,$ionicHistory,$ionicModal,$ionicLoading,loadingScreen) {
+.controller('DashCtrl', function($scope,$state,$cordovaToast,$rootScope,$ionicHistory,$ionicModal,$ionicLoading,loadingScreen) {
   /*$ionicHistory.clearCache();
   $ionicHistory.clearHistory();*/
 
@@ -346,7 +344,9 @@ angular.module('starter.controllers', [])
         query.equalTo('objectId',$rootScope.notificationObj[i].id);
         $rootScope.notificationObj.splice(user,1);
         query.find({success:function(results){
-          results[0].destroy({});
+          results[0].destroy({success:function(res){
+            $cordovaToast.show('Trip Declined','short','bottom');
+          }});
         }});
       }
     }
@@ -368,7 +368,9 @@ angular.module('starter.controllers', [])
             arr.push(results[0].attributes.userTripId);
             result.set('members',arr);
             result.save({success:function(res){
-              results[0].destroy({});
+              results[0].destroy({success:function(res){
+                $cordovaToast.show('Trip Confirmed','short','bottom');
+              }});
             }});
           }})          
         }
@@ -390,6 +392,7 @@ angular.module('starter.controllers', [])
 
     $scope.openNotification = function(){
       $scope.modal.show();
+      $cordovaToast.show('Pull to refresh','short','bottom');
     }
 /*    getAllUsers();
     function getAllUsers() {
@@ -408,7 +411,7 @@ angular.module('starter.controllers', [])
     
 })
 
-.controller('summaryCtrl', function($scope, Chats,$rootScope,Data,mySharedService,$state,loadingScreen) {
+.controller('summaryCtrl', function($scope,Chats,$cordovaToast,$rootScope,Data,mySharedService,$state,loadingScreen) {
   $scope.isRead = false;
 
   $scope.$on('$ionicView.loaded',function(){
@@ -456,6 +459,7 @@ angular.module('starter.controllers', [])
       $scope.tripsArray = tripsArray;
       loadingScreen.hideNotification();
       $scope.$broadcast('scroll.refreshComplete');
+      $cordovaToast.show('Pull to Refresh','short','bottom');
       $scope.$apply();
       //console.log(results);
     },
@@ -536,7 +540,7 @@ angular.module('starter.controllers', [])
     $mdToast.hide();
   }
 })
-.controller('tripCtrl',function($scope,$rootScope,$state,$ionicPopover,$ionicModal,$mdDialog){
+.controller('tripCtrl',function($scope,$cordovaToast,$rootScope,$state,$ionicPopover,$ionicModal,$mdDialog){
 
   $scope.showUser = false;
   $scope.members = [];
@@ -603,6 +607,8 @@ angular.module('starter.controllers', [])
               $scope.resultUser[i].isAdded = false;
               $scope.resultUser[i] = {};
               $scope.members.push(resultUserObj);
+              var msg= user.name+' Added';
+              $cordovaToast.show(msg,'short','bottom');
             }
           }
     }
@@ -618,6 +624,8 @@ angular.module('starter.controllers', [])
               $scope.resultUser[i].isAdded = false;
               $scope.resultUser[i] = {};
               $scope.members.push(resultUserObj);
+              var msg= user.name+' Added';
+              $cordovaToast.show(msg,'short','bottom');
             }
           }
     }
@@ -628,6 +636,8 @@ angular.module('starter.controllers', [])
     {
       if($scope.members[i].id == user.id) {
         $scope.members.splice(user,1);
+        var msg= user.name+' Removed';
+        $cordovaToast.show(msg,'short','bottom');
       }
     }
   }
@@ -678,14 +688,7 @@ angular.module('starter.controllers', [])
             }
           })
         })
-        $mdDialog.show(
-          $mdDialog.alert()
-            .parent(angular.element(document.body))
-            .title('Alert Message')
-            .content('You Have successfully Created a Trip')
-            .ariaLabel('Alert Dialog Demo')
-            .ok('Got it!')
-        );
+        $cordovaToast.show('Trip Added', 'short', 'bottom');
         $scope.tripDetails = {};
         $scope.members = [];
         $state.go('tab.dash');
@@ -705,7 +708,7 @@ angular.module('starter.controllers', [])
   });*/
 
 })
-.controller('tripExpCtrl',function($scope,mySharedService,$mdDialog,$ionicPopover,$rootScope){
+.controller('tripExpCtrl',function($scope,$cordovaToast,mySharedService,$mdDialog,$ionicPopover,$rootScope){
 
     $scope.expensesItem =  mySharedService.message;
 
@@ -721,10 +724,13 @@ angular.module('starter.controllers', [])
   }
 
   $scope.calculateTotal = function($event) {
+
     var arr = [];
     var arr = _.pluck($scope.expensesItem, 'amount');
     var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0);
-    $mdDialog.show(
+    var str = 'Total Till now Rs. '+ sum;
+    $cordovaToast.show(str,'short','bottom');
+ /*   $mdDialog.show(
       $mdDialog.alert()
         .parent(angular.element(document.body))
         .title('Alert')
@@ -732,7 +738,7 @@ angular.module('starter.controllers', [])
         .ariaLabel('Alert Dialog Demo')
         .ok('Got it!')
         
-    );
+    );*/
   }
 
   $scope.addExpenses = function(exp)
@@ -756,15 +762,7 @@ angular.module('starter.controllers', [])
             }
           $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount,'date':results.updatedAt,'createdBy':createdBy});
           $scope.popover.hide();
-          $mdDialog.show(
-            $mdDialog.alert()
-              .parent(angular.element(document.body))
-              .title('Alert')
-              .content('Your Expense has been added')
-              .ariaLabel('Alert Dialog Demo')
-              .ok('Got it!')
-              
-          );
+          $cordovaToast.show('Expense Added','short','bottom');
           $scope.expenses = {};
           $scope.$apply();
           
@@ -779,7 +777,7 @@ angular.module('starter.controllers', [])
 .controller('sumExpCtrl',function($scope,$rootScope,mySharedService){
     $scope.users = mySharedService.exp;
 })
-.controller('profileCtrl',function($scope,$rootScope,$ionicHistory,$state,$localstorage){
+.controller('profileCtrl',function($scope,$rootScope,$cordovaToast,loadingScreen,$ionicHistory,$ionicPlatform,$state,$localstorage,$mdBottomSheet,$cordovaCamera){
     var profileUser = {};
     $scope.profileUser = {};
     $scope.isFieldEnabled = true;
@@ -788,30 +786,55 @@ angular.module('starter.controllers', [])
     profileUser.userName = $rootScope.currentUser.attributes.username;
     profileUser.emailId = $rootScope.currentUser.attributes.email;
     $scope.profileUser = profileUser;
+    $scope.isSubmit = true;
 
     $scope.editFields = function() {
       $scope.isFieldEnabled = false;
+      $scope.isSubmit = false;
     }
 
-    $scope.updateFields =function(user) {
-      var query = new Parse.Query(Parse.User);
-      query.equalTo('objectId',$rootScope.currentUser.id);
-      query.first({success:function(obj){
-        obj.set('name',user.name);
-        obj.set('email',user.emailId);
-        if(user.hasOwnProperty('password')){
-          obj.set('password',user.password);
+    $scope.uploadImage =function($event) {
+      $mdBottomSheet.show({
+        templateUrl:'templates/bottom-sheet.html',
+        controller:'bottomSheetCtrl',
+        targetEvent:$event
+      }).then(function(result){
+        console.log(result);
+        if(result.name === 'Camera') {
+            //$scope.loadCamera();
+            //$scope.getPictureFromSys();
         }
-        obj.save(null,{success:function(res){
-          $scope.isFieldEnabled = true;
-          /*$ionicHistory.clearCache();
-          $ionicHistory.clearHistory();*/
-          /*$rootScope.currentUser = Parse.User.current();
-          $rootScope.getAllUsers($scope.getNotification);*/
-          $scope.$apply();
-        }})
-      }})
+        else
+        {
+          //$scope.loadFileSystem();
+        }
+      })
     }
+
+  
+    $scope.updateFields =function(user) {
+              loadingScreen.showNotification();
+              var query = new Parse.Query(Parse.User);
+              query.equalTo('objectId',$rootScope.currentUser.id);
+              query.first({success:function(result){
+                  //result.set("image",parseFile);
+                  result.set('name',user.name);
+                  result.set('email',user.emailId);
+                  if(user.hasOwnProperty('password')){
+                    result.set('password',user.password);
+                  }
+                  result.save(null,{success:function(res){
+                  loadingScreen.hideNotification();
+                  $scope.isFieldEnabled = true;
+                  $scope.isSubmit = true;
+                  $cordovaToast.show('Profile Updated','short','bottom');
+                  $rootScope.currentUser = res;
+                  /*$ionicHistory.clearCache();
+                  $ionicHistory.clearHistory();*/
+                  $scope.$apply();
+                }})
+              }})
+      }
 
     $scope.logOutUser = function()
     {
@@ -824,4 +847,14 @@ angular.module('starter.controllers', [])
     $state.go('login');  
   }
 
+})
+.controller('bottomSheetCtrl',function($scope,$rootScope,$mdBottomSheet){
+  $scope.items = [
+    { name: 'Camera',classStyle: 'icon ion-camera' },
+    { name: 'Files', classStyle: 'icon ion-image' },
+  ];
+  $scope.listItemClick = function($index) {
+    var clickedItem = $scope.items[$index];
+    $mdBottomSheet.hide(clickedItem);
+  };
 });
