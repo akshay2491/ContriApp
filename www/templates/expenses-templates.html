@@ -1,0 +1,26 @@
+ <ion-modal-view>
+<ion-header-bar class='bar-positive'>
+  <h1 class="title">Add Expenses</h1>
+</ion-header-bar>
+    <ion-content class='padding'>
+    <md-button  class="md-mini md-fab md-primary" ng-click="closePopover($event)">
+		<i class='ion ion-arrow-left-a'></i>
+		<md-tooltip md-direction='right'>
+			Back
+		</md-tooltip>
+	</md-button>
+	<div class="list">
+	  <label class="item item-input item-stacked-label">
+	    <span class="input-label">Expense</span>
+	    <input type="text" ng-model='expenses.name' placeholder="name">
+	  </label>
+	  <label class="item item-input item-stacked-label">
+	    <span class="input-label">Amount</span>
+	    <input type="text" ng-model='expenses.amount'  placeholder="amount">
+	  </label>
+	  <label class="item item-input item-stacked-label">
+	  	 <md-button class="md-raised md-alert" ng-click='addExpenses(expenses)'>Add Expense</md-button>
+	  </label>
+	</div>
+</ion-content>
+</ion-modal-view>

@@ -165,7 +165,7 @@ angular.module('starter.controllers', [])
       $scope.tripsArray = tripsArray;
       loadingScreen.hideNotification();
       $scope.$broadcast('scroll.refreshComplete');
-      $cordovaToast.show('Pull to Refresh','short','bottom');
+      //$cordovaToast.show('Pull to Refresh','short','bottom');
       $scope.$apply();
       //console.log(results);
     },
@@ -345,7 +345,7 @@ angular.module('starter.controllers', [])
         $rootScope.notificationObj.splice(user,1);
         query.find({success:function(results){
           results[0].destroy({success:function(res){
-            $cordovaToast.show('Trip Declined','short','bottom');
+            //$cordovaToast.show('Trip Declined','short','bottom');
           }});
         }});
       }
@@ -369,7 +369,7 @@ angular.module('starter.controllers', [])
             result.set('members',arr);
             result.save({success:function(res){
               results[0].destroy({success:function(res){
-                $cordovaToast.show('Trip Confirmed','short','bottom');
+                //$cordovaToast.show('Trip Confirmed','short','bottom');
               }});
             }});
           }})          
@@ -392,7 +392,7 @@ angular.module('starter.controllers', [])
 
     $scope.openNotification = function(){
       $scope.modal.show();
-      $cordovaToast.show('Pull to refresh','short','bottom');
+      //$cordovaToast.show('Pull to refresh','short','bottom');
     }
 /*    getAllUsers();
     function getAllUsers() {
@@ -459,7 +459,7 @@ angular.module('starter.controllers', [])
       $scope.tripsArray = tripsArray;
       loadingScreen.hideNotification();
       $scope.$broadcast('scroll.refreshComplete');
-      $cordovaToast.show('Pull to Refresh','short','bottom');
+      //$cordovaToast.show('Pull to Refresh','short','bottom');
       $scope.$apply();
       //console.log(results);
     },
@@ -608,7 +608,7 @@ angular.module('starter.controllers', [])
               $scope.resultUser[i] = {};
               $scope.members.push(resultUserObj);
               var msg= user.name+' Added';
-              $cordovaToast.show(msg,'short','bottom');
+              //$cordovaToast.show(msg,'short','bottom');
             }
           }
     }
@@ -625,7 +625,7 @@ angular.module('starter.controllers', [])
               $scope.resultUser[i] = {};
               $scope.members.push(resultUserObj);
               var msg= user.name+' Added';
-              $cordovaToast.show(msg,'short','bottom');
+              //$cordovaToast.show(msg,'short','bottom');
             }
           }
     }
@@ -637,7 +637,7 @@ angular.module('starter.controllers', [])
       if($scope.members[i].id == user.id) {
         $scope.members.splice(user,1);
         var msg= user.name+' Removed';
-        $cordovaToast.show(msg,'short','bottom');
+        //$cordovaToast.show(msg,'short','bottom');
       }
     }
   }
@@ -688,7 +688,7 @@ angular.module('starter.controllers', [])
             }
           })
         })
-        $cordovaToast.show('Trip Added', 'short', 'bottom');
+        //$cordovaToast.show('Trip Added', 'short', 'bottom');
         $scope.tripDetails = {};
         $scope.members = [];
         $state.go('tab.dash');
@@ -700,36 +700,53 @@ angular.module('starter.controllers', [])
 
   }
 
-/*  $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
-    scope: $scope
-  }).then(function(popover) {
-    console.log(popover)
-    $scope.popover = popover;
-  });*/
 
 })
-.controller('tripExpCtrl',function($scope,$cordovaToast,mySharedService,$mdDialog,$ionicPopover,$rootScope){
+.controller('tripExpCtrl',function($scope,$cordovaToast,mySharedService,$mdDialog,$ionicPopover,$rootScope,$ionicModal){
 
     $scope.expensesItem =  mySharedService.message;
 
-     $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
+
+   /*  $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
         scope: $scope
       }).then(function(popover) {
+        $scope.expenses = {};
         $scope.popover = popover;
+
+      });*/
+
+      $scope.openExpenseTab = function(){
+      $scope.modal.show();
+    }
+
+    $scope.closePopover = function() {
+    $scope.modal.hide();
+  };
+
+    $ionicModal.fromTemplateUrl('templates/expenses-templates.html', {
+        scope: $scope
+      }).then(function(modal) {
+        $scope.expenses = {};
+        $scope.modal = modal;
       });
 
-  $scope.openPopover = function($event)
+  /*$scope.openPopover = function($event)
   {
+    console.log('in')
     $scope.popover.show($event);
   }
 
+  $scope.$on('$destroy', function() {
+            $scope.popover.remove();
+          });
+*/
   $scope.calculateTotal = function($event) {
 
     var arr = [];
     var arr = _.pluck($scope.expensesItem, 'amount');
     var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0);
     var str = 'Total Till now Rs. '+ sum;
-    $cordovaToast.show(str,'short','bottom');
+    //$cordovaToast.show(str,'short','bottom');
  /*   $mdDialog.show(
       $mdDialog.alert()
         .parent(angular.element(document.body))
@@ -743,6 +760,7 @@ angular.module('starter.controllers', [])
 
   $scope.addExpenses = function(exp)
     {
+      console.log(exp);
       var expObj = Parse.Object.extend('expenses');
       var obj = new expObj();
       obj.set('name',exp.name);
@@ -761,9 +779,8 @@ angular.module('starter.controllers', [])
               }
             }
           $scope.expensesItem.push({'id':results.id,'name':results.attributes.name,'amount':results.attributes.amount,'date':results.updatedAt,'createdBy':createdBy});
-          $scope.popover.hide();
-          $cordovaToast.show('Expense Added','short','bottom');
-          $scope.expenses = {};
+          $scope.closePopover();
+          //$cordovaToast.show('Expense Added','short','bottom');
           $scope.$apply();
           
         },
@@ -827,7 +844,7 @@ angular.module('starter.controllers', [])
                   loadingScreen.hideNotification();
                   $scope.isFieldEnabled = true;
                   $scope.isSubmit = true;
-                  $cordovaToast.show('Profile Updated','short','bottom');
+                  //$cordovaToast.show('Profile Updated','short','bottom');
                   $rootScope.currentUser = res;
                   /*$ionicHistory.clearCache();
                   $ionicHistory.clearHistory();*/
