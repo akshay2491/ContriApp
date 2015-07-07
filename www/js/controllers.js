@@ -703,10 +703,31 @@ angular.module('starter.controllers', [])
 
 })
 .controller('tripExpCtrl',function($scope,$cordovaToast,mySharedService,$mdDialog,$ionicPopover,$rootScope,$ionicModal){
-
     $scope.expensesItem =  mySharedService.message;
+    $scope.tripId = mySharedService.idVal;
+
+    $scope.$on('$ionicView.loaded',function(){
+      $scope.getMembersOfTrip();
+    });
 
 
+    $scope.getMembersOfTrip = function(){
+      var membersForExp = [];
+      var query = new Parse.Query('trips');
+      query.equalTo('objectId',$scope.tripId);
+      query.first({success:function(result){
+        _.each(result.attributes.members,function(user){
+          _.each($rootScope.userDetails,function(list){
+            if(user === list.id){
+              membersForExp.push({'name':list.name,'username':list.userName});
+            }
+          })
+        })
+        $scope.membersForExp =membersForExp;
+        $scope.$apply();
+      }
+    });
+    }
    /*  $scope.popover = $ionicPopover.fromTemplateUrl('templates/templateUrl.html', {
         scope: $scope
       }).then(function(popover) {
@@ -717,6 +738,78 @@ angular.module('starter.controllers', [])
 
       $scope.openExpenseTab = function(){
       $scope.modal.show();
+    };
+
+    $scope.getUserFromSearchForExpense = function(name) {
+     var resultUser = [];
+    var query = new Parse.Query(Parse.User);
+      query.find({success:function(results){
+        _.each(results,function(user){
+            if(user.attributes.name.toUpperCase() === name.name.toUpperCase() || user.attributes.username.toUpperCase() === name.name.toUpperCase())
+            {
+              var resultUserObj = {name:'',email:'',id:''};
+              resultUserObj.name = user.attributes.name;
+              resultUserObj.email = user.attributes.username;
+              resultUserObj.isAdded = true;
+              resultUserObj.id = user.id;
+              resultUser.push(resultUserObj);
+
+            }
+          });
+        $scope.showUser = true;
+        $scope.resultUserForExpense = resultUser;
+        $scope.$apply();
+      }});
+    }
+
+    $scope.addMembersForExpenses = function(user,index){
+      var query = new Parse.Query('trips');
+      query.equalTo('objectId',$scope.tripId);
+      query.first({success:function(result){
+        var val = _.contains(result.attributes.members,user.id);
+        console.log(val)
+        if(!val)
+        {
+          var mainQuery = new Parse.Query('notification');
+          mainQuery.equalTo('tripId',$scope.tripId);
+          mainQuery.equalTo('userTripId',user.id);
+          mainQuery.find({success:function(results){
+            if(results.length !=0) {
+                //toast notification to be added
+            }
+            else
+            {
+              var expObj = Parse.Object.extend('notification');
+              var newObj = new expObj();
+              newObj.set('name',result.attributes.name);
+              newObj.set('date',result.attributes.date);
+              newObj.set('parent',result.attributes.parent);
+              newObj.set('tripId',result.id);
+              newObj.set('confirmed',false);
+              newObj.set('userTripId',user.id);
+              newObj.save(null,{
+                success:function(result){
+                  console.log(index)
+                  $scope.resultUserForExpense[index].isAdded = false;
+                  $scope.$apply();
+                  console.log('saved');
+                   //toast notification to be added here
+                },error:function(err){
+
+                }
+              })
+            }
+          }})
+          
+        }
+        else
+        {
+          //toast notification to be added here
+
+        }
+        
+
+      }})
     }
 
     $scope.closePopover = function() {
@@ -747,20 +840,10 @@ angular.module('starter.controllers', [])
     var sum = _.reduce(arr, function(memo, num){ return memo + num; }, 0);
     var str = 'Total Till now Rs. '+ sum;
     //$cordovaToast.show(str,'short','bottom');
- /*   $mdDialog.show(
-      $mdDialog.alert()
-        .parent(angular.element(document.body))
-        .title('Alert')
-        .content('Your Total is Rs:'+sum)
-        .ariaLabel('Alert Dialog Demo')
-        .ok('Got it!')
-        
-    );*/
   }
 
   $scope.addExpenses = function(exp)
     {
-      console.log(exp);
       var expObj = Parse.Object.extend('expenses');
       var obj = new expObj();
       obj.set('name',exp.name);

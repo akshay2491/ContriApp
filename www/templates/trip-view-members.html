@@ -6,12 +6,13 @@
     <button ng-click="gotoPage('tab.expenses')" class="button button-icon icon ion-arrow-return-left"></button>
   </ion-nav-buttons>
 <ion-content class='padding'>
-	<div class="list">
-    <a class="item item-avatar" href="#">
-      <img src="http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png">
-      <h2>Venkman</h2>
-      <p>Back off, man. I'm a scientist.</p>
-    </a>
-	</div>
+	<div ng-repeat='user in membersForExp'>
+      <div class="card">
+        <div class="item item-text-wrap">
+                <h2>{{user.name}}</h2>
+                <p>{{user.username}}</p>
+        </div>
+      </div>
+    </div>
 </ion-content>
 </ion-view>

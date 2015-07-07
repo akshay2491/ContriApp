@@ -66,7 +66,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
   })
       .state('internal.addMembers',{
         url:'/addMembers',
-        cache:false,
         views:{
           'menuContent':{
             templateUrl:'templates/trip-add-members.html'
@@ -76,7 +75,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 
       .state('internal.addExpense',{
         url:'/expenses',
-        cache:false,
         views:{
           'menuContent':{
             templateUrl:'templates/trip-add-expenses.html'
@@ -86,7 +84,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
 
       .state('internal.viewMembers',{
         url:'/viewMembers',
-        cache:false,
         views:{
           'menuContent':{
             templateUrl:'templates/trip-view-members.html'

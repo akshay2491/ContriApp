@@ -39,6 +39,13 @@
   right: 5px;
 }
 
+.add-expense-button {
+  position: fixed;
+  z-index: 5;
+  bottom: 20px;
+  right: 20px;
+}
+
 .loading-position {
   position: fixed;
   z-index: 5;

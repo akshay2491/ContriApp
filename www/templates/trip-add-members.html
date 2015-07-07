@@ -6,7 +6,35 @@
     <button ng-click="gotoPage('tab.expenses')" class="button button-icon icon ion-arrow-return-left"></button>
   </ion-nav-buttons>
 	<ion-content class='padding'>
-
+		<div class="list">
+		  <div class="item item-input-inset">
+		    <label class="item-input-wrapper">
+		      <input type="text" ng-model='searchName.name' placeholder="Search for User">
+		    </label>
+		    <button ng-click='getUserFromSearchForExpense(searchName)' class="button button-small">
+		      Submit
+		    </button>
+		  </div>
+		</div>
+		<div ng-show='showUser'>
+			<div ng-repeat="user in resultUserForExpense track by $index"  >
+				<div class="list card" ng-show='user.isAdded'>
+				  <div class="item item-avatar">
+				    <img src="http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png">
+				    <h2>{{user.name}}</h2>
+				    <p>{{user.email}}</p>
+				  </div>
+			    <div class="item tabs tabs-secondary tabs-icon-left">
+			    	<div>
+					    <div class="tab-item" ng-click='addMembersForExpenses(user,$index)'>
+					      <i class="icon ion-thumbsup"></i>
+					      Add
+					    </div>
+					</div>
+				  </div>
+				</div>
+			</div>
+		</div>
 	</ion-content>
 
 </ion-view>

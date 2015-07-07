@@ -10,18 +10,6 @@
     <button ng-click="gotoPage('tab.expenses')" class="button button-icon icon ion-arrow-return-left"></button>
   </ion-nav-buttons>
 	<ion-content class='padding'>
-		<md-button class="md-mini md-fab md-primary" ng-click="openExpenseTab()">
-			<i class='ion ion-plus'></i>
-			<md-tooltip md-direction='left'>
-				Add Expense
-			</md-tooltip>
-		</md-button>
-		<md-button class="md-mini md-fab md-warning" ng-click="calculateTotal($event)">
-			<i class='ion ion-ios-compose-outline'></i>
-			<md-tooltip md-direction='left'>
-				Total
-			</md-tooltip>
-		</md-button>
 		<div ng-repeat="expense in expensesItem |orderBy: '-date'">
 		  <div class="list card">
 		    <div class="item item-divider">{{expense.name}}</div>
@@ -34,4 +22,20 @@
 		  </div>
 		</div>
 	</ion-content>
+	<div class='add-expense-button'>
+	<md-button class="md-mini md-fab md-primary" ng-click="openExpenseTab()">
+			<i class='ion ion-plus'></i>
+			<md-tooltip md-direction='left'>
+				Add Expense
+			</md-tooltip>
+		</md-button>
+
+		<md-button class="md-mini md-fab md-warning" ng-click="calculateTotal($event)">
+			<i class='ion ion-ios-compose-outline'></i>
+			<md-tooltip md-direction='top'>
+				Total
+			</md-tooltip>
+		</md-button>
+		</div>
+	</div>
 </ion-view>
