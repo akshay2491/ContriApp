@@ -542,8 +542,22 @@ angular.module('starter.controllers', [])
 .controller('tripCtrl',function($scope,$cordovaToast,$rootScope,$state,$ionicPopover,$ionicModal,$mdDialog){
 
   $scope.showUser = false;
-  $scope.members = [];
+  
   $scope.trip = {};
+
+  $scope.$on('$ionicView.beforeEnter',function(){
+      $scope.loadTheUserInMember();
+  });
+
+  $scope.loadTheUserInMember = function(){
+    $scope.members = [];
+    var resultUserObj = {name:'',email:'',id:''};
+    resultUserObj.name = $rootScope.currentUser.attributes.name+'(You)';
+    resultUserObj.email = $rootScope.currentUser.attributes.email;
+    resultUserObj.id = $scope.currentUser.id;
+    $scope.members.push(resultUserObj);
+  }
+
   $scope.getUserFromSearch = function(name)
   { 
     
@@ -567,7 +581,7 @@ angular.module('starter.controllers', [])
               if(!isPresent)
               {
                 resultUserObj.name = user.attributes.name;
-                  resultUserObj.email = user.attributes.username;
+                  resultUserObj.email = user.attributes.email;
                   resultUserObj.id = user.id;
                   resultUserObj.isAdded = true;
                 resultUser.push(resultUserObj);
@@ -577,7 +591,7 @@ angular.module('starter.controllers', [])
             else
             {
               resultUserObj.name = user.attributes.name;
-              resultUserObj.email = user.attributes.username;
+              resultUserObj.email = user.attributes.email;
               resultUserObj.isAdded = true;
               resultUserObj.id = user.id;
               resultUser.push(resultUserObj);
@@ -592,12 +606,12 @@ angular.module('starter.controllers', [])
   }
 
   $scope.addMembers = function(user) {
-
+    console.log(user)
     if($scope.members.length !=0)
     {
           var resultUserObj = {name:'',email:'',id:''};
           resultUserObj.name = user.name;
-          resultUserObj.email = user.username;
+          resultUserObj.email = user.email;
           resultUserObj.id = user.id;
            for(var i = 0 ;i < $scope.resultUser.length;i++)
           {
@@ -618,7 +632,7 @@ angular.module('starter.controllers', [])
             if($scope.resultUser[i].id == user.id) {
               var resultUserObj = {name:'',email:'',id:''};
               resultUserObj.name = user.name;
-              resultUserObj.email = user.username;
+              resultUserObj.email = user.email;
               resultUserObj.id = user.id;
               $scope.resultUser[i].isAdded = false;
               $scope.resultUser[i] = {};
@@ -664,7 +678,7 @@ angular.module('starter.controllers', [])
     var userArray = [];
     var tripObj = Parse.Object.extend('trips');
     var obj = new tripObj();
-   
+    userArray.push($rootScope.currentUser.id);
     obj.set('name',tripDetails.name);
     obj.set('date',tripDetails.date);
     obj.set('parent',$rootScope.currentUser.id);
@@ -672,6 +686,8 @@ angular.module('starter.controllers', [])
     obj.save(null,{
       success:function(results){
         _.each(userTemp,function(list){
+          if(list != $rootScope.currentUser.id)
+          {
            var notificationObj = Parse.Object.extend('notification');
           var newObj = new notificationObj();
           newObj.set('name',results.attributes.name);
@@ -686,6 +702,7 @@ angular.module('starter.controllers', [])
 
             }
           })
+        }
         })
         //$cordovaToast.show('Trip Added', 'short', 'bottom');
         $scope.tripDetails = {};

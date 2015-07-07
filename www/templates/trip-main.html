@@ -27,8 +27,10 @@
 			<div class="card">
 			  <div class="item item-text-wrap">
 					      <h2>{{user.name}}</h2>
-					      <p>Back off, man. I'm a scientist.</p>
+					      <p>{{user.email}}</p>
+					      <div ng-show='user.id!=currentUser.id'>
 					      <div ng-click='removeMembers(user)' class=" cursor icon ion-close-round"style='position: absolute;top:10px;right: 20px;'></div>
+					  	  </div>
 			  </div>
 			</div>
 		</div>
