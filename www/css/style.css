@@ -26,7 +26,7 @@
 }
 
 .pane-loading {
-    background-image: url(../img/screen.png); 
+    background-image: url(../img/screen.png) center; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
