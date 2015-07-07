@@ -104,8 +104,8 @@ angular.module('starter.services', ['underscore'])
                         if(Math.abs(arrt[j]) <=arrt[i])
                         {
                             arrt[i]=arrt[i]+arrt[j];
-                            user[i].owe.push({'name':user[j].name,'amount':Math.abs(arrt[j])});
-                            user[j].lend.push({'name':user[i].name,'amount':Math.abs(arrt[j])});
+                            user[i].owe.push({'name':user[j].name,'amount':Math.round(Math.abs(arrt[j]))});
+                            user[j].lend.push({'name':user[i].name,'amount':Math.round(Math.abs(arrt[j]))});
                             arrt[j]=0;
                             
                             
@@ -115,8 +115,8 @@ angular.module('starter.services', ['underscore'])
                             if(Math.abs(arrt[j]) > arrt[i])
                         {
                             arrt[j]=arrt[i]+arrt[j];
-                            user[i].owe.push({'name':user[j].name,'amount':Math.abs(arrt[i])});
-                             user[j].lend.push({'name':user[i].name,'amount':Math.abs(arrt[i])});
+                            user[i].owe.push({'name':user[j].name,'amount':Math.round(Math.abs(arrt[i]))});
+                             user[j].lend.push({'name':user[i].name,'amount':Math.round(Math.abs(arrt[i]))});
                             arrt[i]=0;
                            
                            

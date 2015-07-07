@@ -5,7 +5,6 @@ angular.module('starter.controllers', [])
     $rootScope.userDetails = [];
     //$rootScope.notificationObj = [];
     $rootScope.currentUser = Parse.User.current();
-    console.log($rootScope.currentUser)
     $rootScope.getAllUsers=function() {
       var userDetails = [];
       var query = new Parse.Query(Parse.User);
@@ -737,6 +736,7 @@ angular.module('starter.controllers', [])
       });*/
 
       $scope.openExpenseTab = function(){
+        $scope.expenses = {};
       $scope.modal.show();
     };
 
@@ -819,7 +819,7 @@ angular.module('starter.controllers', [])
     $ionicModal.fromTemplateUrl('templates/expenses-templates.html', {
         scope: $scope
       }).then(function(modal) {
-        $scope.expenses = {};
+        //$scope.expenses = {};
         $scope.modal = modal;
       });
 
