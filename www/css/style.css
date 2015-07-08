@@ -33,6 +33,16 @@
     background-position: center;
 }
 
+.login-loading {
+  z-index: -1;
+  background-image: url(../img/login.jpg);
+   background-size: cover;
+  height: 115px;
+   -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-position: center;
+}
+
 .submit-position {
 	position: fixed;
   z-index: 5;
