@@ -18,8 +18,7 @@ angular.module('starter.controllers', [])
       }})
     }
 
-
-/*    $scope.getNotification = function(){
+      $rootScope.getNotification = function(){
       $rootScope.notificationObj = [];
       var query = new Parse.Query('notification');
       query.equalTo('userTripId',$rootScope.currentUser.id);
@@ -30,6 +29,8 @@ angular.module('starter.controllers', [])
           _.each($rootScope.userDetails,function(user){
             if(user.id === individual.attributes.parent) {
               $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
+              $scope.$broadcast('scroll.refreshComplete');
+              //loadingScreen.hideNotification();
               $scope.$apply();
             }
           })
@@ -37,11 +38,13 @@ angular.module('starter.controllers', [])
       }
       else
       {
+        //loadingScreen.hideNotification();
+        $scope.$broadcast('scroll.refreshComplete');
         $scope.$apply();
       }
         }
       })
-    }*/
+    }
 
     $rootScope.gotoPage = function(val)
     { 
@@ -277,141 +280,21 @@ angular.module('starter.controllers', [])
   /*$ionicHistory.clearCache();
   $ionicHistory.clearHistory();*/
 
- // $rootScope.getUserById(Parse.User.current().id);
     var userDetails = [];
     $scope.expensesItem = [];
     $rootScope.notificationObj = [];
 
-      $ionicModal.fromTemplateUrl('templates/notification-templates.html', {
-        scope: $scope
-      }).then(function(modal) {
-        $scope.modal = modal;
-      });
-
-     /*  $scope.show = function() {
-          $ionicLoading.show({
-            noBackdrop: true,
-            template: '<p class="item-icon-left">Loading stuff...<ion-spinner icon="lines"/></p>'
-          });
-        };
-        $scope.hide = function(){
-          $ionicLoading.hide();
-        };*/
-
-      $scope.$on('$ionicView.enter',function(){
-        //loadingScreen.showNotification();
-        $ionicHistory.clearCache();
-        $ionicHistory.clearHistory();
-        $scope.getNotification();
-      });
-
-      
-      $scope.getNotification = function(){
-      $rootScope.notificationObj = [];
-      var query = new Parse.Query('notification');
-      query.equalTo('userTripId',$rootScope.currentUser.id);
-      query.find({success:function(results){
-        if(results.length!=0)
-        {
-        _.each(results,function(individual){
-          _.each($rootScope.userDetails,function(user){
-            if(user.id === individual.attributes.parent) {
-              $rootScope.notificationObj.push({'id':individual.id,'createdBy':user.name,'tripName':individual.attributes.name,'tripId':individual.attributes.tripId,'confirmed':individual.attributes.confirmed});
-              $scope.$broadcast('scroll.refreshComplete');
-              //loadingScreen.hideNotification();
-              $scope.$apply();
-            }
-          })
-        })
-      }
-      else
-      {
-        //loadingScreen.hideNotification();
-        $scope.$broadcast('scroll.refreshComplete');
-        $scope.$apply();
-      }
-        }
-      })
-    }
-
-
-  $scope.closePopover = function() {
-    $scope.modal.hide();
-  };
-
-  $scope.declineTrip = function(user) {
-    for(var i=0;i<$rootScope.notificationObj.length;i++) {
-      if($rootScope.notificationObj[i].id === user.id) {
-        $rootScope.notificationObj[i].confirmed = true;
-        var query = new Parse.Query('notification');
-        query.equalTo('objectId',$rootScope.notificationObj[i].id);
-        $rootScope.notificationObj.splice(user,1);
-        query.find({success:function(results){
-          results[0].destroy({success:function(res){
-            //$cordovaToast.show('Trip Declined','short','bottom');
-          }});
-        }});
-      }
-    }
-  }
-
-  $scope.confirmTrip = function(user) {
-    for(var i=0;i<$rootScope.notificationObj.length;i++) {
-      if($rootScope.notificationObj[i].id === user.id) {
-        $rootScope.notificationObj[i].confirmed = true;
-        var query = new Parse.Query('notification');
-        query.equalTo('objectId',$rootScope.notificationObj[i].id);
-        $rootScope.notificationObj.splice(user,1);
-        query.find({success:function(results){
-          var newQuery = new Parse.Query('trips');
-          newQuery.equalTo('objectId',results[0].attributes.tripId);
-          newQuery.equalTo('parent',results[0].attributes.parent);
-          newQuery.first({success:function(result){
-            var arr = result.attributes.members;
-            arr.push(results[0].attributes.userTripId);
-            result.set('members',arr);
-            result.save({success:function(res){
-              results[0].destroy({success:function(res){
-                //$cordovaToast.show('Trip Confirmed','short','bottom');
-              }});
-            }});
-          }})          
-        }
-      });
-      }
-    }
-  }
-
-/*    $scope.getNotification = function() {
-      var query = new Parse.Query('notification');
-      query.containedIn('userTripId',$rootScope.currentUser.id);
-      query.find({success:function(results){
-          console.log(results);
-        },error:function(err){
-
-        }
-      })
-    }*/
+    $scope.$on('$ionicView.enter',function(){
+      //loadingScreen.showNotification();
+      $ionicHistory.clearCache();
+      $ionicHistory.clearHistory();
+      $rootScope.getNotification();
+    });
 
     $scope.openNotification = function(){
-      $scope.modal.show();
+      $state.go('notification');
       //$cordovaToast.show('Pull to refresh','short','bottom');
     }
-/*    getAllUsers();
-    function getAllUsers() {
-      var query = new Parse.Query(Parse.User);
-      query.find({success:function(results){
-        _.each(results,function(user){
-          userDetails.push({'id':user.id,'name':user.attributes.name,'userName':user.attributes.username});
-        });
-        $rootScope.userDetails = userDetails;
-      }})
-    }*/
-    
-    //$scope.loading = false;
-    //var expObj = Parse.Object.extend('expenses');
-
-    
 })
 
 .controller('summaryCtrl', function($scope,Chats,$cordovaToast,$rootScope,Data,mySharedService,$state,loadingScreen) {
@@ -978,4 +861,49 @@ angular.module('starter.controllers', [])
     var clickedItem = $scope.items[$index];
     $mdBottomSheet.hide(clickedItem);
   };
+})
+.controller('notificationCtrl',function($scope,$rootScope){
+
+  $scope.declineTrip = function(user) {
+    for(var i=0;i<$rootScope.notificationObj.length;i++) {
+      if($rootScope.notificationObj[i].id === user.id) {
+        $rootScope.notificationObj[i].confirmed = true;
+        var query = new Parse.Query('notification');
+        query.equalTo('objectId',$rootScope.notificationObj[i].id);
+        $rootScope.notificationObj.splice(user,1);
+        query.find({success:function(results){
+          results[0].destroy({success:function(res){
+            //$cordovaToast.show('Trip Declined','short','bottom');
+          }});
+        }});
+      }
+    }
+  }
+
+  $scope.confirmTrip = function(user) {
+    for(var i=0;i<$rootScope.notificationObj.length;i++) {
+      if($rootScope.notificationObj[i].id === user.id) {
+        $rootScope.notificationObj[i].confirmed = true;
+        var query = new Parse.Query('notification');
+        query.equalTo('objectId',$rootScope.notificationObj[i].id);
+        $rootScope.notificationObj.splice(user,1);
+        query.find({success:function(results){
+          var newQuery = new Parse.Query('trips');
+          newQuery.equalTo('objectId',results[0].attributes.tripId);
+          newQuery.equalTo('parent',results[0].attributes.parent);
+          newQuery.first({success:function(result){
+            var arr = result.attributes.members;
+            arr.push(results[0].attributes.userTripId);
+            result.set('members',arr);
+            result.save({success:function(res){
+              results[0].destroy({success:function(res){
+                //$cordovaToast.show('Trip Confirmed','short','bottom');
+              }});
+            }});
+          }})          
+        }
+      });
+      }
+    }
+  }
 });

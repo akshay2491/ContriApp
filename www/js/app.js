@@ -105,6 +105,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','u
     controller:'tripCtrl'
   })
 
+       .state('notification',{
+    url:'/notification',
+    templateUrl:'templates/notification-templates.html',
+    controller:'notificationCtrl'
+  })
+
 /*   .state('profile',{
     url:'/profile',
     cache:false,
