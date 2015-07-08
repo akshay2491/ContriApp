@@ -102,6 +102,10 @@ angular.module('starter.controllers', [])
     });
   }
 
+  $scope.registerClearUser = function() {
+    $scope.user = {};
+  }
+
 
   $scope.registerUser = function(form)
   {
