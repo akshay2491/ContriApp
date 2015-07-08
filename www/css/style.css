@@ -26,10 +26,11 @@
 }
 
 .pane-loading {
-    background-image: url(../img/screen.png) center; 
+    background-image: url(../img/pic11.jpg); 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
+    background-position: center;
 }
 
 .submit-position {
