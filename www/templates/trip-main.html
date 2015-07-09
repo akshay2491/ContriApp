@@ -6,14 +6,29 @@
 	<ion-content class='padding' >
 	<div style='padding-top:20px;'>
 		<md-whiteframe  class="md-3-line md-whiteframe-z1" layout='column'  layout-align=" center">
+		<form name='projectForm'>
 			<md-input-container>
 				<label>Name of the trip</label>
-				<input type='text' ng-model='trip.name'>
+				<input type='text' required name="name" ng-model='trip.name'>
+				<div ng-messages="projectForm.name.$error">
+          <div ng-message="required">This is required.</div>
+		    </div>
 			</md-input-container>
 			<md-input-container md-no-float>
 				<label>Date of the trip</label>
-				<input type='date' ng-model='trip.date'>
+				<input type='date' max="{{presentDate}}" required name="input" ng-model='trip.date'>
+				<div ng-messages="projectForm.input.$error">
+          <div ng-message="required">This is required.</div>
+          <div ng-message="date">Not a Valid Date</div>
+          <div ng-message="max">Future Date</div>
+		    </div>
 			</md-input-container>
+			<div class='submit-position'>
+				<md-button  ng-disabled='projectForm.$invalid' class="md-raised md-primary" ng-click="submitTrip(trip)">
+					Submit
+				</md-button>
+			</div>
+		</form>
 		</md-whiteframe>
 	</div>
 	<md-divider></md-divider>
@@ -36,9 +51,5 @@
 		</div>
 	</div>
 	</ion-content>
-	<div class='submit-position'>
-		<md-button  class="md-raised md-primary" ng-click="submitTrip(trip)">
-			Submit
-		</md-button>
-	</div>
+	
 </ion-view>
