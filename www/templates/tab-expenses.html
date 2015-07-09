@@ -59,6 +59,7 @@
 	 	pulling-text="Pull to refresh..."
 	 on-refresh="findTripForMember()">
       </ion-refresher>
+      <div ng-show='tripsArray.length !=0'>
 	<div ng-repeat='tp in tripsArray'>
 		<div class="list card" ng-click='getExpenseFromTrip($index)'>
 	    <div class="item item-divider">{{tp.name}}</div>
@@ -71,6 +72,12 @@
 	      </div>
 	    </div>
 	  </div>
+	</div>
+	</div>
+	<div ng-show='tripsArray.length ==0'>
+		<div class="row">
+	     <div class="col col-75 col-offset-20">Sorry You are not a part of any trip</div>
+	    </div>
 	</div>
 		<!-- <div ng-repeat="expense in expensesItem |orderBy: '-date'">
 			  <div class="list card">

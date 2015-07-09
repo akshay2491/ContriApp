@@ -4,6 +4,7 @@
 		 <h1 class="title">Expenses</h1>
 	</ion-header-bar>
 	<ion-content class='padding'>
+	<div ng-show='users.length != 0'>
 		<div class="list">
 		  <div  ng-repeat="chat in users">
 		    <div ng-show='chat.id === currentUser.id'>
@@ -34,6 +35,12 @@
 		   </div>
 		 </div>
 		 </div>
- 		</div> 
+ 		</div>
+ 	</div>
+ 	<div ng-show='users.length ==0'>
+ 		<div class="row">
+        	<div class="col col-75 col-offset-20">Hurrayy!!Everyting is clear.</div>
+      	</div>
+ 	</div>
 	</ion-content>
 </ion-view>

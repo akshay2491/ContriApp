@@ -14,8 +14,13 @@
    on-refresh="getNotification()">
 
   </ion-refresher>
+  <div ng-show='notificationObj.length == 0'>
+    <div class="row">
+     <div class="col col-75 col-offset-20">Sorry You Have no Notification</div>
+    </div>
+  </div>
+  <div ng-show='notificationObj.length!=0'>
   <md-list>
-  
   <md-list-item  ng-repeat="user in notificationObj track by $index">
       <!--  <img src='http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png' class="md-avatar" /> -->
          <p>{{user.createdBy}} wants you to join {{user.tripName}} Trip</p>
@@ -41,6 +46,7 @@
       <md-divider></md-divider>
   </md-list-item>
 </md-list>
+</div>
 <!-- <div ng-repeat="user in notificationObj track by $index">
   <div ng-show='!user.confirmed'>
     <div class="list card" >
