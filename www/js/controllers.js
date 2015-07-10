@@ -211,6 +211,7 @@ angular.module('starter.controllers', [])
                   expensesItems.push({
                       'id': results[i].id,
                       'name': results[i].attributes.name,
+                      'parentId':results[i].attributes.parent,
                       'amount': results[i].attributes.amount,
                       'date': results[i].updatedAt,
                       'createdBy': createdBy
@@ -648,7 +649,6 @@ angular.module('starter.controllers', [])
 .controller('tripExpCtrl', function($scope, $cordovaToast, mySharedService, $mdDialog, $ionicPopover, $rootScope, $ionicModal) {
   $scope.expensesItem = mySharedService.message;
   $scope.tripId = mySharedService.idVal;
-
   $scope.$on('$ionicView.loaded', function() {
       $scope.getMembersOfTrip();
   });
@@ -818,6 +818,7 @@ $scope.$on('$destroy', function() {
                   'name': results.attributes.name,
                   'amount': results.attributes.amount,
                   'date': results.updatedAt,
+                  'parentId':results.attributes.parent,
                   'createdBy': createdBy
               });
               $scope.closePopover();

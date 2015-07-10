@@ -26,12 +26,29 @@
 }
 
 .pane-loading {
-    background-image: url(../img/pic11.jpg); 
+  background-color: #387DF5;
+    /* background-image: url(../img/pic11.jpg); 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
-    background-position: center;
+    background-position: center; */
 }
+
+.edit-button {
+  float: right;
+}
+
+.edit-button > .icon:before {
+  font-size: 17px;
+  line-height: 20px;
+}
+
+.edit-button > .button { 
+  line-height: 0px;
+  min-height: 0px; 
+  } 
+
+
 
 .login-loading {
   z-index: -1;
