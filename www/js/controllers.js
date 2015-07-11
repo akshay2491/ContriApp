@@ -15,7 +15,8 @@ angular.module('starter.controllers', [])
                   userDetails.push({
                       'id': user.id,
                       'name': user.attributes.name,
-                      'userName': user.attributes.username
+                      'userName': user.attributes.username,
+                      'image':user.attributes.image
                   });
               });
               $rootScope.userDetails = userDetails;
@@ -40,6 +41,7 @@ angular.module('starter.controllers', [])
                                   'createdBy': user.name,
                                   'tripName': individual.attributes.name,
                                   'tripId': individual.attributes.tripId,
+                                  'image':user.image,
                                   'confirmed': individual.attributes.confirmed
                               });
                               $scope.$broadcast('scroll.refreshComplete');
@@ -48,6 +50,7 @@ angular.module('starter.controllers', [])
                           }
                       })
                   })
+                console.log($rootScope.notificationObj)
               } else {
                   //loadingScreen.hideNotification();
                   $scope.$broadcast('scroll.refreshComplete');
@@ -125,6 +128,7 @@ angular.module('starter.controllers', [])
       user.set("name", form.uname);
       user.set("password", form.password);
       user.set("email", form.email);
+      user.set('image','http://placehold.it/100x100');
 
       // other fields can be set just like with Parse.Object
       user.signUp(null, {
@@ -184,7 +188,7 @@ angular.module('starter.controllers', [])
               $scope.tripsArray = tripsArray;
               loadingScreen.hideNotification();
               $scope.$broadcast('scroll.refreshComplete');
-              //$cordovaToast.show('Pull to Refresh','short','bottom');
+              $cordovaToast.show('Pull to Refresh','short','bottom');
               $scope.$apply();
               //console.log(results);
           },
@@ -318,7 +322,7 @@ angular.module('starter.controllers', [])
 
   $scope.openNotification = function() {
       $state.go('notification');
-      //$cordovaToast.show('Pull to refresh','short','bottom');
+      $cordovaToast.show('Pull to refresh','short','bottom');
   }
 })
 
@@ -380,7 +384,7 @@ angular.module('starter.controllers', [])
               $scope.tripsArray = tripsArray;
               loadingScreen.hideNotification();
               $scope.$broadcast('scroll.refreshComplete');
-              //$cordovaToast.show('Pull to Refresh','short','bottom');
+              $cordovaToast.show('Pull to Refresh','short','bottom');
               $scope.$apply();
               //console.log(results);
           },
@@ -418,7 +422,8 @@ angular.module('starter.controllers', [])
                       if (members.id === user) {
                           userDetails.push({
                               'id': user,
-                              'name': members.name
+                              'name': members.name,
+                              'image':members.image
                           });
                       }
                   })
@@ -485,10 +490,12 @@ angular.module('starter.controllers', [])
       var resultUserObj = {
           name: '',
           email: '',
-          id: ''
+          id: '',
+          image:''
       };
       resultUserObj.name = $rootScope.currentUser.attributes.name + '(You)';
       resultUserObj.email = $rootScope.currentUser.attributes.email;
+      resultUserObj.image = $rootScope.currentUser.attributes.image;
       resultUserObj.id = $scope.currentUser.id;
       $scope.members.push(resultUserObj);
   }
@@ -516,6 +523,7 @@ angular.module('starter.controllers', [])
                           if (!isPresent) {
                               resultUserObj.name = user.attributes.name;
                               resultUserObj.email = user.attributes.email;
+                              resultUserObj.image = user.attributes.image;
                               resultUserObj.id = user.id;
                               resultUserObj.isAdded = true;
                               resultUser.push(resultUserObj);
@@ -524,10 +532,15 @@ angular.module('starter.controllers', [])
                       } else {
                           resultUserObj.name = user.attributes.name;
                           resultUserObj.email = user.attributes.email;
+                          resultUserObj.image = user.attributes.image;
                           resultUserObj.isAdded = true;
                           resultUserObj.id = user.id;
                           resultUser.push(resultUserObj);
                       }
+                  }
+                  else
+                  {
+                    //$cordovaToast.show('No user found','short','bottom');
                   }
               });
               $scope.showUser = true;
@@ -542,10 +555,12 @@ angular.module('starter.controllers', [])
           var resultUserObj = {
               name: '',
               email: '',
-              id: ''
+              id: '',
+              image:''
           };
           resultUserObj.name = user.name;
           resultUserObj.email = user.email;
+          resultUserObj.image = user.image;
           resultUserObj.id = user.id;
           for (var i = 0; i < $scope.resultUser.length; i++) {
               if ($scope.resultUser[i].id == user.id) {
@@ -553,7 +568,7 @@ angular.module('starter.controllers', [])
                   $scope.resultUser[i] = {};
                   $scope.members.push(resultUserObj);
                   var msg = user.name + ' Added';
-                  //$cordovaToast.show(msg,'short','bottom');
+                  $cordovaToast.show(msg,'short','bottom');
               }
           }
       } else {
@@ -562,29 +577,32 @@ angular.module('starter.controllers', [])
                   var resultUserObj = {
                       name: '',
                       email: '',
-                      id: ''
+                      id: '',
+                      image:''
                   };
                   resultUserObj.name = user.name;
                   resultUserObj.email = user.email;
+                  resultUserObj.image = user.image;
                   resultUserObj.id = user.id;
                   $scope.resultUser[i].isAdded = false;
                   $scope.resultUser[i] = {};
                   $scope.members.push(resultUserObj);
                   var msg = user.name + ' Added';
-                  //$cordovaToast.show(msg,'short','bottom');
+                  $cordovaToast.show(msg,'short','bottom');
               }
           }
       }
   }
 
-  $scope.removeMembers = function(user) {
-      for (var i = 0; i < $scope.members.length; i++) {
+  $scope.removeMembers = function(index) {
+    $scope.members.splice(index,1);
+     /* for (var i = 0; i < $scope.members.length; i++) {
           if ($scope.members[i].id == user.id) {
               $scope.members.splice(user, 1);
               var msg = user.name + ' Removed';
-              //$cordovaToast.show(msg,'short','bottom');
+              $cordovaToast.show(msg,'short','bottom');
           }
-      }
+      }*/
   }
 
   $ionicModal.fromTemplateUrl('templates/my-modal.html', {
@@ -635,7 +653,7 @@ angular.module('starter.controllers', [])
                           })
                       }
                   })
-                  //$cordovaToast.show('Trip Added', 'short', 'bottom');
+                  $cordovaToast.show('Trip Added', 'short', 'bottom');
               $scope.tripDetails = {};
               $scope.members = [];
               $state.go('tab.dash');
@@ -665,7 +683,8 @@ angular.module('starter.controllers', [])
                           if (user === list.id) {
                               membersForExp.push({
                                   'name': list.name,
-                                  'username': list.userName
+                                  'username': list.userName,
+                                  'image':list.image
                               });
                           }
                       })
@@ -688,6 +707,14 @@ angular.module('starter.controllers', [])
       $scope.modal.show();
   };
 
+  $scope.deleteExpense = function(index) {
+    $scope.expensesItem.splice(index,1);
+  }
+
+  $scope.editExpense = function(exp,index) {
+
+  }
+
   $scope.getUserFromSearchForExpense = function(name) {
       var resultUser = [];
       var query = new Parse.Query(Parse.User);
@@ -702,6 +729,7 @@ angular.module('starter.controllers', [])
                       };
                       resultUserObj.name = user.attributes.name;
                       resultUserObj.email = user.attributes.username;
+                      resultUserObj.image = user.attributes.image;
                       resultUserObj.isAdded = true;
                       resultUserObj.id = user.id;
                       resultUser.push(resultUserObj);
@@ -729,7 +757,7 @@ angular.module('starter.controllers', [])
                   mainQuery.find({
                       success: function(results) {
                           if (results.length != 0) {
-                              //toast notification to be added
+                             $cordovaToast.show('User Yet to Confirm','short','bottom');
                           } else {
                               var expObj = Parse.Object.extend('notification');
                               var newObj = new expObj();
@@ -745,7 +773,7 @@ angular.module('starter.controllers', [])
                                       $scope.resultUserForExpense[index].isAdded = false;
                                       $scope.$apply();
                                       console.log('saved');
-                                      //toast notification to be added here
+                                      $cordovaToast.show('User added','short','bottom');
                                   },
                                   error: function(err) {
 
@@ -756,7 +784,7 @@ angular.module('starter.controllers', [])
                   })
 
               } else {
-                  //toast notification to be added here
+                  $cordovaToast.show('Already member of the trip','short','bottom');
 
               }
 
@@ -794,7 +822,7 @@ $scope.$on('$destroy', function() {
           return memo + num;
       }, 0);
       var str = 'Total Till now Rs. ' + sum;
-      //$cordovaToast.show(str,'short','bottom');
+      $cordovaToast.show(str,'short','bottom');
   }
 
   $scope.addExpenses = function(exp) {
@@ -822,7 +850,7 @@ $scope.$on('$destroy', function() {
                   'createdBy': createdBy
               });
               $scope.closePopover();
-              //$cordovaToast.show('Expense Added','short','bottom');
+              $cordovaToast.show('Expense Added','short','bottom');
               $scope.$apply();
 
           },
@@ -834,19 +862,29 @@ $scope.$on('$destroy', function() {
 
 })
 .controller('sumExpCtrl', function($scope, $rootScope, mySharedService) {
+
     $scope.users = mySharedService.exp;
 })
-.controller('profileCtrl', function($scope, $rootScope, $cordovaToast, loadingScreen, $ionicHistory, $ionicPlatform, $state, $localstorage, $mdBottomSheet, $cordovaCamera) {
+.controller('profileCtrl', function($scope,File,$rootScope, $cordovaToast, loadingScreen, $ionicHistory, $ionicPlatform, $state, $localstorage, $mdBottomSheet, $cordovaCamera) {
   var profileUser = {};
   $scope.profileUser = {};
   $scope.isFieldEnabled = true;
+  console.log($rootScope.currentUser);
   profileUser.id = $rootScope.currentUser.id;
   profileUser.name = $rootScope.currentUser.attributes.name;
   profileUser.userName = $rootScope.currentUser.attributes.username;
   profileUser.emailId = $rootScope.currentUser.attributes.email;
+  if($rootScope.currentUser.attributes.image == undefined)
+  {
+    profileUser.pictureUrl = 'http://placehold.it/100x100';
+  }
+  else
+  {
+    profileUser.pictureUrl = $rootScope.currentUser.attributes.image;  
+  }
   $scope.profileUser = profileUser;
   $scope.isSubmit = true;
-
+  //$scope.pictureUrl = 'http://placehold.it/200x200';
   $scope.editFields = function() {
       $scope.isFieldEnabled = false;
       $scope.isSubmit = false;
@@ -860,20 +898,70 @@ $scope.$on('$destroy', function() {
       }).then(function(result) {
           console.log(result);
           if (result.name === 'Camera') {
-              //$scope.loadCamera();
+              $scope.loadCamera();
               //$scope.getPictureFromSys();
           } else {
               //$scope.loadFileSystem();
           }
       })
   }
+$ionicPlatform.ready(function(){
+
+  $scope.loadCamera = function() {
+
+    var options = {
+            quality: 100,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            allowEdit: true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 100,
+            cameraDirection:1,
+            targetHeight: 100,
+            saveToPhotoAlbum: false
+          };
+
+     $cordovaCamera.getPicture(options).then(function(imageData) {
+        
+            $scope.profileUser.pictureUrl = "data:image/jpeg;base64," + imageData;
+      });
+    }
+});
 
 
   $scope.updateFields = function(user) {
       loadingScreen.showNotification();
-      var query = new Parse.Query(Parse.User);
-      query.equalTo('objectId', $rootScope.currentUser.id);
-      query.first({
+      var temp = user.pictureUrl;
+      temp = temp.replace('data:image/jpeg;base64,','');
+      File.upload(temp).success(function(data) {
+            var image = data.url;
+            var query = new Parse.Query(Parse.User);
+            query.equalTo('objectId', $rootScope.currentUser.id);
+            query.first({
+          success: function(result) {
+              //result.set("image",parseFile);
+              result.set('name', user.name);
+              result.set('email', user.emailId);
+              result.set('image',image);
+              if (user.hasOwnProperty('password')) {
+                  result.set('password', user.password);
+              }
+              result.save(null, {
+                  success: function(res) {
+                      loadingScreen.hideNotification();
+                      $scope.isFieldEnabled = true;
+                      $scope.isSubmit = true;
+                      $cordovaToast.show('Profile Updated','short','bottom');
+                      $rootScope.currentUser = res;
+                      $scope.$apply();
+                  }
+              })
+          }
+      })
+      });
+      //var query = new Parse.Query(Parse.User);
+      //query.equalTo('objectId', $rootScope.currentUser.id);
+      /*query.first({
           success: function(result) {
               //result.set("image",parseFile);
               result.set('name', user.name);
@@ -886,15 +974,13 @@ $scope.$on('$destroy', function() {
                       loadingScreen.hideNotification();
                       $scope.isFieldEnabled = true;
                       $scope.isSubmit = true;
-                      //$cordovaToast.show('Profile Updated','short','bottom');
+                      $cordovaToast.show('Profile Updated','short','bottom');
                       $rootScope.currentUser = res;
-                      /*$ionicHistory.clearCache();
-                      $ionicHistory.clearHistory();*/
                       $scope.$apply();
                   }
               })
           }
-      })
+      })*/
   }
 
   $scope.logOutUser = function() {
@@ -933,7 +1019,7 @@ $scope.$on('$destroy', function() {
                   success: function(results) {
                       results[0].destroy({
                           success: function(res) {
-                              //$cordovaToast.show('Trip Declined','short','bottom');
+                              $cordovaToast.show('Trip Declined','short','bottom');
                           }
                       });
                   }
@@ -963,7 +1049,7 @@ $scope.$on('$destroy', function() {
                                   success: function(res) {
                                       results[0].destroy({
                                           success: function(res) {
-                                              //$cordovaToast.show('Trip Confirmed','short','bottom');
+                                              $cordovaToast.show('Trip Confirmed','short','bottom');
                                           }
                                       });
                                   }

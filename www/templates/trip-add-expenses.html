@@ -16,8 +16,8 @@
 		    	{{expense.name}}
 		    	<span ng-show='expense.parentId === currentUser.id'>
 			    	<div class='edit-button'>
-						<button class='button button-icon icon ion-edit'></button>
-						<button class='button button-icon icon ion-android-close'></button>
+						<button ng-click='editExpense(expense,$index)'class='button button-icon icon ion-edit'></button>
+						<button ng-click='deleteExpense($index)' class='button button-icon icon ion-android-close'></button>
 					</div>
 				</span>
 		    </div>

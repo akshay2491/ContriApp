@@ -40,16 +40,16 @@
 	<div>
 		<div ng-repeat='user in members'>
 			<div class="card">
-			  <div class="item item-text-wrap">
+			  <div class="item item-text-wrap item-avatar">
+			  			  <img ng-src="{{user.image}}">
 					      <h2>{{user.name}}</h2>
 					      <p>{{user.email}}</p>
 					      <div ng-show='user.id!=currentUser.id'>
-					      <div ng-click='removeMembers(user)' class=" cursor icon ion-close-round"style='position: absolute;top:10px;right: 20px;'></div>
+					      <div ng-click='removeMembers($index)' class=" cursor icon ion-close-round"style='position: absolute;top:10px;right: 20px;'></div>
 					  	  </div>
 			  </div>
 			</div>
 		</div>
 	</div>
 	</ion-content>
-	
 </ion-view>

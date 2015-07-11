@@ -6,6 +6,9 @@
 	<ion-content class='padding'>
 	 <md-whiteframe class="md-whiteframe-z2" layout layout-align="center center">
     	 <md-content  layout-padding layout="row" layout-sm="column">
+       <md-input-container style='margin:auto;width:100px;' >
+      <img ng-disabled="isFieldEnabled" ng-click='uploadImage($event)' ng-src='{{profileUser.pictureUrl}}'>
+    </md-input-container>
     <md-input-container>
       <label>Name</label>
       <input ng-disabled="isFieldEnabled" ng-model="profileUser.name">

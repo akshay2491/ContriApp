@@ -65,6 +65,7 @@ angular.module('starter.services', ['underscore'])
                 arr.push({
                     'id': val.id,
                     'name': val.name,
+                    'image':val.image,
                     'total': sum
                 });
             });
@@ -77,7 +78,8 @@ angular.module('starter.services', ['underscore'])
                 finalArray.push({
                     "id": user.id,
                     "name": user.name,
-                    'exp': user.total - balance
+                    'exp': user.total - balance,
+                    'image':user.image
                 })
             });
             var tmp = _.pluck(finalArray, 'exp');
@@ -101,10 +103,12 @@ angular.module('starter.services', ['underscore'])
                                     arrt[i] = arrt[i] + arrt[j];
                                     user[i].owe.push({
                                         'name': user[j].name,
+                                        'image':user[j].image,
                                         'amount': Math.round(Math.abs(arrt[j]))
                                     });
                                     user[j].lend.push({
                                         'name': user[i].name,
+                                        'image':user[i].image,
                                         'amount': Math.round(Math.abs(arrt[j]))
                                     });
                                     arrt[j] = 0;
@@ -115,10 +119,12 @@ angular.module('starter.services', ['underscore'])
                                         arrt[j] = arrt[i] + arrt[j];
                                         user[i].owe.push({
                                             'name': user[j].name,
+                                            'image':user[j].image,
                                             'amount': Math.round(Math.abs(arrt[i]))
                                         });
                                         user[j].lend.push({
                                             'name': user[i].name,
+                                            'image':user[i].image,
                                             'amount': Math.round(Math.abs(arrt[i]))
                                         });
                                         arrt[i] = 0;
@@ -202,5 +208,28 @@ angular.module('starter.services', ['underscore'])
             $window.localStorage.removeItem(key);
         }
 
+    }
+})
+.factory('File', function ($http) {
+    return {
+        upload: function (photo) {
+
+            var json = {
+                'base64': photo,
+                '_ContentType': 'image/jpeg'
+            }
+
+            var config = {
+                method: 'POST',
+                url: 'https://api.parse.com/1/files/pict.jpg',
+                data: json,
+                headers: {
+                    'X-Parse-Application-Id': 'Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP',
+                    'X-Parse-REST-API-Key': 'JzFCO99WcxVhlvocSl346lW3PxvRD1iOZxS61ZX4'
+                }
+            };
+
+            return $http(config);
+        }
     }
 });

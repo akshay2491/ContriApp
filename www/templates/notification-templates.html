@@ -21,9 +21,10 @@
   </div>
   <div ng-show='notificationObj.length!=0'>
   <md-list>
-  <md-list-item  style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;' ng-repeat="user in notificationObj track by $index">
-      <!--  <img src='http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png' class="md-avatar" /> -->
-         <p style='margin-left:15px;'>{{user.createdBy}} wants you to join {{user.tripName}} Trip</p>
+  <md-list-item   style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;' ng-repeat="user in notificationObj track by $index">
+          <img style='width: 63px;' ng-src='{{user.image}}'/>
+         <p style='margin-left:15px;'>
+          {{user.createdBy}} wants you to join {{user.tripName}} Trip</p>
          <md-menu>
             <md-button aria-label="Open notification menu" class="md-icon-button" ng-click="$mdOpenMenu()">
               <md-icon class='icon ion-navicon-round'></md-icon>

@@ -12,7 +12,7 @@
 		     <div>
 		      <div class="list" ng-repeat='inside in chat.lend'>
 		        <a class="item item-avatar" href="#">
-		          <img src="http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png">
+		          <img ng-src="{{inside.image}}">
 		          <h2>{{inside.name}}</h2>
 		          <p>You Owe Rs.{{inside.amount}}</p>
 		        </a>
@@ -25,7 +25,7 @@
 		     <div>
 		      <div class="list" ng-repeat='inside in chat.owe'>
 		        <a class="item item-avatar" href="#">
-		          <img src="http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png">
+		          <img ng-src="{{inside.image}}">
 		          <h2>{{inside.name}}</h2>
 		          <p>Owes You Rs.{{inside.amount}}</p>
 		        </a>

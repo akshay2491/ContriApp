@@ -20,7 +20,7 @@
 			<div ng-repeat="user in resultUserForExpense track by $index"  >
 				<div class="list card" ng-show='user.isAdded'>
 				  <div class="item item-avatar">
-				    <img src="http://icons.iconarchive.com/icons/hopstarter/face-avatars/256/Male-Face-C2-icon.png">
+				    <img ng-src="{{user.image}}">
 				    <h2>{{user.name}}</h2>
 				    <p>{{user.email}}</p>
 				  </div>
