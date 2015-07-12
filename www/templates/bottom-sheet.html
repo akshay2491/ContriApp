@@ -3,7 +3,7 @@
 		<md-list-item style='margin: auto;' ng-repeat='item in items'>
 			<md-button class="md-grid-item-content" ng-click="listItemClick($index)">
 				<md-icon class='{{item.classStyle}}'></md-icon>
-        		<div class="md-grid-text"> {{ item.name }} </div>
+        		<div class="md-grid-text"><span style='white-space: normal;'> {{ item.name }}<span> </div>
 			</md-button>
 		</md-list-item>
 	</md-list>

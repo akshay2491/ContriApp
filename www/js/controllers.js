@@ -896,15 +896,24 @@ $scope.$on('$destroy', function() {
           controller: 'bottomSheetCtrl',
           targetEvent: $event
       }).then(function(result) {
-          console.log(result);
           if (result.name === 'Camera') {
               $scope.loadCamera();
               //$scope.getPictureFromSys();
-          } else {
-              //$scope.loadFileSystem();
+          } 
+          if(result.name === 'Files') {
+              $scope.loadFileSystem();
+          }
+          if(result.name === 'Remove Photo') {
+            $scope.removePhoto();
           }
       })
   }
+
+  $scope.removePhoto = function() {
+    $scope.profileUser.pictureUrl = 'http://placehold.it/100x100';
+  }
+
+
 $ionicPlatform.ready(function(){
 
   $scope.loadCamera = function() {
@@ -926,14 +935,31 @@ $ionicPlatform.ready(function(){
             $scope.profileUser.pictureUrl = "data:image/jpeg;base64," + imageData;
       });
     }
+
+    $scope.loadFileSystem = function(){
+        var options = {
+            quality: 100,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+            allowEdit: true,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 100,
+            targetHeight: 100
+          };
+
+          $cordovaCamera.getPicture(options).then(function(imageData){
+            $scope.profileUser.pictureUrl = "data:image/jpeg;base64," + imageData;
+          })
+    }
 });
 
 
   $scope.updateFields = function(user) {
       loadingScreen.showNotification();
       var temp = user.pictureUrl;
-      temp = temp.replace('data:image/jpeg;base64,','');
-      File.upload(temp).success(function(data) {
+      if(temp.indexOf("data:image/jpeg;base64,") > -1){
+        temp = temp.replace('data:image/jpeg;base64,','');
+        File.upload(temp).success(function(data) {
             var image = data.url;
             var query = new Parse.Query(Parse.User);
             query.equalTo('objectId', $rootScope.currentUser.id);
@@ -951,7 +977,7 @@ $ionicPlatform.ready(function(){
                       loadingScreen.hideNotification();
                       $scope.isFieldEnabled = true;
                       $scope.isSubmit = true;
-                      $cordovaToast.show('Profile Updated','short','bottom');
+                      $cordovaToast.show('Profile Updated.Please Login Again','short','bottom');
                       $rootScope.currentUser = res;
                       $scope.$apply();
                   }
@@ -959,6 +985,35 @@ $ionicPlatform.ready(function(){
           }
       })
       });
+      }
+      else
+      {
+        var query = new Parse.Query(Parse.User);
+            query.equalTo('objectId', $rootScope.currentUser.id);
+            query.first({
+          success: function(result) {
+              //result.set("image",parseFile);
+              result.set('name', user.name);
+              result.set('email', user.emailId);
+              result.set('image',temp);
+              if (user.hasOwnProperty('password')) {
+                  result.set('password', user.password);
+              }
+              result.save(null, {
+                  success: function(res) {
+                      loadingScreen.hideNotification();
+                      $scope.isFieldEnabled = true;
+                      $scope.isSubmit = true;
+                      $cordovaToast.show('Profile Updated.Please Login Again','short','bottom');
+                      $rootScope.currentUser = res;
+                      $scope.$apply();
+                  }
+              })
+          }
+      })
+
+      }
+      
       //var query = new Parse.Query(Parse.User);
       //query.equalTo('objectId', $rootScope.currentUser.id);
       /*query.first({
@@ -1000,7 +1055,10 @@ $ionicPlatform.ready(function(){
   }, {
       name: 'Files',
       classStyle: 'icon ion-image'
-  }, ];
+  },{
+      name: 'Remove Photo',
+      classStyle: 'icon ion-trash-b'
+  } ];
   $scope.listItemClick = function($index) {
       var clickedItem = $scope.items[$index];
       $mdBottomSheet.hide(clickedItem);
