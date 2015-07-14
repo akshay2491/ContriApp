@@ -10,15 +10,15 @@
       <md-whiteframe class="md-whiteframe-z2" layout='column' layout-align="center center">
        <md-content  layout-padding layout="row" layout-sm="column">
     <md-input-container>
-      <label>Name</label>
-      <input type='text' ng-model="user.uName">
+      <label>User Name</label>
+      <input type='text' ng-keypress="hideError()" ng-model="user.uName">
     </md-input-container>
     <md-input-container>
       <label>Password</label>
-      <input type='password' ng-model="user.pName">
+      <input type='password' ng-keypress="hideError()" ng-model="user.pName">
     </md-input-container>
      <section layout="row" layout-sm="row" layout-align="center center">
-      <div ng-show='isError'>{{errorMsg.message}}</div>
+      <div style='  font-style: oblique;font-variant: small-caps;font-weight: 600;' ng-show='isError'>{{errorMsg.message}}</div>
     </section>
     <section layout="row" layout-sm="row" layout-align="center center">
       <md-button ng-click='gotoMainPage(user)' class="md-raised md-primary">Submit</md-button>

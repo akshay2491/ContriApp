@@ -8,12 +8,18 @@
     </button>
 </ion-header-bar>
 <ion-content class='padding'>
-<div class="list card">
+<!-- <div class="list card">
   <div class="item item-avatar">
     <img ng-src='{{currentUser.attributes.image}}'>
     <h2>Hello {{currentUser.attributes.name}}</h2>
   </div>
-</div>
+</div> -->
+<md-list>
+  <md-list-item style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;padding:0px;'>
+    <img style='width: 63px;' ng-src='{{currentUser.attributes.image}}'/>
+    <div class='item-text-wrap' style='margin-left:15px;'>Hello {{currentUser.attributes.name}}</div>
+  </md-list-item>
+</md-list>
   <div class="row">
     <div class="col col-50">
       <div class="card cursor" ng-click="gotoPage('trip')">

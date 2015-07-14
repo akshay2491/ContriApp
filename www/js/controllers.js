@@ -70,6 +70,7 @@ angular.module('starter.controllers', [])
   $scope.user = {};
   $scope.isError = false;
   $scope.errReg = false;
+  $scope.errorUser = false;
 
   $scope.show = function() {
       $ionicLoading.show({
@@ -80,9 +81,94 @@ angular.module('starter.controllers', [])
       $ionicLoading.hide();
   };
 
-  $scope.$on('$ionicView.enter', function() {
+  $scope.hideError = function() {
+    $scope.isError = false;
+  }
+
+  $scope.$watch('user.username',function(oldName,newVal){
+    $scope.errorMsg = '';
+    if($scope.user.username){
+      if(oldName.length > 5 || oldName.length <10) {
+     
+  }
+  else
+  {
+    $scope.errorMsg = false;
+    $scope.errorMsg = '';
+    $scope.$apply();
+  }
+    }
+    
+  });
+
+  $scope.$watch('user.email',function(oldName,newVal){
+    if($scope.user.email) {
+      $scope.errorEmailMsg = '';
+    }
+  })
+
+  $scope.changeUserName = function(name) {
+    if(name != undefined) {
+    if(name.length > 4 && name.length <10)
+      {
+     var query = new Parse.Query(Parse.User);
+    query.equalTo('username',name);
+    query.find({success:function(results){
+      if(results.length == 0) {
+        $scope.errorMsg = 'User Name Available';
+        $scope.$apply();
+      }
+      else
+      {
+        $scope.errorMsg = 'User Name Not Available';
+        $scope.$apply();
+      }
+    }})
+  }
+}
+  }
+
+  $scope.$watch('user.confirmPass',function(oldName,newVal){
+    if($scope.user.confirmPass) {
+    if($scope.user.password === $scope.user.confirmPass) {
+      $scope.mismatchPassword = 'Perfect';
+    }
+    else
+    {
+      $scope.mismatchPassword = 'Password Not Matching';
+      
+    }
+  }
+  })
+
+  $scope.changeUserEmail = function(email) {
+    if($scope.user.email) {
+    var query = new Parse.Query(Parse.User);
+    query.equalTo('email',email);
+    query.find({success:function(results){
+      if(results.length == 0) {
+        $scope.errorEmailMsg = '';
+        $scope.$apply();
+      }
+      else
+      {
+        $scope.errorEmailMsg = 'This email id is Already existing.';
+        $scope.$apply();
+      }
+    }})
+  }
+  }
+
+  $scope.clearerror = function() {
+    $scope.errorEmailMsg = '';
+  }
+
+
+  $scope.$on('$ionicView.beforeEnter', function() {
       $ionicHistory.clearHistory();
       $ionicHistory.clearCache();
+      $scope.registerClearUser();
+
   });
 
   $scope.gotoMainPage = function(userList) {
@@ -118,7 +204,7 @@ angular.module('starter.controllers', [])
   }
 
   $scope.registerClearUser = function() {
-      $scope.user = {};
+      $scope.user = {uname:'',email:'',password:'',username:'',confirmPass:''};
   }
 
 
@@ -141,6 +227,7 @@ angular.module('starter.controllers', [])
                   .ariaLabel('Alert Dialog Demo')
                   .ok('Got it!')
               );
+              $scope.user = {uname:'',email:'',password:'',username:'',confirmPass:''};
               $state.go('login');
               // Hooray! Let them use the app now.
           },
@@ -702,14 +789,23 @@ angular.module('starter.controllers', [])
 
          });*/
 
-  $scope.openExpenseTab = function() {
+/*  $scope.openExpenseTab = function() {
       $scope.expenses = {};
       $scope.modal.show();
   };
 
   $scope.deleteExpense = function(index) {
-    $scope.expensesItem.splice(index,1);
-  }
+    console.log(index);
+    var query = new Parse.Query('expenses');
+    query.equalTo('objectId',index.id);
+    query.find({success:function(result){
+      result[0].destroy({success:function(res){
+          $scope.expensesItem.splice(index,1);
+          $scope.$apply();    
+      }});
+    }})
+    
+  }*/
 
   $scope.editExpense = function(exp,index) {
 
@@ -733,7 +829,6 @@ angular.module('starter.controllers', [])
                       resultUserObj.isAdded = true;
                       resultUserObj.id = user.id;
                       resultUser.push(resultUserObj);
-
                   }
               });
               $scope.showUser = true;

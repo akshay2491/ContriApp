@@ -20,6 +20,16 @@
 	z-index: 5;
 }
 
+
+
+.user-error {
+  padding-right: 30px;
+  color: rgb(244,67,54);
+  position: absolute;
+  font-size: 12px;
+  line-height: 24px;
+}
+
 .custom-icon {
   font-size: 30px;
   color:white;
