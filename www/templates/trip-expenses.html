@@ -1,57 +1,26 @@
-<!-- <ion-view>
-	<ion-header-bar class='bar-positive bar bar-header'>
-	 <button ng-click="gotoPage('tab.expenses')" class="button icon ion-arrow-left-a"></button>
-		 <h1 class="title">Expenses</h1>
-	</ion-header-bar>
-	<ion-content class='padding'>
-		<md-button class="md-mini md-fab md-primary" ng-click="openPopover($event)">
-			<i class='ion ion-plus'></i>
-			<md-tooltip md-direction='left'>
-				Add Expense
-			</md-tooltip>
-		</md-button>
-		<md-button class="md-mini md-fab md-warning" ng-click="calculateTotal($event)">
-			<i class='ion ion-ios-compose-outline'></i>
-			<md-tooltip md-direction='left'>
-				Total
-			</md-tooltip>
-		</md-button>
-		<div ng-repeat="expense in expensesItem |orderBy: '-date'">
-		  <div class="list card">
-		    <div class="item item-divider">{{expense.name}}</div>
-		    <div class="item item-body">
-		      <div>
-		        Amount is Rs.<b>{{expense.amount}}</b>
-		        <h4 style='float:right;'>Created By {{expense.createdBy}}</h4>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-	</ion-content>
-</ion-view> -->
 <ion-side-menus>
-	<ion-pane ion-side-menu-content>
-	    <ion-nav-bar class="bar-positive">
-	      <!-- <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button> -->
-	    </ion-nav-bar>
-	    <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
-  	</ion-pane>
-  	<ion-side-menu side='right'>
-  	 	<header class="bar bar-header bar-stable">
-      		<h1 class="title">Menu</h1>
-    	</header>
-    	<ion-content class="has-header">
-				 <ion-list>
-        <ion-item nav-clear menu-close href="#/internal/expenses">
-          Add Expenses
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/internal/addMembers">
-          Add Members
-        </ion-item>
-        <ion-item nav-clear menu-close href="#/internal/viewMembers">
-          View Members
-        </ion-item>
-      </ion-list>
-    	</ion-content>
-  	</ion-side-menu>
+    <ion-pane ion-side-menu-content>
+        <ion-nav-bar class="bar-positive">
+            <!-- <ion-nav-back-button class="button-clear"><i class="icon ion-chevron-left"></i> Back</ion-nav-back-button> -->
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+    </ion-pane>
+    <ion-side-menu side='right'>
+        <header class="bar bar-header bar-stable">
+            <h1 class="title">Menu</h1>
+        </header>
+        <ion-content class="has-header">
+            <ion-list>
+                <ion-item nav-clear menu-close href="#/internal/expenses">
+                    Add Expenses
+                </ion-item>
+                <ion-item nav-clear menu-close href="#/internal/addMembers">
+                    Add Members
+                </ion-item>
+                <ion-item nav-clear menu-close href="#/internal/viewMembers">
+                    View Members
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
 </ion-side-menus>

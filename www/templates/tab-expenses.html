@@ -1,95 +1,31 @@
 <ion-view>
-<!-- <div class='add-pos-button'>
-	<md-fab-speed-dial md-open="false" md-direction="down" class="md-fling">
-		<md-fab-trigger>
-			<md-button  class="md-mini md-fab md-primary">
-				<i class='ion ion-navicon-round'></i>
-			</md-button>
-		</md-fab-trigger>
-		<md-fab-actions>
-			<md-button class="md-mini md-fab md-primary" ng-click="openPopover($event)">
-				<i class='ion ion-plus'></i>
-				<md-tooltip md-direction='left'>
-					Add Expense
-				</md-tooltip>
-			</md-button>
-			<md-button class="md-mini md-fab md-warning" ng-click="calculateTotal($event)">
-				<i class='ion ion-ios-compose-outline'></i>
-				<md-tooltip md-direction='left'>
-					Total
-				</md-tooltip>
-			</md-button>
-			<md-button  class="md-mini md-fab md-warning" ng-click="findTripForMember()">
-				<i class='ion ion-ios-compose-outline'></i>
-				<md-tooltip md-direction='left'>
-					TimePass
-				</md-tooltip>
-			</md-button>
-		</md-fab-actions>
-	</md-fab-speed-dial>
-	<md-button class="md-mini md-fab md-primary" ng-click="openPopover($event)">
-		<i class='ion ion-plus'></i>
-		<md-tooltip md-direction='left'>
-			Add Expense
-		</md-tooltip>
-	</md-button>
-	<md-button class="md-mini md-fab md-warning" ng-click="calculateTotal($event)">
-		<i class='ion ion-ios-compose-outline'></i>
-		<md-tooltip md-direction='left'>
-			Total
-		</md-tooltip>
-	</md-button>
-	<md-button  class="md-mini md-fab md-warning" ng-click="findTripForMember()">
-		<i class='ion ion-ios-compose-outline'></i>
-		<md-tooltip md-direction='left'>
-			TimePass
-		</md-tooltip>
-	</md-button>
-</div>
- -->	<ion-header-bar class='bar-positive bar bar-header'>
- 		 <button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
-	   <h1 class="title">Expenses</h1>
-	</ion-header-bar>
-	<ion-content class="padding">
-
-	<!-- <md-button  class="md-raised md-primary" ng-click="findTripForMember()">
-		Get Trip
-	</md-button> -->
-	 <ion-refresher 
-	 	pulling-text="Pull to refresh..."
-	 on-refresh="findTripForMember()">
-      </ion-refresher>
-      <div ng-show='tripsArray.length !=0'>
-	<div ng-repeat='tp in tripsArray'>
-		<div class="list card" ng-click='getExpenseFromTrip($index)'>
-	    <div class="item item-divider">{{tp.name}}</div>
-	    <div class="item item-body">
-	      <div>
-	        <div style='float:left;'><h4>Total Members: {{tp.members.length}}</h4>
-							<h4>Created By: {{tp.createdBy}}</h4>
-	        </div>
-	        <h4 style='float:right;'><span>Trip Date:</span>{{tp.date.getUTCDate()}}/ {{tp.date.getUTCMonth() + 1}} / {{tp.date.getUTCFullYear()}}</h4>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	</div>
-	<div ng-show='tripsArray.length ==0'>
-		<div class="row">
-	     <div class="col col-75 col-offset-20">Sorry You are not a part of any trip</div>
-	    </div>
-	</div>
-		<!-- <div ng-repeat="expense in expensesItem |orderBy: '-date'">
-			  <div class="list card">
-			    <div class="item item-divider">{{expense.name}}</div>
-			    <div class="item item-body">
-			      <div>
-			        Amount is Rs.<b>{{expense.amount}}</b>
-			        <h4 style='float:right;'>Created By {{expense.createdBy}}</h4>
-			      </div>
-			    </div>
-			  </div>
-			</div>
-			 -->	
-	</ion-content>
+    <ion-header-bar class='bar-positive bar bar-header'>
+        <button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
+        <h1 class="title">Expenses</h1>
+    </ion-header-bar>
+    <ion-content class="padding">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="findTripForMember()">
+        </ion-refresher>
+        <div ng-show='tripsArray.length !=0'>
+            <div ng-repeat='tp in tripsArray'>
+                <div class="list card" ng-click='getExpenseFromTrip($index)'>
+                    <div class="item item-divider">{{tp.name}}</div>
+                    <div class="item item-body">
+                        <div>
+                            <div style='float:left;'>
+                                <h4>Total Members: {{tp.members.length}}</h4>
+                                <h4>Created By: {{tp.createdBy}}</h4>
+                            </div>
+                            <h4 style='float:right;'><span>Trip Date:</span>{{tp.date.getUTCDate()}}/ {{tp.date.getUTCMonth() + 1}} / {{tp.date.getUTCFullYear()}}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show='tripsArray.length ==0'>
+            <div class="row">
+                <div class="col col-75 col-offset-20">Sorry You are not a part of any trip</div>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

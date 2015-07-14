@@ -1,46 +1,45 @@
- <ion-modal-view>
+<ion-modal-view>
     <ion-content class='padding'>
-    <md-button  class="md-mini md-fab md-primary" ng-click="closePopover($event)">
-		<i class='ion ion-arrow-left-a'></i>
-		<md-tooltip md-direction='right'>
-			Back
-		</md-tooltip>
-	</md-button>
-    <div class="list">
-	  <div class="item item-input-inset">
-	    <label class="item-input-wrapper">
-	      <input type="text" ng-model='searchName.name' placeholder="Search for User">
-	    </label>
-	    <button ng-click='getUserFromSearch(searchName)' class="button button-small">
-	      Submit
-	    </button>
-	  </div>
-	</div>
-	<div ng-show='showUser'>
-		<div ng-show='resultUser.length != 0'>
-		<div ng-repeat="user in resultUser track by $index"  >
-			<div class="list card" ng-show='user.isAdded' >
-			  <div class="item item-avatar">
-			    <img ng-src="{{user.image}}">
-			    <h2>{{user.name}}</h2>
-			    <p>{{user.email}}</p>
-			  </div>
-		  <div class="item tabs tabs-secondary tabs-icon-left">
-		  	<div>
-				    <div class="tab-item" ng-click='addMembers(user)'>
-				      <i class="icon ion-thumbsup"></i>
-				      Add
-				    </div>
-				</div>
-			  </div>
-			</div>
-		</div>
-	</div>
-	<div ng-show='resultUser.length == 0'>
-		<div class="row">
-     <div class="col col-75 col-offset-20">Sorry No such User Found</div>
-    </div>
-	</div>
-	</div>
+        <md-button class="md-mini md-fab md-primary" ng-click="closePopover($event)">
+            <i class='ion ion-arrow-left-a'></i>
+            <md-tooltip md-direction='right'>
+                Back
+            </md-tooltip>
+        </md-button>
+        <div class="list">
+            <div class="item item-input-inset">
+                <label class="item-input-wrapper">
+                    <input type="text" ng-model='searchName.name' placeholder="Search for User">
+                </label>
+                <button ng-click='getUserFromSearch(searchName)' class="button button-small">
+                    Submit
+                </button>
+            </div>
+        </div>
+        <div ng-show='showUser'>
+            <div ng-show='resultUser.length != 0'>
+                <div ng-repeat="user in resultUser track by $index">
+                    <div class="list card" ng-show='user.isAdded'>
+                        <div class="item item-avatar">
+                            <img ng-src="{{user.image}}">
+                            <h2>{{user.name}}</h2>
+                            <p>{{user.email}}</p>
+                        </div>
+                        <div class="item tabs tabs-secondary tabs-icon-left">
+                            <div>
+                                <div class="tab-item" ng-click='addMembers(user)'>
+                                    <i class="icon ion-thumbsup"></i> Add
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show='resultUser.length == 0'>
+                <div class="row">
+                    <div class="col col-75 col-offset-20">Sorry No such User Found</div>
+                </div>
+            </div>
+        </div>
     </ion-content>
-  </ion-modal-view>
+</ion-modal-view>

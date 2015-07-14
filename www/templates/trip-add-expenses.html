@@ -1,49 +1,41 @@
- <ion-view title="Add Expenses">
-	<!-- <ion-header-bar class='bar-positive bar bar-header'>
-	 <button ng-click="gotoPage('tab.expenses')" class="button icon ion-arrow-left-a"></button>
-		 <h1 class="title">Expenses</h1>
-	</ion-header-bar> -->
-	<ion-nav-buttons side="right">
-    <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
-  </ion-nav-buttons>
-  <ion-nav-buttons side="left">
-    <button ng-click="gotoPage('tab.expenses')" class="button icon ion-arrow-left-a"></button>
-  </ion-nav-buttons>
-	<ion-content class='padding'>
-		<div ng-repeat="expense in expensesItem |orderBy: '-date'">
-		  <div class="list card">
-		    <div class="item item-divider">
-		    	{{expense.name}}
-		    	<span ng-show='expense.parentId === currentUser.id'>
-			    	<!-- <div class='edit-button'>
-			    							<button class='button button-icon icon ion-edit'></button>
-			    							<button  class='button button-icon icon ion-android-close'></button>
-			    						</div> -->
-				</span>
-		    </div>
-		    <div class="item item-body">
-		      <div>
-		        Amount is Rs.<b>{{expense.amount}}</b>
-		        <h4 style='float:right;'>Created By {{expense.createdBy}}</h4>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-	</ion-content>
-	<div class='add-expense-button'>
-	<md-button class="md-mini md-fab md-primary" ng-click="openExpenseTab()">
-			<i class='ion ion-plus'></i>
-			<md-tooltip md-direction='left'>
-				Add Expense
-			</md-tooltip>
-		</md-button>
+<ion-view title="Add Expenses">
+    <ion-nav-buttons side="right">
+        <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
+    </ion-nav-buttons>
+    <ion-nav-buttons side="left">
+        <button ng-click="gotoPage('tab.expenses')" class="button icon ion-arrow-left-a"></button>
+    </ion-nav-buttons>
+    <ion-content class='padding'>
+        <div ng-repeat="expense in expensesItem |orderBy: '-date'">
+            <div class="list card">
+                <div class="item item-divider">
+                    {{expense.name}}
+                    <span ng-show='expense.parentId === currentUser.id'>
+										</span>
+                </div>
+                <div class="item item-body">
+                    <div>
+                        Amount is Rs.<b>{{expense.amount}}</b>
+                        <h4 style='float:right;'>Created By {{expense.createdBy}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+    <div class='add-expense-button'>
+        <md-button class="md-mini md-fab md-primary" ng-click="openExpenseTab()">
+            <i class='ion ion-plus'></i>
+            <md-tooltip md-direction='left'>
+                Add Expense
+            </md-tooltip>
+        </md-button>
 
-		<md-button class="md-mini md-fab md-warning" ng-click="calculateTotal($event)">
-			<i class='ion ion-ios-compose-outline'></i>
-			<md-tooltip md-direction='top'>
-				Total
-			</md-tooltip>
-		</md-button>
-		</div>
-	</div>
+        <md-button class="md-mini md-fab md-warning" ng-click="calculateTotal($event)">
+            <i class='ion ion-ios-compose-outline'></i>
+            <md-tooltip md-direction='top'>
+                Total
+            </md-tooltip>
+        </md-button>
+    </div>
+    </div>
 </ion-view>

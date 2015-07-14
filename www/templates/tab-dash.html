@@ -1,60 +1,58 @@
-
 <ion-view view-title="Dashboard">
-<ion-header-bar class='bar-positive bar bar-header'>
-   <h1 class="title">Home</h1>
-   <!-- <button class="button button-icon button-clear ion-navicon" ng-click="openMenu()"></button><span class="badge badge-assertive">4</span> -->
-   <button ng-click='openNotification()' class="button ion-android-notifications-none" type="button">
-      <span class="badge">{{notificationObj.length}}</span>
-    </button>
-</ion-header-bar>
-<ion-content class='padding'>
-<!-- <div class="list card">
+    <ion-header-bar class='bar-positive bar bar-header'>
+        <h1 class="title">Home</h1>
+        <button ng-click='openNotification()' class="button ion-android-notifications-none" type="button">
+            <span class="badge">{{notificationObj.length}}</span>
+        </button>
+    </ion-header-bar>
+    <ion-content class='padding'>
+        <!-- <div class="list card">
   <div class="item item-avatar">
     <img ng-src='{{currentUser.attributes.image}}'>
     <h2>Hello {{currentUser.attributes.name}}</h2>
   </div>
 </div> -->
-<md-list>
-  <md-list-item style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;padding:0px;'>
-    <img style='width: 63px;' ng-src='{{currentUser.attributes.image}}'/>
-    <div class='item-text-wrap' style='margin-left:15px;'>Hello {{currentUser.attributes.name}}</div>
-  </md-list-item>
-</md-list>
-  <div class="row">
-    <div class="col col-50">
-      <div class="card cursor" ng-click="gotoPage('trip')">
-        <div class="item item-text-wrap">
-          <div class='icon ion-android-plane'></div>
-          <h4>Create A Trip</h4>
+        <md-list>
+            <md-list-item style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;padding:0px;'>
+                <img style='width: 63px;' ng-src='{{currentUser.attributes.image}}' />
+                <div class='item-text-wrap' style='margin-left:15px;'>Hello {{currentUser.attributes.name}}</div>
+            </md-list-item>
+        </md-list>
+        <div class="row">
+            <div class="col col-50">
+                <div class="card cursor" ng-click="gotoPage('trip')">
+                    <div class="item item-text-wrap">
+                        <div class='icon ion-android-plane'></div>
+                        <h4>Create A Trip</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-50">
+                <div class="card cursor" ng-click="gotoPage('tab.expenses')">
+                    <div class="item item-text-wrap">
+                        <div class='icon ion-android-clipboard'></div>
+                        <h4>Add An Expense</h4>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="col col-50">
-      <div class="card cursor" ng-click="gotoPage('tab.expenses')">
-        <div class="item item-text-wrap">
-          <div class='icon ion-android-clipboard'></div>
-          <h4>Add An Expense</h4>
+        <div class="row">
+            <div class="col col-50">
+                <div class="card cursor" ng-click="gotoPage('tab.summary')">
+                    <div class="item item-text-wrap">
+                        <div class='icon ion-android-mail'></div>
+                        <h4>Summary</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-50">
+                <div class="card cursor" ng-click="gotoPage('tab.profile')">
+                    <div class="item item-text-wrap">
+                        <div class='icon ion-person'></div>
+                        <h4>Profile View</h4>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col col-50">
-      <div class="card cursor" ng-click="gotoPage('tab.summary')">
-        <div class="item item-text-wrap">
-          <div class='icon ion-android-mail'></div>
-          <h4>Summary</h4>
-        </div>
-      </div>
-    </div>
-    <div class="col col-50">
-      <div class="card cursor" ng-click="gotoPage('tab.profile')">
-        <div class="item item-text-wrap">
-           <div class='icon ion-person'></div>
-          <h4>Profile View</h4>
-        </div>
-      </div>
-    </div>
-  </div>
-</ion-content>
+    </ion-content>
 </ion-view>

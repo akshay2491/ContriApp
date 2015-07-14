@@ -1,55 +1,55 @@
 <ion-view>
-	<ion-header-bar class='bar-positive'>
-	<button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
-		<h1 class="title">New Trip</h1>
-	</ion-header-bar>
-	<ion-content class='padding' >
-	<div style='padding-top:20px;'>
-		<md-whiteframe  class="md-3-line md-whiteframe-z1" layout='column'  layout-align=" center">
-		<form name='projectForm'>
-			<md-input-container>
-				<label>Name of the trip</label>
-				<input type='text' required name="name" ng-model='trip.name'>
-				<div ng-messages="projectForm.name.$error">
-          <div ng-message="required">This is required.</div>
-		    </div>
-			</md-input-container>
-			<md-input-container md-no-float>
-				<label>Date of the trip</label>
-				<input type='date' max="{{presentDate}}" required name="input" ng-model='trip.date'>
-				<div ng-messages="projectForm.input.$error">
-          <div ng-message="required">This is required.</div>
-          <div ng-message="date">Not a Valid Date</div>
-          <div ng-message="max">Future Date Not allowed</div>
-		    </div>
-			</md-input-container>
-			<div class='submit-position'>
-				<md-button  ng-disabled='projectForm.$invalid' class="md-raised md-primary" ng-click="submitTrip(trip)">
-					Submit
-				</md-button>
-			</div>
-		</form>
-		</md-whiteframe>
-	</div>
-	<md-divider></md-divider>
-	<div class=''>
-		<md-button ng-click='openContacts()' side="right" class="md-mini md-primary">
-			Add Members
-		</md-button>
-	</div>
-	<div>
-		<div ng-repeat='user in members'>
-			<div class="card">
-			  <div class="item item-text-wrap item-avatar">
-			  			  <img ng-src="{{user.image}}">
-					      <h2>{{user.name}}</h2>
-					      <p>{{user.email}}</p>
-					      <div ng-show='user.id!=currentUser.id'>
-					      <div ng-click='removeMembers($index)' class=" cursor icon ion-close-round"style='position: absolute;top:10px;right: 20px;'></div>
-					  	  </div>
-			  </div>
-			</div>
-		</div>
-	</div>
-	</ion-content>
+    <ion-header-bar class='bar-positive'>
+        <button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
+        <h1 class="title">New Trip</h1>
+    </ion-header-bar>
+    <ion-content class='padding'>
+        <div style='padding-top:20px;'>
+            <md-whiteframe class="md-3-line md-whiteframe-z1" layout='column' layout-align=" center">
+                <form name='projectForm'>
+                    <md-input-container>
+                        <label>Name of the trip</label>
+                        <input type='text' required name="name" ng-model='trip.name'>
+                        <div ng-messages="projectForm.name.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container md-no-float>
+                        <label>Date of the trip</label>
+                        <input type='date' max="{{presentDate}}" required name="input" ng-model='trip.date'>
+                        <div ng-messages="projectForm.input.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="date">Not a Valid Date</div>
+                            <div ng-message="max">Future Date Not allowed</div>
+                        </div>
+                    </md-input-container>
+                    <div class='submit-position'>
+                        <md-button ng-disabled='projectForm.$invalid' class="md-raised md-primary" ng-click="submitTrip(trip)">
+                            Submit
+                        </md-button>
+                    </div>
+                </form>
+            </md-whiteframe>
+        </div>
+        <md-divider></md-divider>
+        <div class=''>
+            <md-button ng-click='openContacts()' side="right" class="md-mini md-primary">
+                Add Members
+            </md-button>
+        </div>
+        <div>
+            <div ng-repeat='user in members'>
+                <div class="card">
+                    <div class="item item-text-wrap item-avatar">
+                        <img ng-src="{{user.image}}">
+                        <h2>{{user.name}}</h2>
+                        <p>{{user.email}}</p>
+                        <div ng-show='user.id!=currentUser.id'>
+                            <div ng-click='removeMembers($index)' class=" cursor icon ion-close-round" style='position: absolute;top:10px;right: 20px;'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

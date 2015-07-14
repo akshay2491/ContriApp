@@ -4,7 +4,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'underscore', 'ngMaterial', 'ngCordova','ngMessages'])
+angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMaterial', 'ngCordova', 'ngMessages'])
 
 .run(function($ionicPlatform, $ionicPopup, $state, $ionicHistory, $localstorage, $timeout, $rootScope, $location) {
 

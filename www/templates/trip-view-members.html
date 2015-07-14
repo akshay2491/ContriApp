@@ -1,19 +1,19 @@
 <ion-view title="Members">
-	<ion-nav-buttons side="right">
+  <ion-nav-buttons side="right">
     <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-nav-buttons side="left">
     <button ng-click="gotoPage('tab.expenses')" class="button icon ion-arrow-left-a"></button>
   </ion-nav-buttons>
-<ion-content class='padding'>
-	<div ng-repeat='user in membersForExp'>
+  <ion-content class='padding'>
+    <div ng-repeat='user in membersForExp'>
       <div class="card">
         <div class="item item-text-wrap item-avatar">
-                <img ng-src='{{user.image}}'>
-                <h2>{{user.name}}</h2>
-                <p>{{user.username}}</p>
+          <img ng-src='{{user.image}}'>
+          <h2>{{user.name}}</h2>
+          <p>{{user.username}}</p>
         </div>
       </div>
     </div>
-</ion-content>
+  </ion-content>
 </ion-view>

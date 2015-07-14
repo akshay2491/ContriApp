@@ -1,75 +1,45 @@
- <ion-view>
-<ion-header-bar class='bar-positive'>
-  <button ng-click="gotoPage('tab.dash')" class='button icon ion-arrow-left-a'></button>
-  <h1 class="title">Notification</h1>
-</ion-header-bar>
+<ion-view>
+    <ion-header-bar class='bar-positive'>
+        <button ng-click="gotoPage('tab.dash')" class='button icon ion-arrow-left-a'></button>
+        <h1 class="title">Notification</h1>
+    </ion-header-bar>
     <ion-content class='padding'>
-    <!-- <md-button  class="md-mini md-fab md-primary" ng-click="closePopover($event)">
-        <i class='ion ion-arrow-left-a'></i>
-        <md-tooltip md-direction='right'>
-          Back
-        </md-tooltip>
-      </md-button> -->
-  <ion-refresher pulling-text="Pull to refresh..."
-   on-refresh="getNotification()">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="getNotification()">
 
-  </ion-refresher>
-  <div ng-show='notificationObj.length == 0'>
-    <div class="row">
-     <div class="col col-75 col-offset-20">Sorry You Have no Notification</div>
-    </div>
-  </div>
-  <div ng-show='notificationObj.length!=0'>
-  <md-list>
-  <md-list-item   style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;' ng-repeat="user in notificationObj track by $index">
-          <img style='width: 63px;' ng-src='{{user.image}}'/>
-         <p style='margin-left:15px;'>
-          {{user.createdBy}} wants you to join {{user.tripName}} Trip</p>
-         <md-menu>
-            <md-button aria-label="Open notification menu" class="md-icon-button" ng-click="$mdOpenMenu()">
-              <md-icon class='icon ion-navicon-round'></md-icon>
-            </md-button>
-            <md-menu-content width="3">
-              <md-menu-item>
-                <md-button ng-click="confirmTrip(user)">
-                  <md-icon md-menu-align-target></md-icon>
-                  Confirm
-                </md-button>
-              </md-menu-item>
-              <md-menu-item>
-                <md-button ng-click="declineTrip(user)">
-                  <md-icon md-menu-align-target></md-icon>
-                  Reject
-                </md-button>
-              </md-menu-item>
-            </md-menu-content>
-          </md-menu>
-           <md-divider></md-divider>
-  </md-list-item>
-</md-list>
-</div>
-<!-- <div ng-repeat="user in notificationObj track by $index">
-  <div ng-show='!user.confirmed'>
-    <div class="list card" >
-      <div class="item item-avatar item-text-wrap">
-      <h3>{{user.createdBy}} wants you to join {{user.tripName}} Trip</h3>
-      </div>
-      <div class="item tabs tabs-secondary tabs-icon-left">
-        <div>
-          <div class="tab-item" ng-click='confirmTrip(user)'>
-            <i class="icon ion-thumbsup"></i>
-            Confirm
-          </div>
+        </ion-refresher>
+        <div ng-show='notificationObj.length == 0'>
+            <div class="row">
+                <div class="col col-75 col-offset-20">Sorry You Have no Notification</div>
+            </div>
         </div>
-        <div>
-          <div class="tab-item" ng-click='declineTrip(user)'>
-            <i class="icon ion-chatbox"></i>
-            Decline
-          </div>
+        <div ng-show='notificationObj.length!=0'>
+            <md-list>
+                <md-list-item style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;' ng-repeat="user in notificationObj track by $index">
+                    <img style='width: 63px;' ng-src='{{user.image}}' />
+                    <p style='margin-left:15px;'>
+                        {{user.createdBy}} wants you to join {{user.tripName}} Trip</p>
+                    <md-menu>
+                        <md-button aria-label="Open notification menu" class="md-icon-button" ng-click="$mdOpenMenu()">
+                            <md-icon class='icon ion-navicon-round'></md-icon>
+                        </md-button>
+                        <md-menu-content width="3">
+                            <md-menu-item>
+                                <md-button ng-click="confirmTrip(user)">
+                                    <md-icon md-menu-align-target></md-icon>
+                                    Confirm
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="declineTrip(user)">
+                                    <md-icon md-menu-align-target></md-icon>
+                                    Reject
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                    <md-divider></md-divider>
+                </md-list-item>
+            </md-list>
         </div>
-      </div>
-    </div>
-  </div>
-</div> -->
     </ion-content>
-  </ion-view>
+</ion-view>
