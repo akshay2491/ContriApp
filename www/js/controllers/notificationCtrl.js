@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('notificationCtrl', function($scope, $rootScope) {
+.controller('notificationCtrl', function($scope, $rootScope,$cordovaToast) {
 
     $scope.declineTrip = function(user) {
         for (var i = 0; i < $rootScope.notificationObj.length; i++) {
