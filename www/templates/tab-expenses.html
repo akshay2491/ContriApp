@@ -2,6 +2,7 @@
     <ion-header-bar class='bar-positive bar bar-header'>
         <button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
         <h1 class="title">Expenses</h1>
+        <button ng-click='findTripForMember()' class='button icon ion-refresh'></button>
     </ion-header-bar>
     <ion-content class="padding">
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="findTripForMember()">

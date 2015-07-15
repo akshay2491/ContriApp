@@ -186,7 +186,7 @@ angular.module('starter')
                     $mdDialog.alert()
                     .parent(angular.element(document.body))
                     .title('Alert Message')
-                    .content('You Have successfully Registered')
+                    .content('You Have successfully Registered.Please Verify your Email id sent to you.')
                     .ariaLabel('Alert Dialog Demo')
                     .ok('Got it!')
                 );

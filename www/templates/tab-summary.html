@@ -1,7 +1,8 @@
-<ion-view view-title="Chats">
+<ion-view view-title="Summary">
     <ion-header-bar class="bar-positive">
         <button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
         <h1 class="title">Summary</h1>
+        <button ng-click='findTripForMember()' class='button icon ion-refresh'></button>
     </ion-header-bar>
     <ion-content>
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="findTripForMember()">

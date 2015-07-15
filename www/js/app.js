@@ -45,18 +45,21 @@ angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMateria
     $stateProvider
         .state('login', {
             url: '/login',
+            cache:false,
             templateUrl: 'templates/login.html',
             controller: 'loginCtrl'
         })
 
     .state('register', {
         url: '/register',
+        cache:false,
         templateUrl: 'templates/register.html',
         controller: 'loginCtrl'
     })
 
     .state('forgotPassword',{
         url:'/forgotPassword',
+        cache:false,
         templateUrl:'templates/forgotPassword.html',
         controller: 'loginCtrl'
     })
