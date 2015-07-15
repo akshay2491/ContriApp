@@ -55,6 +55,12 @@ angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMateria
         controller: 'loginCtrl'
     })
 
+    .state('forgotPassword',{
+        url:'/forgotPassword',
+        templateUrl:'templates/forgotPassword.html',
+        controller: 'loginCtrl'
+    })
+
     .state('internal', {
             url: '/internal',
             cache: false,

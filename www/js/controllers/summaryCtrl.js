@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('summaryCtrl', function($scope, Chats, $cordovaToast, $rootScope, Data, mySharedService, $state, loadingScreen) {
+.controller('summaryCtrl', function($scope, $cordovaToast, $rootScope, Data, mySharedService, $state, loadingScreen) {
   $scope.isRead = false;
   
   $scope.$on('$ionicView.loaded', function() {

@@ -1,9 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('MainCtrl', function($scope, $rootScope, $state) {
-  $rootScope.userVariable = [];
   $rootScope.userDetails = [];
-  //$rootScope.notificationObj = [];
   $rootScope.currentUser = Parse.User.current();
   
   $rootScope.getAllUsers = function() {
@@ -367,7 +365,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('summaryCtrl', function($scope, Chats, $cordovaToast, $rootScope, Data, mySharedService, $state, loadingScreen) {
+.controller('summaryCtrl', function($scope,$cordovaToast, $rootScope, Data, mySharedService, $state, loadingScreen) {
   $scope.isRead = false;
   
   $scope.$on('$ionicView.loaded', function() {
@@ -482,9 +480,7 @@ angular.module('starter.controllers', [])
   }
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
+
 
 .controller('AccountCtrl', function($scope, $state, $ionicModal, $ionicHistory, $rootScope) {
   $scope.settings = {

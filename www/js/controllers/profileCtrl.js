@@ -4,7 +4,6 @@ angular.module('starter')
   var profileUser = {};
   $scope.profileUser = {};
   $scope.isFieldEnabled = true;
-  console.log($rootScope.currentUser);
   profileUser.id = $rootScope.currentUser.id;
   profileUser.name = $rootScope.currentUser.attributes.name;
   profileUser.userName = $rootScope.currentUser.attributes.username;

@@ -185,7 +185,6 @@ angular.module('starter')
     query.first({
       success: function(result) {
         var val = _.contains(result.attributes.members, user.id);
-        console.log(val)
         if (!val) {
           var mainQuery = new Parse.Query('notification');
           mainQuery.equalTo('tripId', $scope.tripId);
@@ -205,10 +204,8 @@ angular.module('starter')
                 newObj.set('userTripId', user.id);
                 newObj.save(null, {
                   success: function(result) {
-                    console.log(index)
                     $scope.resultUserForExpense[index].isAdded = false;
                     $scope.$apply();
-                    console.log('saved');
                     $cordovaToast.show('User added', 'short', 'bottom');
                   },
                   error: function(err) {

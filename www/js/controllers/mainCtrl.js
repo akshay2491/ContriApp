@@ -1,9 +1,7 @@
 angular.module('starter')
 
 .controller('MainCtrl', function($scope, $rootScope, $state) {
-    $rootScope.userVariable = [];
     $rootScope.userDetails = [];
-    //$rootScope.notificationObj = [];
     $rootScope.currentUser = Parse.User.current();
 
     $rootScope.getAllUsers = function() {
@@ -61,5 +59,5 @@ angular.module('starter')
     $rootScope.gotoPage = function(val) {
         $state.go(val);
     }
-
+    
 });

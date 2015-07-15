@@ -99,6 +99,46 @@ angular.module('starter')
         $scope.registerClearUser();
     });
 
+    $scope.forgotPassword = function() {
+        $state.go('forgotPassword');
+    }
+
+    $scope.resetPassword = function(email) {
+        var query = new Parse.Query(Parse.User);
+        query.equalTo('email',email);
+        query.find({success:function(results){
+            if(results.length == 0) {
+                $mdDialog.show(
+                $mdDialog.alert()
+                .parent(angular.element(document.body))
+                .title('Alert Message')
+                .content('Email Not Registered.Enter right Email')
+                .ariaLabel('Alert Dialog Demo')
+                .ok('Got it!')
+                );
+            }
+            else
+            {
+                Parse.User.requestPasswordReset(email, {
+                  success: function() {
+                    $mdDialog.show(
+                    $mdDialog.alert()
+                    .parent(angular.element(document.body))
+                    .title('Alert Message')
+                    .content('Reset password Link mailed to you')
+                    .ariaLabel('Alert Dialog Demo')
+                    .ok('Got it!')
+                    );
+                  },
+                  error: function(error) {
+                    // Show the error message somewhere
+                    alert("Error: " + error.code + " " + error.message);
+                  }
+                });
+            }
+        }})
+    }
+
     $scope.gotoMainPage = function(userList) {
         loadingScreen.showNotification();
         Parse.User.logIn(userList.uName, userList.pName, {
