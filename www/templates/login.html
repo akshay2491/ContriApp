@@ -7,8 +7,9 @@
     <md-button md-no-ink class="md-primary" ng-click="gotoPage('register')">Register</md-button>
   </div> -->
         <div style='margin-top: 80px;'>
+            <div layout='column' layout-align-gt-sm='center center'>
             <md-whiteframe class="md-whiteframe-z2" layout='column' layout-align="center center">
-                <md-content layout-padding layout="row" layout-sm="column">
+                <md-content layout-padding layout="column" layout-sm="column" >
                     <md-input-container>
                         <label>User Name</label>
                         <input type='text' ng-keypress="hideError()" ng-model="user.uName">
@@ -30,6 +31,7 @@
 
                 </md-content>
             </md-whiteframe>
+        </div>
         </div>
     </ion-content>
 </ion-view>

@@ -9,7 +9,7 @@
         </ion-refresher>
         <div ng-show='tripsArray.length !=0'>
             <div ng-repeat='tp in tripsArray'>
-                <div class="list card" ng-click='getExpenseFromTrip($index)'>
+                <div class="list card" ng-click='getExpenseFromTrip($index)'  style='box-shadow: 3px 4px 6px 2px #dbdbdb;'>
                     <div class="item item-divider">{{tp.name}}</div>
                     <div class="item item-body">
                         <div>

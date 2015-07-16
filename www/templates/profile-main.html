@@ -4,8 +4,9 @@
 		<h1 class='title'>Profile</h1>
 	</ion-header-bar>
 	<ion-content class='padding'>
+    <div layout='column' layout-align-gt-sm='center center'>
 	 <md-whiteframe class="md-whiteframe-z3" layout layout-align="center center">
-    	 <md-content  layout-padding layout="row" layout-sm="column">
+    	 <md-content  layout-padding layout="column" layout-sm="column">
        <md-input-container style='margin:auto;width:100px;' >
       <img ng-disabled="isFieldEnabled" style='box-shadow: 3px 4px 6px 2px #DBDBDB;border: 1px solid #dbdbdb;border-radius: 50px;' ng-disabled="isFieldEnabled" ng-click='isFieldEnabled || uploadImage($event)' ng-src='{{profileUser.pictureUrl}}'>
     </md-input-container>
@@ -50,6 +51,7 @@
     </section>
 
   </md-whiteframe>
+</div>
   <section layout="row" layout-align="center center">
     <md-button ng-click='logOutUser()' class="md-raised md-warn">Log Out</md-button>
     </section>

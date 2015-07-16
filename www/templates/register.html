@@ -8,6 +8,7 @@
   <!-- <md-button type='submit' md-no-ink class="md-primary" ng-click="gotoPage('login')">
    <i class='ion ion-ios-arrow-thin-left'>Login</i>
     </md-button> -->
+    <div layout='column' layout-align-gt-sm='center center'>
       <md-whiteframe class="md-whiteframe-z2" layout='column' layout-align="center center">
        <md-content  layout-padding layout="row" layout-sm="column">
        <form name='formFactor' ng-submit='registerUser(user)'>
@@ -20,12 +21,12 @@
     </md-input-container>
     <md-input-container>
       <label>User Name</label>
-      <input required name='username' ng-blur="changeUserName(user.username)" ng-minlength="5" ng-maxlength="10" pattern="[a-zA-Z0-9]+" type='text' ng-model='user.username'>
+      <input required name='username' ng-blur="changeUserName(user.username)" ng-minlength="5" ng-maxlength="12" pattern="[a-zA-Z0-9]+" type='text' ng-model='user.username'>
       <div ng-messages="formFactor.username.$error">
         <div ng-message="required">This is required.</div>
         <div ng-message="pattern">Special Character not allowed.</div>
         <div ng-message="minlength">Minimum Length of 5.</div>
-        <div ng-message="maxlength">Maximum Length of 10.</div>
+        <div ng-message="maxlength">Maximum Length of 12.</div>
         <div class='user-error'>{{errorMsg}}</div>
       </div>
     </md-input-container>
@@ -71,5 +72,6 @@
   </section> -->
       </md-content>
     </md-whiteframe>
+  </div>
   </ion-content>
 </ion-view>

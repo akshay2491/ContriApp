@@ -7,13 +7,12 @@ angular.module('starter')
   var expObj = Parse.Object.extend('expenses');
   
   $scope.$on('$ionicView.loaded', function() {
-    loadingScreen.showNotification();
     $scope.findTripForMember();
-    
   });
   
   
   $scope.findTripForMember = function() {
+    loadingScreen.showNotification();
     var tripsArray = [];
     var query = new Parse.Query('trips');
     query.equalTo('members', $rootScope.currentUser.id);

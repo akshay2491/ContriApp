@@ -15,7 +15,7 @@
         </div>
         <div ng-show='notificationObj.length!=0'>
             <md-list>
-                <md-list-item style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;' ng-repeat="user in notificationObj track by $index">
+                <md-list-item style='border-radius: 3px;border-top: 3px solid red;box-shadow:3px 4px 4px 2px #dbdbdb;margin-bottom: 10px;' ng-repeat="user in notificationObj track by $index">
                     <img style='width: 63px;' ng-src='{{user.image}}' />
                     <p style='margin-left:15px;'>
                         {{user.createdBy}} wants you to join {{user.tripName}} Trip</p>
@@ -26,19 +26,18 @@
                         <md-menu-content width="3">
                             <md-menu-item>
                                 <md-button ng-click="confirmTrip(user)">
-                                    <md-icon md-menu-align-target></md-icon>
+                                    <md-icon class='icon ion-thumbsup' md-menu-align-target></md-icon>
                                     Confirm
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
                                 <md-button ng-click="declineTrip(user)">
-                                    <md-icon md-menu-align-target></md-icon>
+                                    <md-icon class='icon ion-thumbsdown' md-menu-align-target></md-icon>
                                     Reject
                                 </md-button>
                             </md-menu-item>
                         </md-menu-content>
                     </md-menu>
-                    <md-divider></md-divider>
                 </md-list-item>
             </md-list>
         </div>

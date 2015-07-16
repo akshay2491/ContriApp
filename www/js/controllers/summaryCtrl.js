@@ -4,7 +4,7 @@ angular.module('starter')
   $scope.isRead = false;
   
   $scope.$on('$ionicView.loaded', function() {
-    loadingScreen.showNotification();
+    
     $scope.findTripForMember();
   });
   
@@ -34,6 +34,7 @@ angular.module('starter')
   }
   
   $scope.findTripForMember = function() {
+    loadingScreen.showNotification();
     var tripsArray = [];
     var query = new Parse.Query('trips');
     query.equalTo('members', $rootScope.currentUser.id);
@@ -115,6 +116,5 @@ angular.module('starter')
   }
 })
 .controller('sumExpCtrl', function($scope, $rootScope, mySharedService) {
-  
   $scope.users = mySharedService.exp;
 });
