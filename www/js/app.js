@@ -4,7 +4,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMaterial', 'ngCordova', 'ngMessages'])
+angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMaterial', 'ngCordova', 'ngMessages','ionicLazyLoad'])
 
 .run(function($ionicPlatform, $ionicPopup, $state, $ionicHistory, $localstorage, $timeout, $rootScope, $location) {
 
@@ -12,18 +12,53 @@ angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMateria
 
     Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
     $ionicPlatform.ready(function() {
-        if ($localstorage.getObject('User') != undefined) {
-            $timeout(function() {
-                $rootScope.getAllUsers();
-                $location.path('/tab/dash');
-                $rootScope.$apply();
-            }, 2500);
-        } else {
-            $timeout(function() {
-                $location.path('/login');
-                $rootScope.$apply();
-            }, 2500);
+        console.log(window.Connection)
+        if(window.Connection) {
+            if(navigator.connection.type == Connection.NONE) {
+                $ionicPopup.confirm({
+                        title: "No Internet Connection",
+                        content: "The internet is disconnected on your device.",
+                        buttons:[
+                        {
+                            text:'Retry', 
+                            type: 'button-positive',
+                            onTap:function(e){
+                                return 0;
+                            }},
+                        {
+                            text:'Exit', 
+                            type: 'button-alert',
+                            onTap:function(e){
+                                return 1;
+                            }
+                        }]
+                    })
+                    .then(function(result) {
+                        if(result == 1) {
+                            ionic.Platform.exitApp();
+                        }
+                        if(result == 0) {
+                            
+                        }
+                    });
+            }
+            else
+            {
+                if ($localstorage.getObject('User') != undefined) {
+                    $timeout(function() {
+                        $rootScope.getAllUsers();
+                        $location.path('/tab/dash');
+                        $rootScope.$apply();
+                    }, 2500);
+                } else {
+                    $timeout(function() {
+                        $location.path('/login');
+                        $rootScope.$apply();
+                    }, 2500);
+                }
+            }
         }
+        
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

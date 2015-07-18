@@ -1,11 +1,15 @@
 <ion-modal-view>
+    <ion-header-bar class='bar-positive'>
+        <button ng-click="closePopover($event)" class='button icon ion-arrow-left-a'></button>
+        <h1 class="title">Search User</h1>
+    </ion-header-bar>
     <ion-content class='padding'>
-        <md-button class="md-mini md-fab md-primary" ng-click="closePopover($event)">
+        <!-- <md-button class="md-mini md-fab md-primary" ng-click="closePopover($event)">
             <i class='ion ion-arrow-left-a'></i>
             <md-tooltip md-direction='right'>
                 Back
             </md-tooltip>
-        </md-button>
+        </md-button> -->
         <div class="list">
             <div class="item item-input-inset">
                 <label class="item-input-wrapper">
