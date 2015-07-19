@@ -12,7 +12,6 @@ angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMateria
 
     Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
     $ionicPlatform.ready(function() {
-        console.log(window.Connection)
         if(window.Connection) {
             if(navigator.connection.type == Connection.NONE) {
                 $ionicPopup.confirm({

@@ -43,12 +43,10 @@ angular.module('starter')
         if (name != undefined) {
             if (name.length > 4 && name.length < 13) {
                 loadingScreen.showNotification();
-                console.log(name)
                 var query = new Parse.Query(Parse.User);
                 query.equalTo('username', name);
                 query.find({
                     success: function(results) {
-                        console.log(results);
                         if (results.length == 0) {
                             loadingScreen.hideNotification();
                             $scope.errorMsg = 'User Name Available';

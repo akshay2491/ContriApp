@@ -1,8 +1,9 @@
 angular.module('starter')
 
-.controller('notificationCtrl', function($scope, $rootScope,$cordovaToast) {
+.controller('notificationCtrl', function($scope, $rootScope,$cordovaToast,loadingScreen) {
 
     $scope.declineTrip = function(user) {
+        loadingScreen.showNotification();
         for (var i = 0; i < $rootScope.notificationObj.length; i++) {
             if ($rootScope.notificationObj[i].id === user.id) {
                 $rootScope.notificationObj[i].confirmed = true;
@@ -13,6 +14,7 @@ angular.module('starter')
                     success: function(results) {
                         results[0].destroy({
                             success: function(res) {
+                                loadingScreen.hideNotification();
                                 $cordovaToast.show('Trip Declined', 'short', 'bottom');
                             }
                         });
@@ -23,6 +25,7 @@ angular.module('starter')
     }
 
     $scope.confirmTrip = function(user) {
+        loadingScreen.showNotification();
         for (var i = 0; i < $rootScope.notificationObj.length; i++) {
             if ($rootScope.notificationObj[i].id === user.id) {
                 $rootScope.notificationObj[i].confirmed = true;
@@ -43,6 +46,7 @@ angular.module('starter')
                                     success: function(res) {
                                         results[0].destroy({
                                             success: function(res) {
+                                                loadingScreen.hideNotification();
                                                 $cordovaToast.show('Trip Confirmed', 'short', 'bottom');
                                             }
                                         });

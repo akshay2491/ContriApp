@@ -113,7 +113,7 @@ angular.module('starter')
     });
   }
 })
-.controller('tripExpCtrl', function($scope, $cordovaToast, mySharedService, $mdDialog, $ionicPopover, $rootScope, $ionicModal) {
+.controller('tripExpCtrl', function($scope, $cordovaToast, mySharedService, $mdDialog, $ionicPopover, $rootScope, $ionicModal,loadingScreen) {
   $scope.expensesItem = mySharedService.message;
   $scope.tripId = mySharedService.idVal;
   $scope.$on('$ionicView.loaded', function() {
@@ -152,6 +152,8 @@ angular.module('starter')
   
   
   $scope.getUserFromSearchForExpense = function(name) {
+    $scope.hideErrorMsg = false;
+    loadingScreen.showNotification();
     var resultUser = [];
     var query = new Parse.Query(Parse.User);
     query.find({
@@ -171,7 +173,11 @@ angular.module('starter')
             resultUser.push(resultUserObj);
           }
         });
+        loadingScreen.hideNotification();
         $scope.showUser = true;
+        if(resultUser.length == 0) {
+          $scope.hideErrorMsg = true;
+        }
         $scope.resultUserForExpense = resultUser;
         $scope.$apply();
       }
@@ -179,6 +185,7 @@ angular.module('starter')
   }
   
   $scope.addMembersForExpenses = function(user, index) {
+    loadingScreen.showNotification();
     var query = new Parse.Query('trips');
     query.equalTo('objectId', $scope.tripId);
     query.first({
@@ -191,6 +198,7 @@ angular.module('starter')
           mainQuery.find({
             success: function(results) {
               if (results.length != 0) {
+                loadingScreen.hideNotification();
                 $cordovaToast.show('User Yet to Confirm', 'short', 'bottom');
               } else {
                 var expObj = Parse.Object.extend('notification');
@@ -205,6 +213,7 @@ angular.module('starter')
                   success: function(result) {
                     $scope.resultUserForExpense[index].isAdded = false;
                     $scope.$apply();
+                    loadingScreen.hideNotification();
                     $cordovaToast.show('User added', 'short', 'bottom');
                   },
                   error: function(err) {
@@ -216,6 +225,7 @@ angular.module('starter')
           })
           
         } else {
+          loadingScreen.hideNotification();
           $cordovaToast.show('Already member of the trip', 'short', 'bottom');
           
         }

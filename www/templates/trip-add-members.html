@@ -18,19 +18,31 @@
         </div>
         <div ng-show='showUser'>
             <div ng-repeat="user in resultUserForExpense track by $index">
-                <div class="list card" ng-show='user.isAdded'>
-                    <div class="item item-avatar">
-                        <img ng-src="{{user.image}}">
-                        <h2>{{user.name}}</h2>
-                        <p>{{user.email}}</p>
-                    </div>
-                    <div class="item tabs tabs-secondary tabs-icon-left">
-                        <div>
-                            <div class="tab-item" ng-click='addMembersForExpenses(user,$index)'>
-                                <i class="icon ion-thumbsup"></i> Add
+                <div ng-show='user.id!=currentUser.id'>
+                    <div class="list card" ng-show='user.isAdded'>
+                        <div class="item item-avatar">
+                            <img ng-src="{{user.image}}">
+                            <h2>{{user.name}}</h2>
+                            <p>{{user.email}}</p>
+                        </div>
+                        <div class="item tabs tabs-secondary tabs-icon-left">
+                            <div>
+                                <div class="tab-item" ng-click='addMembersForExpenses(user,$index)'>
+                                    <i class="icon ion-thumbsup"></i> Add
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div ng-show='user.id == currentUser.id'>
+                    <div class='row'>
+                        <div style='margin: auto;text-align: center;' class="col col-75 col-offset-20">You are already a Member.</div>
+                    </div>
+                </div>
+            </div>
+            <div ng-show='hideErrorMsg'>
+                <div class="row">
+                    <div style='margin: auto;text-align: center;' class="col col-75 col-offset-20">Sorry No such User Found</div>
                 </div>
             </div>
         </div>

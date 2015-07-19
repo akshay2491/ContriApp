@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('tripCtrl', function($scope, $cordovaToast, $rootScope, $state, $ionicPopover, $ionicModal, $mdDialog) {
+.controller('tripCtrl', function($scope, $cordovaToast, $rootScope, $state, $ionicPopover, $ionicModal, $mdDialog,loadingScreen) {
 
     $scope.showUser = false;
     $scope.trip = {};
@@ -35,6 +35,8 @@ angular.module('starter')
     }
 
     $scope.getUserFromSearch = function(name) {
+        loadingScreen.showNotification();
+        $scope.hideErrorMsg = false;
         var resultUser = [];
         //$scope.resultUser = [];
         var query = new Parse.Query(Parse.User);
@@ -75,7 +77,11 @@ angular.module('starter')
                         //$cordovaToast.show('No user found','short','bottom');
                     }
                 });
+                loadingScreen.hideNotification();
                 $scope.showUser = true;
+                if(resultUser.length == 0) {
+                    $scope.hideErrorMsg = true;
+                }
                 $scope.resultUser = resultUser;
                 $scope.$apply();
             }
@@ -99,6 +105,7 @@ angular.module('starter')
                     $scope.resultUser[i].isAdded = false;
                     $scope.resultUser[i] = {};
                     $scope.members.push(resultUserObj);
+                    $scope.searchName.name = '';
                     var msg = user.name + ' Added';
                     $cordovaToast.show(msg, 'short', 'bottom');
                 }
@@ -119,6 +126,7 @@ angular.module('starter')
                     $scope.resultUser[i].isAdded = false;
                     $scope.resultUser[i] = {};
                     $scope.members.push(resultUserObj);
+                    $scope.searchName.name = '';
                     var msg = user.name + ' Added';
                     $cordovaToast.show(msg, 'short', 'bottom');
                 }
@@ -138,7 +146,7 @@ angular.module('starter')
 
 
     $scope.openContacts = function() {
-
+        $scope.hideErrorMsg = false;
         $scope.resultUser = [];
         $scope.searchName = {};
         $scope.modal.show();
@@ -149,6 +157,7 @@ angular.module('starter')
     };
 
     $scope.submitTrip = function(tripDetails) {
+        loadingScreen.showNotification();
         var userTemp = _.pluck($scope.members, 'id');
         var userArray = [];
         var tripObj = Parse.Object.extend('trips');
@@ -178,6 +187,7 @@ angular.module('starter')
                         })
                     }
                 })
+                loadingScreen.hideNotification();
                 $cordovaToast.show('Trip Added', 'short', 'bottom');
                 $scope.tripDetails = {};
                 $scope.members = [];
