@@ -213,4 +213,59 @@ angular.module('starter')
             }
         });
     }
+})
+.controller('loadingCtrl',function($rootScope,$scope,$ionicPlatform,$ionicPopup,$localstorage,$timeout,$location,$window,loadingScreen){
+
+    $scope.$on('$ionicView.enter',function(){
+            loadingScreen.showNotification();
+            $ionicPlatform.ready(function(){
+            if(window.Connection) {
+                loadingScreen.hideNotification();
+            if(navigator.connection.type == Connection.NONE) {
+                $ionicPopup.confirm({
+                        title: "No Internet Connection",
+                        content: "The internet is disconnected on your device.",
+                        buttons:[
+                        {
+                            text:'Retry', 
+                            type: 'button-positive',
+                            onTap:function(e){
+                                return 0;
+                            }},
+                        {
+                            text:'Exit', 
+                            type: 'button-alert',
+                            onTap:function(e){
+                                return 1;
+                            }
+                        }]
+                    })
+                    .then(function(result) {
+                        if(result == 1) {
+                            ionic.Platform.exitApp();
+                        }
+                        if(result == 0) {
+                            $window.location.reload(true);
+                        }
+                    });
+            }
+            else
+            {
+                if ($localstorage.getObject('User') != undefined) {
+                    $timeout(function() {
+                        $rootScope.getAllUsers();
+                        $location.path('/tab/dash');
+                        $rootScope.$apply();
+                    }, 2500);
+                } else {
+                    $timeout(function() {
+                        $location.path('/login');
+                        $rootScope.$apply();
+                    }, 2500);
+                }
+            }
+        }
+    });
+    });
+
 });

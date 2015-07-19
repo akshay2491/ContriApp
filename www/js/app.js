@@ -12,7 +12,7 @@ angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMateria
 
     Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
     $ionicPlatform.ready(function() {
-        if(window.Connection) {
+        /*if(window.Connection) {
             if(navigator.connection.type == Connection.NONE) {
                 $ionicPopup.confirm({
                         title: "No Internet Connection",
@@ -37,7 +37,7 @@ angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMateria
                             ionic.Platform.exitApp();
                         }
                         if(result == 0) {
-                            
+                            $window.location.reload(true);
                         }
                     });
             }
@@ -56,7 +56,7 @@ angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMateria
                     }, 2500);
                 }
             }
-        }
+        }*/
         
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -208,7 +208,8 @@ angular.module('starter', ['ionic', 'starter.services', 'underscore', 'ngMateria
 
     .state('loading', {
         url: '/loading',
-        templateUrl: 'templates/loading.html'
+        templateUrl: 'templates/loading.html',
+        controller:'loadingCtrl'
             /*controller:'profileCtrl'*/
     })
 
