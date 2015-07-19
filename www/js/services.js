@@ -120,7 +120,7 @@ angular.module('starter.services', ['underscore'])
     var showNotification = function() {
         $ionicLoading.show({
             noBackdrop: true,
-            template: '<p class="item-icon-left">Loading stuff...<ion-spinner icon="lines"/></p>'
+            template: '<ion-spinner icon="android"/>'
         });
     };
 

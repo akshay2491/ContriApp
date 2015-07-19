@@ -42,6 +42,7 @@ angular.module('starter')
     $scope.changeUserName = function(name) {
         if (name != undefined) {
             if (name.length > 4 && name.length < 13) {
+                loadingScreen.showNotification();
                 console.log(name)
                 var query = new Parse.Query(Parse.User);
                 query.equalTo('username', name);
@@ -49,9 +50,11 @@ angular.module('starter')
                     success: function(results) {
                         console.log(results);
                         if (results.length == 0) {
+                            loadingScreen.hideNotification();
                             $scope.errorMsg = 'User Name Available';
                             $scope.$apply();
                         } else {
+                            loadingScreen.hideNotification();
                             $scope.errorMsg = 'User Name Not Available';
                             $scope.$apply();
                         }
@@ -74,15 +77,18 @@ angular.module('starter')
 
     $scope.changeUserEmail = function(email) {
         if ($scope.user.email) {
+            loadingScreen.showNotification();
             var query = new Parse.Query(Parse.User);
             query.equalTo('email', email);
             query.find({
                 success: function(results) {
                     if (results.length == 0) {
+                        loadingScreen.hideNotification();
                         $scope.errorEmailMsg = '';
                         $scope.$apply();
                     } else {
-                        $scope.errorEmailMsg = 'This email id is Already existing.';
+                        loadingScreen.hideNotification();
+                        $scope.errorEmailMsg = 'Email id is Registered.';
                         $scope.$apply();
                     }
                 }
