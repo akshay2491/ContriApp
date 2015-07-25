@@ -22,6 +22,7 @@
   </feature>
   <gap:plugin name="cordova-plugin-camera"/>
   <gap:plugin name="cordova-plugin-network-information"/>
+  <gap:plugin name='cordova-plugin-admob'/>
   <gap:plugin name="nl.x-services.plugins.toast" source="plugins.cordova.io"/>
   <platform name="android">
     <splash src="resources\android\splash\drawable-port-ldpi-screen.png" density="port-ldpi"/>

@@ -5,7 +5,6 @@ angular.module('starter.directives',[])
     return function(scope, element, attrs) {
 
         element.bind('touchstart click', function(event) {
-        	console.log('dir');
             event.preventDefault();
             event.stopPropagation();
 

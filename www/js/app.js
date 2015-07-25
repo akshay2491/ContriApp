@@ -12,52 +12,27 @@ angular.module('starter', ['ionic','ngTouch', 'starter.services','starter.direct
 
     Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
     $ionicPlatform.ready(function() {
-        /*if(window.Connection) {
-            if(navigator.connection.type == Connection.NONE) {
-                $ionicPopup.confirm({
-                        title: "No Internet Connection",
-                        content: "The internet is disconnected on your device.",
-                        buttons:[
-                        {
-                            text:'Retry', 
-                            type: 'button-positive',
-                            onTap:function(e){
-                                return 0;
-                            }},
-                        {
-                            text:'Exit', 
-                            type: 'button-alert',
-                            onTap:function(e){
-                                return 1;
-                            }
-                        }]
-                    })
-                    .then(function(result) {
-                        if(result == 1) {
-                            ionic.Platform.exitApp();
-                        }
-                        if(result == 0) {
-                            $window.location.reload(true);
-                        }
-                    });
-            }
-            else
-            {
-                if ($localstorage.getObject('User') != undefined) {
-                    $timeout(function() {
-                        $rootScope.getAllUsers();
-                        $location.path('/tab/dash');
-                        $rootScope.$apply();
-                    }, 2500);
-                } else {
-                    $timeout(function() {
-                        $location.path('/login');
-                        $rootScope.$apply();
-                    }, 2500);
-                }
-            }
-        }*/
         
+        if(window.plugins && window.plugins.AdMob) {
+            var admob_key = 'ca-app-pub-3768908876980419/9314105689';
+            var admob = window.plugins.AdMob;
+            admob.createBannerView({
+                'publisherId':admob_key,
+                'adSize':admob.AD_SIZE.BANNER,
+                'bannerAtTop':false
+            },
+            function(){
+                admob.requestAd({
+                    'isTesting':true
+                },
+                function(){
+                    admob.showAd(true);
+                },
+                function(){
+                    console.log('failed to load');
+                })
+            })
+        }
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

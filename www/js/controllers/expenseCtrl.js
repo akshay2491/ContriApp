@@ -237,7 +237,7 @@ angular.module('starter')
     $scope.modal.hide();
   };
   
-  $ionicModal.fromTemplateUrl('templates/expenses-templates.html', {
+  $ionicModal.fromTemplateUrl('templates/expenses-new-templates.html', {
     scope: $scope
   }).then(function(modal) {
     //$scope.expenses = {};

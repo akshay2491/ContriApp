@@ -11,7 +11,7 @@
     <div layout='column' layout-align-gt-sm='center center'>
       <md-whiteframe class="md-whiteframe-z2" layout='column' layout-align="center center">
        <md-content  layout-padding layout="row" layout-sm="column">
-       <form name='formFactor' ng-submit='registerUser(user)'>
+       <form name='formFactor'>
     <md-input-container>
       <label>Name</label>
       <input required ng-model='user.uname' name='name' type="text">
@@ -41,11 +41,15 @@
     </md-input-container>
     <md-input-container>
       <label>Password</label>
-      <input required ng-model='user.password' type="password">
+      <input required ng-model='user.password' name='password' required ng-minlength="6" type="password">
+      <div ng-messages='formFactor.password.$error'>
+        <div ng-message='required'>This is required</div>
+        <div ng-message='minlength'>Minimum Length of 6.</div>
+      </div>
     </md-input-container>
     <md-input-container>
       <label>Confirm Password</label>
-      <input type="password" name='confirm'  ng-model='user.confirmPass'>
+      <input type="password" name='confirm' required ng-minlength="6" ng-model='user.confirmPass'>
       <div ng-messages='formFactor.confirm.$error'>
         <div class='user-error'>{{mismatchPassword}}</div>
       </div>
@@ -54,7 +58,7 @@
     <div ng-show='errReg'>{{errorReg.message}}</div>
        </section>
        <section layout="row" layout-sm="row" layout-align="center center">
-      <md-button class="md-raised md-primary">Register</md-button>
+      <md-button ng-disabled='formFactor.$invalid && {{user.password == user.confirmPass}}' myclick='registerUser(user)' class="md-raised md-primary">Register</md-button>
      <!-- <md-button ng-click='registerClearUser()' class="md-raised md-primary">Clear</md-button> -->
     </section>
     </form>
