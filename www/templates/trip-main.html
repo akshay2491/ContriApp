@@ -6,7 +6,7 @@
     <ion-content class='padding'>
         <div style='padding-top:20px;'>
             <md-whiteframe class="md-3-line md-whiteframe-z1" layout='column' layout-align=" center">
-                <form name='projectForm' ng-submit='submitTrip(trip)'>
+                <form name='projectForm'>
                     <md-input-container>
                         <label>Name of the trip</label>
                         <input type='text' required name="name" ng-model='trip.name'>
@@ -24,7 +24,7 @@
                         </div>
                     </md-input-container>
                     <div class='submit-position'>
-                        <md-button ng-disabled='projectForm.$invalid' class="md-raised md-primary">
+                        <md-button myclick='submitTrip(trip)' ng-disabled='projectForm.$invalid' class="md-raised md-primary">
                             Submit
                         </md-button>
                     </div>

@@ -157,6 +157,7 @@ angular.module('starter')
     };
 
     $scope.submitTrip = function(tripDetails) {
+        console.log('in')
         loadingScreen.showNotification();
         var userTemp = _.pluck($scope.members, 'id');
         var userArray = [];
