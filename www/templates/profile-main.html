@@ -10,9 +10,13 @@
        <md-input-container style='margin:auto;width:100px;' >
       <img ng-disabled="isFieldEnabled" style='box-shadow: 3px 4px 6px 2px #DBDBDB;border: 1px solid #dbdbdb;border-radius: 50px;' ng-disabled="isFieldEnabled" ng-click='isFieldEnabled || uploadImage($event)' ng-src='{{profileUser.pictureUrl}}'>
     </md-input-container>
+    <form name='formFactor'>
     <md-input-container>
       <label>Name</label>
-      <input ng-disabled="isFieldEnabled" ng-model="profileUser.name">
+      <input ng-disabled="isFieldEnabled" name='name' required ng-model="profileUser.name">
+      <div ng-messages='formFactor.name.$error'>
+        <div ng-message='required'>This is required</div>
+      </div>
     </md-input-container>
     <md-input-container>
       <label>User Name</label>
@@ -20,30 +24,52 @@
     </md-input-container>
     <md-input-container>
       <label>Email Address</label>
-      <input ng-disabled="isFieldEnabled" ng-model="profileUser.emailId">
+      <input type='email' ng-keypress='clearerror()' ng-blur="changeUserEmail(profileUser.emailId)" ng-disabled="isFieldEnabled" required name='email' ng-model="profileUser.emailId">
+      <div ng-messages='formFactor.email.$error'>
+        <div ng-message='required'>This is required</div>
+        <div ng-message='email'>Invalid Email id</div>
+        <div class='user-error'>{{errorEmailMsg}}</div>
+      </div>
     </md-input-container>
-    <!-- <md-input-container>
-      <label>Change Password</label>
-      <input  ng-disabled="isFieldEnabled" ng-model="profileUser.password">
-    </md-input-container>
-    <md-input-container>
-      <label>Confirm Password</label>
-      <input  ng-disabled="isFieldEnabled" ng-model="profileUser.cPassword">
-    </md-input-container> -->
-    <md-content>
+    </md-content>
+    <section layout='row'>
+      <section layout='row' layout-align='start center'>
+        Change Password
+      </section>
+      <section layout='row' layout-align='end center'> 
+        <md-switch ng-disabled='isFieldEnabled' ng-model="changePass.val" aria-label="Switch 1">
+      </md-switch>
+      </section>
+    </section>
     <section layout="row" layout-sm="row"  layout-align="center center">
     	<md-input-container>
       <label>Change Password</label>
-      <input  ng-disabled="isFieldEnabled" type='password' ng-model="profileUser.password">
+      <input  ng-disabled="!changePass.val" type='password' name='password' required ng-minlength="6" ng-model="profileUser.password">
+      <div ng-messages='formFactor.password.$error'>
+        <div ng-message='required'>This is required</div>
+        <div ng-message='minlength'>Minimum Length of 6.</div>
+      </div>
     </md-input-container>
     <md-input-container>
       <label>Confirm Password</label>
-      <input  ng-disabled="isFieldEnabled"  type='password' ng-model="profileUser.cPassword">
+      <input  type='password' ng-disabled="!changePass.val" name='confirm' required  ng-minlength='6' ng-model="profileUser.cPassword">
+      <div ng-messages='formFactor.confirm.$error'>
+      </div>
     </md-input-container>
+    
     </section>
-     <section layout="row" layout-sm="row" layout-align="center center">
+  </form>
+     <section ng-show='changePass.val' layout="row" layout-sm="row" layout-align="center center">
       <md-button myclick='editFields()' class="md-raised">Edit</md-button>
-      <md-button ng-disabled="isSubmit" myclick='updateFields(profileUser)'class="md-raised md-primary">Update</md-button>
+      <md-button ng-disabled="formFactor.$invalid && {{profileUser.password == profileUser.cPassword}}" myclick='updateFields(profileUser)'class="md-raised md-primary">Update</md-button>
+     <!--  <md-button ng-click='uploadImage($event)'class="md-raised md-primary">Upload Image</md-button> -->
+      <!-- <md-button ng-disabled="true" class="md-raised md-primary">Disabled</md-button>
+      <md-button class="md-raised md-warn">Warn</md-button>
+      <div class="label">Raised</div> -->
+    </section>
+    <section ng-show='!changePass.val' layout="row" layout-sm="row" layout-align="center center">
+      <md-button myclick='editFields()' class="md-raised">Edit</md-button>
+      <md-button ng-disabled="formFactor.name.$invalid || formFactor.email.$invalid || !tempVar" myclick='updateFields(profileUser)'class="md-raised md-primary">Update</md-button>
      <!--  <md-button ng-click='uploadImage($event)'class="md-raised md-primary">Upload Image</md-button> -->
       <!-- <md-button ng-disabled="true" class="md-raised md-primary">Disabled</md-button>
       <md-button class="md-raised md-warn">Warn</md-button>
