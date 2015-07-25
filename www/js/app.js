@@ -13,7 +13,7 @@ angular.module('starter', ['ionic','ngTouch', 'starter.services','starter.direct
     Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
     $ionicPlatform.ready(function() {
         
-        if(window.plugins && window.plugins.AdMob) {
+        /*if(window.plugins && window.plugins.AdMob) {
             var admob_key = 'ca-app-pub-3768908876980419/9314105689';
             var admob = window.plugins.AdMob;
             admob.createBannerView({
@@ -23,7 +23,7 @@ angular.module('starter', ['ionic','ngTouch', 'starter.services','starter.direct
             },
             function(){
                 admob.requestAd({
-                    'isTesting':true
+                    'isTesting':true //change it to false
                 },
                 function(){
                     admob.showAd(true);
@@ -32,7 +32,7 @@ angular.module('starter', ['ionic','ngTouch', 'starter.services','starter.direct
                     console.log('failed to load');
                 })
             })
-        }
+        }*/
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
