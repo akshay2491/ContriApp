@@ -14,7 +14,10 @@
 </div> -->
         <md-list>
             <md-list-item style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;padding:0px;'>
-                <img style='width: 63px;' ng-src='{{currentUser.attributes.image}}' />
+                <img threshold style='width: 63px;' ng-src='{{currentUser.attributes.image}}'  
+                data-src-fallback="img/loading.gif" 
+                data-src-maxtime="2000" 
+                />
                 <div class='item-text-wrap' style='margin-left:15px;'>Hello {{currentUser.attributes.name}}</div>
             </md-list-item>
         </md-list>
