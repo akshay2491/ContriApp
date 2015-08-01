@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('notificationCtrl', function($scope, $rootScope,$cordovaToast,loadingScreen) {
+.controller('notificationCtrl', function($scope, $rootScope, $cordovaToast, loadingScreen) {
 
     $scope.declineTrip = function(user) {
         loadingScreen.showNotification();
@@ -18,6 +18,11 @@ angular.module('starter')
                                 $cordovaToast.show('Trip Declined', 'short', 'bottom');
                             }
                         });
+                    },
+                    error: function(errorMsg) {
+                        loadingScreen.hideNotification();
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
                     }
                 });
             }
@@ -50,10 +55,20 @@ angular.module('starter')
                                                 $cordovaToast.show('Trip Confirmed', 'short', 'bottom');
                                             }
                                         });
+                                    },
+                                    error: function(errorMsg) {
+                                        loadingScreen.hideNotification();
+                                        $scope.$broadcast('scroll.refreshComplete');
+                                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
                                     }
                                 });
                             }
                         })
+                    },
+                    error: function(errorMsg) {
+                        loadingScreen.hideNotification();
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
                     }
                 });
             }

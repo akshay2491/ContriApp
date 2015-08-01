@@ -61,6 +61,11 @@ angular.module('starter')
                                 $scope.$apply();
                             }
                         }
+                    },
+                    error: function(errorMsg) {
+                        loadingScreen.hideNotification();
+                        $scope.$broadcast('scroll.refreshComplete');
+                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
                     }
                 })
             }
@@ -172,8 +177,18 @@ angular.module('starter')
                                             $cordovaToast.show('Profile Updated.Please Login Again', 'short', 'bottom');
                                             $rootScope.currentUser = res;
                                             $scope.$apply();
+                                        },
+                                        error: function(errorMsg) {
+                                            loadingScreen.hideNotification();
+                                            $scope.$broadcast('scroll.refreshComplete');
+                                            $cordovaToast.show('Failed To Load', 'short', 'bottom');
                                         }
                                     })
+                                },
+                                error: function(errorMsg) {
+                                    loadingScreen.hideNotification();
+                                    $scope.$broadcast('scroll.refreshComplete');
+                                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
                                 }
                             })
                         });
@@ -200,6 +215,11 @@ angular.module('starter')
                                         $scope.$apply();
                                     }
                                 })
+                            },
+                            error: function(errorMsg) {
+                                loadingScreen.hideNotification();
+                                $scope.$broadcast('scroll.refreshComplete');
+                                $cordovaToast.show('Failed To Load', 'short', 'bottom');
                             }
                         })
 
@@ -229,8 +249,18 @@ angular.module('starter')
                                         $cordovaToast.show('Profile Updated.Please Login Again', 'short', 'bottom');
                                         $rootScope.currentUser = res;
                                         $scope.$apply();
+                                    },
+                                    error: function(errorMsg) {
+                                        loadingScreen.hideNotification();
+                                        $scope.$broadcast('scroll.refreshComplete');
+                                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
                                     }
                                 })
+                            },
+                            error: function(errorMsg) {
+                                loadingScreen.hideNotification();
+                                $scope.$broadcast('scroll.refreshComplete');
+                                $cordovaToast.show('Failed To Load', 'short', 'bottom');
                             }
                         })
                     });
@@ -253,8 +283,18 @@ angular.module('starter')
                                     $cordovaToast.show('Profile Updated.Please Login Again', 'short', 'bottom');
                                     $rootScope.currentUser = res;
                                     $scope.$apply();
+                                },
+                                error: function(errorMsg) {
+                                    loadingScreen.hideNotification();
+                                    $scope.$broadcast('scroll.refreshComplete');
+                                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
                                 }
                             })
+                        },
+                        error: function(errorMsg) {
+                            loadingScreen.hideNotification();
+                            $scope.$broadcast('scroll.refreshComplete');
+                            $cordovaToast.show('Failed To Load', 'short', 'bottom');
                         }
                     })
                 }

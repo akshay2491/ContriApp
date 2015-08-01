@@ -18,8 +18,12 @@
                 data-src-fallback="img/loading.gif" 
                 data-src-maxtime="2000" 
                 /> -->
-                <img style='width: 63px;' ng-src='{{currentUser.attributes.image}}'  
+                <span style='height:63px;width:63px;'>
+                    <img style='width: 63px;' ng-src='{{currentUser.attributes.image}}'  
                 />
+                </span>
+                <!-- <img style='width: 63px;' ng-src='{{currentUser.attributes.image}}'  
+                /> -->
                 <div class='item-text-wrap' style='margin-left:15px;'>Hello {{currentUser.attributes.name}}</div>
             </md-list-item>
         </md-list>

@@ -1,10 +1,11 @@
 angular.module('starter')
 
-.controller('MainCtrl', function($scope, $rootScope, $state) {
+.controller('MainCtrl', function($scope, $rootScope, $state, $cordovaToast) {
     $rootScope.userDetails = [];
     $rootScope.currentUser = Parse.User.current();
 
     $rootScope.getAllUsers = function() {
+
         var userDetails = [];
         var query = new Parse.Query(Parse.User);
         query.find({
@@ -19,9 +20,16 @@ angular.module('starter')
                 });
                 $rootScope.userDetails = userDetails;
                 $scope.$apply();
+            },
+            error: function(errorMsg) {
+                $cordovaToast.show('Couldnt fetch User', 'short', 'bottom');
             }
         })
     }
+
+    $rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {
+        $state.go('loading');
+    });
 
     $rootScope.getNotification = function() {
         $rootScope.notificationObj = [];
@@ -52,6 +60,9 @@ angular.module('starter')
                     $scope.$broadcast('scroll.refreshComplete');
                     $scope.$apply();
                 }
+            },
+            error: function(errorMsg) {
+                $cordovaToast.show('Couldnt fetch notification', 'short', 'bottom');
             }
         })
     }
@@ -59,5 +70,5 @@ angular.module('starter')
     $rootScope.gotoPage = function(val) {
         $state.go(val);
     }
-    
+
 });

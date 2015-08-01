@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('tripCtrl', function($scope, $cordovaToast, $rootScope, $state, $ionicPopover, $ionicModal, $mdDialog,loadingScreen) {
+.controller('tripCtrl', function($scope, $cordovaToast, $rootScope, $state, $ionicPopover, $ionicModal, $mdDialog, loadingScreen) {
 
     $scope.showUser = false;
     $scope.trip = {};
@@ -79,11 +79,16 @@ angular.module('starter')
                 });
                 loadingScreen.hideNotification();
                 $scope.showUser = true;
-                if(resultUser.length == 0) {
+                if (resultUser.length == 0) {
                     $scope.hideErrorMsg = true;
                 }
                 $scope.resultUser = resultUser;
                 $scope.$apply();
+            },
+            error: function(errorMsg) {
+                loadingScreen.hideNotification();
+                $scope.$broadcast('scroll.refreshComplete');
+                $cordovaToast.show('Failed To Load', 'short', 'bottom');
             }
         })
     }
@@ -189,13 +194,15 @@ angular.module('starter')
                     }
                 })
                 loadingScreen.hideNotification();
-                $cordovaToast.show('Trip Added', 'short', 'bottom');
+                $cordovaToast.show('Trip Added.Waiting for Members to Join', 'short', 'bottom');
                 $scope.tripDetails = {};
                 $scope.members = [];
                 $state.go('tab.dash');
             },
-            error: function(err) {
-
+            error: function(errorMsg) {
+                loadingScreen.hideNotification();
+                $scope.$broadcast('scroll.refreshComplete');
+                $cordovaToast.show('Failed To Load', 'short', 'bottom');
             }
         });
     }

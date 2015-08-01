@@ -15,5 +15,19 @@
         </div>
       </div>
     </div>
+    <div ng-show='membersForExpYetToConfirm.length != 0'>
+      <div class="item item-divider">
+        Members Yet to Confirm
+      </div>
+    </div>
+    <div ng-repeat='user in membersForExpYetToConfirm'>
+      <div class="card">
+        <div class="item item-text-wrap item-avatar">
+          <img ng-src='{{user.image}}'>
+          <h2>{{user.name}}</h2>
+          <p>{{user.username}}</p>
+        </div>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

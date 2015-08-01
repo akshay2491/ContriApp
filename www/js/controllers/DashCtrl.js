@@ -19,4 +19,6 @@ angular.module('starter')
         $state.go('notification');
         $cordovaToast.show('Pull to refresh', 'short', 'bottom');
     }
+
+
 });
