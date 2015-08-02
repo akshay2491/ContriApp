@@ -4,11 +4,16 @@ angular.module('starter')
 
     $scope.showUser = false;
     $scope.trip = {};
+    $scope.trip.currency = 'Rs';
 
     $scope.$on('$ionicView.beforeEnter', function() {
         $scope.loadTheUserInMember();
         $scope.presentDateFromSystem();
     });
+
+    if(typeof analytics !== 'undefined') {
+            analytics.trackView('Trip');
+        }
 
     $scope.presentDateFromSystem = function() {
         var today = new Date();
@@ -17,6 +22,10 @@ angular.module('starter')
         var yyyy = today.getFullYear();
         $scope.presentDate = today;
     };
+
+    
+
+    //$scope.currency = ['Rs','$','€','£'];
 
 
     $scope.loadTheUserInMember = function() {
@@ -162,7 +171,7 @@ angular.module('starter')
     };
 
     $scope.submitTrip = function(tripDetails) {
-        console.log('in')
+
         loadingScreen.showNotification();
         var userTemp = _.pluck($scope.members, 'id');
         var userArray = [];
@@ -172,6 +181,7 @@ angular.module('starter')
         obj.set('name', tripDetails.name);
         obj.set('date', tripDetails.date);
         obj.set('parent', $rootScope.currentUser.id);
+        obj.set('currency',tripDetails.currency);
         obj.set('members', userArray);
         obj.save(null, {
             success: function(results) {

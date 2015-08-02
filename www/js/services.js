@@ -95,17 +95,20 @@ angular.module('starter.services', ['underscore'])
 
     sharedService.message = [];
     sharedService.idVal = '';
+    sharedService.currency = '';
     sharedService.exp = [];
 
-    sharedService.prepForBroadcast = function(msg, id) {
+    sharedService.prepForBroadcast = function(msg, id,currency) {
         this.message = msg;
         this.idVal = id;
+        this.currency = currency;
         $rootScope.$broadcast('handleBroadcast');
         //this.broadcastItem();
     };
 
-    sharedService.prepForExpSummary = function(msg) {
+    sharedService.prepForExpSummary = function(msg,currency) {
         this.exp = msg;
+        this.currency = currency;
         $rootScope.$broadcast('handleBroadcast');
     }
 

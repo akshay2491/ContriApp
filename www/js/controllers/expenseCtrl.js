@@ -10,6 +10,10 @@ angular.module('starter')
             $scope.findTripForMember();
         });
 
+        if(typeof analytics !== 'undefined') {
+            analytics.trackView('Expense');
+        }
+
 
         $scope.findTripForMember = function() {
             loadingScreen.showNotification();
@@ -30,6 +34,7 @@ angular.module('starter')
                             'name': arr.attributes.name,
                             'members': arr.attributes.members,
                             'createdBy': createdBy,
+                            'currency': arr.attributes.currency,
                             'date': arr.attributes.date
                         });
                     });
@@ -43,7 +48,9 @@ angular.module('starter')
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
                     $scope.$broadcast('scroll.refreshComplete');
-                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                    if(errorMsg.code == 100){
+                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                    }
                 }
             });
         }
@@ -59,7 +66,7 @@ angular.module('starter')
                         var createdBy = '';
                         for (var j = 0; j < $rootScope.userDetails.length; j++) {
                             if (results[i].attributes.parent === $rootScope.userDetails[j].id) {
-                                createdBy = $scope.userDetails[j].name;
+                                createdBy = $rootScope.userDetails[j].name;
                             }
                         }
                         expensesItems.push({
@@ -71,7 +78,7 @@ angular.module('starter')
                             'createdBy': createdBy
                         });
                     }
-                    mySharedService.prepForBroadcast(expensesItems, $scope.tripsArray[index].id);
+                    mySharedService.prepForBroadcast(expensesItems, $scope.tripsArray[index].id,$scope.tripsArray[index].currency);
                     loadingScreen.hideNotification();
                     $state.go('internal.addExpense');
                     $scope.$apply();
@@ -79,51 +86,27 @@ angular.module('starter')
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
                     $scope.$broadcast('scroll.refreshComplete');
-                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
-                }
-            });
-        }
-
-
-        //var query = new Parse.
-        $scope.getExpenses = function() {
-            var expensesItems = [];
-            var GameScore = Parse.Object.extend("expenses");
-            var query = new Parse.Query(GameScore);
-            query.find({
-                success: function(results) {
-                    for (var i = 0; i < results.length; i++) {
-                        var createdBy = '';
-                        for (var j = 0; j < $rootScope.userDetails.length; j++) {
-                            if (results[i].attributes.parent === $rootScope.userDetails[j].id) {
-                                createdBy = $scope.userDetails[j].name;
-                            }
-                        }
-                        expensesItems.push({
-                            'id': results[i].id,
-                            'name': results[i].attributes.name,
-                            'amount': results[i].attributes.amount,
-                            'date': results[i].updatedAt,
-                            'createdBy': createdBy
-                        });
+                    if(errorMsg.code == 100){
+                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                     }
-
-                    $scope.expensesItem = expensesItems;
-                    $scope.$apply();
-                },
-                error: function(err) {
-
                 }
             });
         }
+
     })
     .controller('tripExpCtrl', function($scope, $cordovaToast, mySharedService, $mdDialog, $ionicPopover, $rootScope, $ionicModal, loadingScreen) {
+
         $scope.expensesItem = mySharedService.message;
         $scope.tripId = mySharedService.idVal;
+        $scope.currencyForTrip = mySharedService.currency;
         $scope.$on('$ionicView.loaded', function() {
             $scope.getMembersOfTrip();
             $scope.membersNotConfirmed();
         });
+
+        if(typeof analytics !== 'undefined') {
+            analytics.trackView('Trip Expense');
+        }
 
 
         $scope.openExpenseTab = function() {
@@ -212,7 +195,9 @@ angular.module('starter')
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
                     $scope.$broadcast('scroll.refreshComplete');
-                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                    if(errorMsg.code == 100){
+                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                    }
                 }
             });
         }
@@ -252,7 +237,9 @@ angular.module('starter')
                                         error: function(errorMsg) {
                                             loadingScreen.hideNotification();
                                             $scope.$broadcast('scroll.refreshComplete');
-                                            $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                                            if(errorMsg.code == 100){
+                                                $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                                            }
                                         }
                                     })
                                 }
@@ -268,7 +255,9 @@ angular.module('starter')
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
                     $scope.$broadcast('scroll.refreshComplete');
-                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                    if(errorMsg.code == 100){
+                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                    }
                 }
             })
         }
@@ -291,7 +280,7 @@ angular.module('starter')
             var sum = _.reduce(arr, function(memo, num) {
                 return memo + num;
             }, 0);
-            var str = 'Total Till now Rs. ' + sum;
+            var str = 'Total Till now :' + sum + $scope.currencyForTrip;
             $cordovaToast.show(str, 'short', 'bottom');
         }
 
@@ -309,7 +298,7 @@ angular.module('starter')
                     var createdBy = '';
                     for (var j = 0; j < $rootScope.userDetails.length; j++) {
                         if (results.attributes.parent === $rootScope.userDetails[j].id) {
-                            createdBy = $scope.userDetails[j].name;
+                            createdBy = $rootScope.userDetails[j].name;
                         }
                     }
                     $scope.expensesItem.push({
@@ -329,7 +318,9 @@ angular.module('starter')
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
                     $scope.$broadcast('scroll.refreshComplete');
-                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                    if(errorMsg.code == 100){
+                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                    }
                 }
             });
         }

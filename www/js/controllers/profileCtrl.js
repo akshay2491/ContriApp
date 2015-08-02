@@ -8,7 +8,6 @@ angular.module('starter')
             val: false
         };
         $scope.tempVar = false;
-        console.log($rootScope.currentUser)
         profileUser.id = $rootScope.currentUser.id;
         profileUser.name = $rootScope.currentUser.attributes.name;
         profileUser.userName = $rootScope.currentUser.attributes.username;
@@ -27,17 +26,10 @@ angular.module('starter')
             $scope.isSubmit = false;
         }
 
-        /*$scope.$watch('profileUser.cPassword', function(oldName, newVal) {
-            console.log('in')
-            if ($scope.profileUser.cPassword) {
-                if ($scope.profileUser.password === $scope.profileUser.cPassword) {
-                    $scope.mismatchPassword = 'Perfect';
-                } else {
-                    $scope.mismatchPassword = 'Password Not Matching';
+        if(typeof analytics !== 'undefined') {
+            analytics.trackView('Profile');
+        }
 
-                }
-            }
-        })*/
 
         $scope.changeUserEmail = function(email) {
             if ($scope.profileUser.emailId) {
@@ -64,8 +56,9 @@ angular.module('starter')
                     },
                     error: function(errorMsg) {
                         loadingScreen.hideNotification();
-                        $scope.$broadcast('scroll.refreshComplete');
-                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                        if(errorMsg.code == 100){
+                            $cordovaToast.show('Cant verify Email id.Check your network', 'short', 'bottom');
+                        }
                     }
                 })
             }
@@ -170,25 +163,31 @@ angular.module('starter')
                                     result.save(null, {
                                         success: function(res) {
                                             loadingScreen.hideNotification();
+                                            $rootScope.updateAUser(res);
+                                            
                                             $scope.isFieldEnabled = true;
                                             $scope.tempVar = false;
                                             $scope.changePass.val = false;
                                             $scope.isSubmit = true;
-                                            $cordovaToast.show('Profile Updated.Please Login Again', 'short', 'bottom');
+                                            $cordovaToast.show('Profile Updated.', 'short', 'bottom');
                                             $rootScope.currentUser = res;
+                                            
                                             $scope.$apply();
+
                                         },
                                         error: function(errorMsg) {
                                             loadingScreen.hideNotification();
-                                            $scope.$broadcast('scroll.refreshComplete');
-                                            $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                                            if(errorMsg.code == 100){
+                                                $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                                            }
                                         }
                                     })
                                 },
                                 error: function(errorMsg) {
                                     loadingScreen.hideNotification();
-                                    $scope.$broadcast('scroll.refreshComplete');
-                                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                                    if(errorMsg.code == 100){
+                                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                                    }
                                 }
                             })
                         });
@@ -206,20 +205,24 @@ angular.module('starter')
                                 result.save(null, {
                                     success: function(res) {
                                         loadingScreen.hideNotification();
+                                        $rootScope.updateAUser(res);
+                                        
                                         $scope.isFieldEnabled = true;
                                         $scope.tempVar = false;
                                         $scope.changePass.val = false;
                                         $scope.isSubmit = true;
-                                        $cordovaToast.show('Profile Updated.Please Login Again', 'short', 'bottom');
+                                        $cordovaToast.show('Profile Updated.', 'short', 'bottom');
                                         $rootScope.currentUser = res;
+                                        
                                         $scope.$apply();
                                     }
                                 })
                             },
                             error: function(errorMsg) {
                                 loadingScreen.hideNotification();
-                                $scope.$broadcast('scroll.refreshComplete');
-                                $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                                if(errorMsg.code == 100){
+                                    $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                                }
                             }
                         })
 
@@ -243,24 +246,29 @@ angular.module('starter')
                                 result.save(null, {
                                     success: function(res) {
                                         loadingScreen.hideNotification();
+                                        $rootScope.updateAUser(res);
+                                        
                                         $scope.isFieldEnabled = true;
                                         $scope.tempVar = false;
                                         $scope.isSubmit = true;
-                                        $cordovaToast.show('Profile Updated.Please Login Again', 'short', 'bottom');
+                                        $cordovaToast.show('Profile Updated.', 'short', 'bottom');
                                         $rootScope.currentUser = res;
+                                        
                                         $scope.$apply();
                                     },
                                     error: function(errorMsg) {
                                         loadingScreen.hideNotification();
-                                        $scope.$broadcast('scroll.refreshComplete');
-                                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                                        if(errorMsg.code == 100){
+                                            $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                                        }
                                     }
                                 })
                             },
                             error: function(errorMsg) {
                                 loadingScreen.hideNotification();
-                                $scope.$broadcast('scroll.refreshComplete');
-                                $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                                if(errorMsg.code == 100){
+                                    $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                                }
                             }
                         })
                     });
@@ -277,24 +285,29 @@ angular.module('starter')
                             result.save(null, {
                                 success: function(res) {
                                     loadingScreen.hideNotification();
+                                    $rootScope.updateAUser(res);
+                                    
                                     $scope.isFieldEnabled = true;
                                     $scope.tempVar = false;
                                     $scope.isSubmit = true;
-                                    $cordovaToast.show('Profile Updated.Please Login Again', 'short', 'bottom');
+                                    $cordovaToast.show('Profile Updated.', 'short', 'bottom');
                                     $rootScope.currentUser = res;
+
                                     $scope.$apply();
                                 },
                                 error: function(errorMsg) {
                                     loadingScreen.hideNotification();
-                                    $scope.$broadcast('scroll.refreshComplete');
-                                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                                   if(errorMsg.code == 100){
+                                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                                    }
                                 }
                             })
                         },
                         error: function(errorMsg) {
                             loadingScreen.hideNotification();
-                            $scope.$broadcast('scroll.refreshComplete');
-                            $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                            if(errorMsg.code == 100){
+                                $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                            }
                         }
                     })
                 }

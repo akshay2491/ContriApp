@@ -13,8 +13,8 @@ angular.module('starter', ['ionic','ngTouch', 'starter.services','starter.direct
     Parse.initialize("Bl66NOMwA7tRfb7MlOIOaRhrMPz9jP9znTCbOsOP", "L43adggR803mrSPL53rm137XO9tCONWL1k0lokpJ");
     $ionicPlatform.ready(function() {
         
-        /*if(window.plugins && window.plugins.AdMob) {
-            var admob_key = 'ca-app-pub-3768908876980419/9314105689';
+        if(window.plugins && window.plugins.AdMob) {
+            var admob_key = 'ca-app-pub-6911097588798435/6748334707';
             var admob = window.plugins.AdMob;
             admob.createBannerView({
                 'publisherId':admob_key,
@@ -23,16 +23,21 @@ angular.module('starter', ['ionic','ngTouch', 'starter.services','starter.direct
             },
             function(){
                 admob.requestAd({
-                    'isTesting':true //change it to false
+                    'isTesting':false 
+
                 },
                 function(){
                     admob.showAd(true);
                 },
                 function(){
-                    console.log('failed to load');
+                    //console.log('failed to load');
                 })
             })
-        }*/
+        }
+
+        if(typeof analytics !== 'undefined') {
+            analytics.startTrackerWithId('UA-65864650-2');
+        }
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {

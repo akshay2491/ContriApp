@@ -14,6 +14,21 @@
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
+                   <!--  <md-input-container>
+                       <label>Currency</label>
+                       <md-select placeholder="Currency" ng-model="trip.currency">
+                       <md-option ng-repeat="state in currency" value="{{state}}">{{state}}</md-option>
+                     </md-select>
+                   </md-input-container> -->
+                   <section layout="row" layout-sm="row"  layout-align="start start">
+                     <label  style='font-size:1em;' class='md-title' >Currency</label>
+                    <md-radio-group name='currency' ng-model="trip.currency">
+                      <md-radio-button style='display:inline;' value="Rs" class="md-primary">INR(Rs)</md-radio-button>
+                      <md-radio-button style='display:inline;' value="$">US Dollar($)</md-radio-button>
+                      <md-radio-button style='display:inline;' value="€">Euro(€)</md-radio-button>
+                      <md-radio-button style='display:inline;' value="£">Pound(£)</md-radio-button>
+                    </md-radio-group>
+                    </section>
                     <md-input-container md-no-float>
                         <label>Date of the trip</label>
                         <input type='date' max="{{presentDate}}" required name="input" ng-model='trip.date'>

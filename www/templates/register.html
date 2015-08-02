@@ -55,7 +55,7 @@
       </div>
     </md-input-container>
      <section layout="row" layout-sm="row" layout-align="center center">
-    <div ng-show='errReg'>{{errorReg.message}}</div>
+    <div ng-show='errReg'>{{errorReg}}</div>
        </section>
        <section layout="row" layout-sm="row" layout-align="center center">
       <md-button ng-disabled='formFactor.$invalid && {{user.password == user.confirmPass}}' myclick='registerUser(user)' class="md-raised md-primary">Register</md-button>

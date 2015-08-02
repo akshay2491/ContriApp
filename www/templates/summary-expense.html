@@ -14,7 +14,7 @@
 		        <a class="item item-avatar" href="#">
 		          <img ng-src="{{inside.image}}">
 		          <h2>{{inside.name}}</h2>
-		          <p>You Owe Rs.{{inside.amount}}</p>
+		          <p>You Owe {{inside.amount}} {{currencyForSummary}}</p>
 		        </a>
 		      </div>
 		     <!--   <div class="item item-divider item-text-wrap">{{chat.name}} lended to {{inside.name}} amount {{inside.amount}}
@@ -27,7 +27,7 @@
 		        <a class="item item-avatar">
 		          <img ng-src="{{inside.image}}">
 		          <h2>{{inside.name}}</h2>
-		          <p>Owes You Rs.{{inside.amount}}</p>
+		          <p>Owes You {{inside.amount}} {{currencyForSummary}}</p>
 		        </a>
 		      </div>
 		     <!--  <h3 class="item item-divider item-text-wrap">{{inside.name}} owes {{chat.name}} amount Rs. {{inside.amount}}</h3> -->

@@ -4,9 +4,12 @@ angular.module('starter')
     /*$ionicHistory.clearCache();
       $ionicHistory.clearHistory();*/
 
-    var userDetails = [];
     $scope.expensesItem = [];
     $rootScope.notificationObj = [];
+
+    if(typeof analytics !== 'undefined') {
+            analytics.trackView('Home');
+        }
 
     $scope.$on('$ionicView.enter', function() {
         //loadingScreen.showNotification();

@@ -4,6 +4,10 @@ angular.module('starter')
     $rootScope.userDetails = [];
     $rootScope.currentUser = Parse.User.current();
 
+    if(typeof analytics !== 'undefined') {
+            analytics.trackView('Main');
+        }
+
     $rootScope.getAllUsers = function() {
 
         var userDetails = [];
@@ -22,9 +26,22 @@ angular.module('starter')
                 $scope.$apply();
             },
             error: function(errorMsg) {
-                $cordovaToast.show('Couldnt fetch User', 'short', 'bottom');
+                //$cordovaToast.show('Couldnt fetch User', 'short', 'bottom');
             }
         })
+    }
+
+    $rootScope.updateAUser =function(user) {
+        if($rootScope.userDetails.length != 0) {
+            for(var i =0 ;i<$rootScope.userDetails.length;i++) {
+                if($rootScope.userDetails[i].id === user.id) {
+                    $rootScope.userDetails[i].id = user.id;
+                    $rootScope.userDetails[i].name = user.attributes.name;
+                    $rootScope.userDetails[i].image = user.attributes.image;
+                    return;
+                }
+            }
+        }
     }
 
     $rootScope.$on('$cordovaNetwork:offline', function(event, networkState) {

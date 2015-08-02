@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.contri334107" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
+<widget id="com.ionicframework.contri334107" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://cordova.apache.org/ns/1.0">
   <name>Contri</name>
-  <description>&#xD;
-        An Ionic Framework and Cordova project.&#xD;
+  <description>&#xD;&#xD;
+        An Ionic Framework and Cordova project.&#xD;&#xD;
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">&#xD;
-      Ionic Framework Team&#xD;
+  <author email="hi@ionicframework" href="http://ionicframework.com/">&#xD;&#xD;
+      Ionic Framework Team&#xD;&#xD;
     </author>
   <content src="index.html"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
-  <preference name="android-minSdkVersion" value="13"/>
+  <preference name="android-minSdkVersion" value="18"/>
   <preference name="BackupWebStorage" value="none"/>
   <preference name="orientation" value="portrait"/>
   <preference name="SplashScreen" value="screen"/>
@@ -22,7 +22,8 @@
   </feature>
   <gap:plugin name="cordova-plugin-camera"/>
   <gap:plugin name="cordova-plugin-network-information"/>
-  <gap:plugin name='cordova-plugin-admob'/>
+  <gap:plugin name="cordova-plugin-admob"/>
+  <gap:plugin name="google-analytics-plugin"/>
   <gap:plugin name="nl.x-services.plugins.toast" source="plugins.cordova.io"/>
   <platform name="android">
     <splash src="resources\android\splash\drawable-port-ldpi-screen.png" density="port-ldpi"/>

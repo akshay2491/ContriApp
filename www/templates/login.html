@@ -19,7 +19,7 @@
                         <input type='password' ng-keypress="hideError()" ng-model="user.pName">
                     </md-input-container>
                     <section layout="row" layout-sm="row" layout-align="center center">
-                        <div style='  font-style: oblique;font-variant: small-caps;font-weight: 600;' ng-show='isError'>{{errorMsg.message}}</div>
+                        <div style='  font-style: oblique;font-variant: small-caps;font-weight: 600;' ng-show='isError'>{{errorMsg}}</div>
                     </section>
                     <section layout="row" layout-sm="row" layout-align="center center">
                         <md-button myclick='gotoMainPage(user)' class="md-raised md-primary">Submit</md-button>

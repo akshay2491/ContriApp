@@ -9,6 +9,8 @@
     	 <md-content  layout-padding layout="column" layout-sm="column">
        <md-input-container style='margin:auto;width:100px;' >
       <img ng-disabled="isFieldEnabled" style='box-shadow: 3px 4px 6px 2px #DBDBDB;border: 1px solid #dbdbdb;border-radius: 50px;' ng-disabled="isFieldEnabled" ng-click='isFieldEnabled || uploadImage($event)' ng-src='{{profileUser.pictureUrl}}'>
+
+      <span ng-show='!isFieldEnabled' id="overlay_text" style="position: relative; top: -15px; z-index: 3;"><i style='font-size: 1.7em;' class='icon ion-ios-camera'></i></span>
     </md-input-container>
     <form name='formFactor'>
     <md-input-container>
@@ -42,7 +44,7 @@
       </section>
     </section>
     <section layout="row" layout-sm="row"  layout-align="start center">
-    	<md-input-container>
+    	<md-input-container style='width: 130px;'>
       <label>Change Password</label>
       <input  ng-disabled="!changePass.val" type='password' name='password' required ng-minlength="6" ng-model="profileUser.password">
       <div ng-messages='formFactor.password.$error'>
@@ -50,7 +52,7 @@
         <div ng-message='minlength'>Minimum Length of 6.</div>
       </div>
     </md-input-container>
-    <md-input-container>
+    <md-input-container style='width: 130px;'>
       <label>Confirm Password</label>
       <input  type='password' ng-disabled="!changePass.val" name='confirm' required  ng-minlength='6' ng-model="profileUser.cPassword">
       <div ng-messages='formFactor.confirm.$error'>

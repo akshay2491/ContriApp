@@ -8,6 +8,10 @@ angular.module('starter')
             $scope.findTripForMember();
         });
 
+        if(typeof analytics !== 'undefined') {
+            analytics.trackView('Summary');
+        }
+
         $scope.getExpensesDetails = function() {
             $scope.users = [];
             var expObj = Parse.Object.extend('expenses');
@@ -53,6 +57,7 @@ angular.module('starter')
                             'members': arr.attributes.members,
                             'createdBy': createdBy,
                             'date': arr.attributes.date,
+                            'currency':arr.attributes.currency,
                             'members': arr.attributes.members
                         });
                     });
@@ -66,12 +71,13 @@ angular.module('starter')
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
                     $scope.$broadcast('scroll.refreshComplete');
-                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                    $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                 }
             });
         }
 
         $scope.getExpenseFromTrip = function(index) {
+            loadingScreen.showNotification();
             var expensesItems = [];
             var userDetails = [];
             var query = new Parse.Query('expenses');
@@ -82,7 +88,7 @@ angular.module('starter')
                         var createdBy = '';
                         for (var j = 0; j < $rootScope.userDetails.length; j++) {
                             if (results[i].attributes.parent === $rootScope.userDetails[j].id) {
-                                createdBy = $scope.userDetails[j].name;
+                                createdBy = $rootScope.userDetails[j].name;
                             }
                         }
                         //finalArray.push({'id':results[i].attributes.parent,'exp':results[i].attributes.amount,'expName':results[i].attributes.name});
@@ -105,18 +111,22 @@ angular.module('starter')
                             }
                         })
                     })
-
+                    loadingScreen.hideNotification();
                     var imp = Data.calculateSummary(expensesItems, userDetails);
-                    mySharedService.prepForExpSummary(imp);
+                    mySharedService.prepForExpSummary(imp,$scope.tripsArray[index].currency);
                     $state.go('external');
                     $scope.$apply();
                 },
                 error: function(err) {
-
+                    loadingScreen.hideNotification();
+                    if(err.code == 100) {
+                        $cordovaToast.show('Connection Failed.','short','bottom');
+                    }
                 }
             });
         }
     })
     .controller('sumExpCtrl', function($scope, $rootScope, mySharedService) {
         $scope.users = mySharedService.exp;
+        $scope.currencyForSummary = mySharedService.currency;
     });

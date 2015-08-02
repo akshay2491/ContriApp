@@ -17,7 +17,7 @@
                     </div>
                 </md-input-container>
                 <md-input-container>
-                    <label>Amount</label>
+                    <label>Amount ({{currencyForTrip}})</label>
                     <input type="text" pattern="[0-9]+" ng-model='expenses.amount' name='amount' required>
                      <div ng-messages='formFactor.amount.$error'>
                         <div ng-message='required'>This is Required.</div>

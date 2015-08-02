@@ -19,6 +19,10 @@ angular.module('starter')
             $scope.isError = false;
         }
 
+        if(typeof analytics !== 'undefined') {
+            analytics.trackView('Login');
+        }
+
         $scope.$watch('user.username', function(oldName, newVal) {
             $scope.errorMsg = '';
             if ($scope.user.username) {
@@ -59,8 +63,9 @@ angular.module('starter')
                         },
                         error: function(errorMsg) {
                             loadingScreen.hideNotification();
-                            $scope.$broadcast('scroll.refreshComplete');
-                            $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                            if(errorMsg.code == 100){
+                                $cordovaToast.show('Cant verify Username.Check your network', 'short', 'bottom');
+                            }
                         }
                     })
                 }
@@ -97,8 +102,9 @@ angular.module('starter')
                     },
                     error: function(errorMsg) {
                         loadingScreen.hideNotification();
-                        $scope.$broadcast('scroll.refreshComplete');
-                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                        if(errorMsg.code == 100){
+                            $cordovaToast.show('Cant verify Email Id.Check your network', 'short', 'bottom');
+                        }
                     }
                 })
             }
@@ -147,14 +153,17 @@ angular.module('starter')
                             },
                             error: function(error) {
                                 // Show the error message somewhere
-                                alert("Error: " + error.code + " " + error.message);
+                                if(error.code == 100){
+                                $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                            }
                             }
                         });
                     }
                 },
                 error: function(errorMsg) {
-                    $scope.$broadcast('scroll.refreshComplete');
-                    $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                    if(errorMsg.code == 100){
+                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                    }
                 }
             })
         }
@@ -173,9 +182,17 @@ angular.module('starter')
                     $scope.$apply();
                 },
                 error: function(user, error) {
+                    //console.log(error);
                     loadingScreen.hideNotification();
                     $scope.isError = true;
-                    $scope.errorMsg = error;
+                    if(error.code == 100){
+                        $scope.errorMsg = 'Connection failed.Check your network';    
+                    }
+                    else
+                    {
+                        $scope.errorMsg = error.message;
+                    }
+                    
                 }
             });
         }
@@ -192,6 +209,7 @@ angular.module('starter')
 
 
         $scope.registerUser = function(form) {
+            loadingScreen.showNotification();
             var user = new Parse.User();
             user.set("username", form.username);
             user.set("name", form.uname);
@@ -217,13 +235,22 @@ angular.module('starter')
                         username: '',
                         confirmPass: ''
                     };
+                    loadingScreen.hideNotification();
                     $state.go('login');
                     // Hooray! Let them use the app now.
                 },
                 error: function(user, error) {
+                    loadingScreen.hideNotification();
                     // Show the error message somewhere and let the user try again.
                     $scope.errReg = true;
-                    $scope.errorReg = error.message;
+                    if(error.code == 100){
+                        $scope.errorReg = 'Connection failed.Check your network';    
+                    }
+                    else
+                    {
+                        $scope.errorReg = error.message;
+                    }
+                    
                 }
             });
         }

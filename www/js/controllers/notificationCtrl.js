@@ -22,7 +22,9 @@ angular.module('starter')
                     error: function(errorMsg) {
                         loadingScreen.hideNotification();
                         $scope.$broadcast('scroll.refreshComplete');
-                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                        if(errorMsg.code == 100){
+                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                    }
                     }
                 });
             }
@@ -59,7 +61,9 @@ angular.module('starter')
                                     error: function(errorMsg) {
                                         loadingScreen.hideNotification();
                                         $scope.$broadcast('scroll.refreshComplete');
-                                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                                        if(errorMsg.code == 100){
+                                            $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                                        }
                                     }
                                 });
                             }
@@ -68,7 +72,9 @@ angular.module('starter')
                     error: function(errorMsg) {
                         loadingScreen.hideNotification();
                         $scope.$broadcast('scroll.refreshComplete');
-                        $cordovaToast.show('Failed To Load', 'short', 'bottom');
+                        if(errorMsg.code == 100){
+                            $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                        }
                     }
                 });
             }
