@@ -1,14 +1,14 @@
 <ion-view>
     <ion-header-bar class='bar-positive'>
         <button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
-        <h1 class="title">New Trip</h1>
+        <h1 class="title">New Event</h1>
     </ion-header-bar>
     <ion-content class='padding'>
         <div style='padding-top:20px;'>
             <md-whiteframe class="md-3-line md-whiteframe-z1" layout='column' layout-align=" center">
                 <form name='projectForm'>
                     <md-input-container>
-                        <label>Name of the trip</label>
+                        <label>Name of the Event</label>
                         <input type='text' required name="name" ng-model='trip.name'>
                         <div ng-messages="projectForm.name.$error">
                             <div ng-message="required">This is required.</div>
@@ -30,7 +30,7 @@
                     </md-radio-group>
                     </section>
                     <md-input-container md-no-float>
-                        <label>Date of the trip</label>
+                        <label>Date of the Event</label>
                         <input type='date' max="{{presentDate}}" required name="input" ng-model='trip.date'>
                         <div ng-messages="projectForm.input.$error">
                             <div ng-message="required">This is required.</div>

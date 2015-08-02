@@ -204,7 +204,7 @@ angular.module('starter')
                     }
                 })
                 loadingScreen.hideNotification();
-                $cordovaToast.show('Trip Added.Waiting for Members to Join', 'short', 'bottom');
+                $cordovaToast.show('Event Added.Waiting for Members to Join', 'short', 'bottom');
                 $scope.tripDetails = {};
                 $scope.members = [];
                 $state.go('tab.dash');

@@ -248,7 +248,7 @@ angular.module('starter')
 
                     } else {
                         loadingScreen.hideNotification();
-                        $cordovaToast.show('Already member of the trip', 'short', 'bottom');
+                        $cordovaToast.show('Already member of this Event', 'short', 'bottom');
 
                     }
                 },

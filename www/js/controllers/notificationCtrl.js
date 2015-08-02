@@ -15,7 +15,7 @@ angular.module('starter')
                         results[0].destroy({
                             success: function(res) {
                                 loadingScreen.hideNotification();
-                                $cordovaToast.show('Trip Declined', 'short', 'bottom');
+                                $cordovaToast.show('Event Declined', 'short', 'bottom');
                             }
                         });
                     },
@@ -54,7 +54,7 @@ angular.module('starter')
                                         results[0].destroy({
                                             success: function(res) {
                                                 loadingScreen.hideNotification();
-                                                $cordovaToast.show('Trip Confirmed', 'short', 'bottom');
+                                                $cordovaToast.show('Event Confirmed', 'short', 'bottom');
                                             }
                                         });
                                     },
