@@ -10,19 +10,31 @@
             <div layout='column' layout-align-gt-sm='center center'>
             <md-whiteframe class="md-whiteframe-z2" layout='column' layout-align="center center">
                 <md-content layout-padding layout="column" layout-sm="column" >
+                    <form name='formFactor'>
                     <md-input-container>
                         <label>User Name</label>
-                        <input type='text' ng-keypress="hideError()" ng-model="user.uName">
+                        <input type='text' required name='name' ng-keypress="hideError()" ng-model="user.uName">
+                        <div ng-messages='formFactor.name.$error'>
+                            <div ng-message='required'>
+                                Please Enter Username
+                            </div>
+                        </div>
                     </md-input-container>
                     <md-input-container>
                         <label>Password</label>
-                        <input type='password' ng-keypress="hideError()" ng-model="user.pName">
+                        <input type='password' required name = 'password' ng-keypress="hideError()" ng-model="user.pName">
+                        <div ng-messages='formFactor.password.$error'>
+                            <div ng-message='required'>
+                                Please Enter Password
+                            </div>
+                        </div>
                     </md-input-container>
+                    </form>
                     <section layout="row" layout-sm="row" layout-align="center center">
                         <div style='  font-style: oblique;font-variant: small-caps;font-weight: 600;' ng-show='isError'>{{errorMsg}}</div>
                     </section>
                     <section layout="row" layout-sm="row" layout-align="center center">
-                        <md-button myclick='gotoMainPage(user)' class="md-raised md-primary">Submit</md-button>
+                        <md-button ng-disabled='!formFactor.$valid' myclick='gotoMainPage(user)' class="md-raised md-primary">Submit</md-button>
                         <md-button myclick="gotoPage('register')" class="md-raised md-primary">Register</md-button>
                     </section>
                     <section layout='row' layout-align='center center'>

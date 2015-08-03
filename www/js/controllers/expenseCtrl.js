@@ -40,14 +40,14 @@ angular.module('starter')
                     });
                     $scope.tripsArray = tripsArray;
                     loadingScreen.hideNotification();
-                    $scope.$broadcast('scroll.refreshComplete');
+                    //$scope.$broadcast('scroll.refreshComplete');
                     $cordovaToast.show('Pull to Refresh', 'short', 'bottom');
                     $scope.$apply();
                     //console.log(results);
                 },
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
-                    $scope.$broadcast('scroll.refreshComplete');
+                    //$scope.$broadcast('scroll.refreshComplete');
                     if(errorMsg.code == 100){
                         $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                     }
@@ -85,7 +85,7 @@ angular.module('starter')
                 },
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
-                    $scope.$broadcast('scroll.refreshComplete');
+                    //$scope.$broadcast('scroll.refreshComplete');
                     if(errorMsg.code == 100){
                         $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                     }
@@ -113,6 +113,55 @@ angular.module('starter')
             $scope.expenses = {};
             $scope.modal.show();
         };
+
+          $scope.showConfirmDelete = function(index,expense,ev) {
+            var confirm = $mdDialog.confirm()
+              .parent(angular.element(document.body))
+              .title('Delete')
+              .content('Do you want to delete your Expense?')
+              .ariaLabel('Lucky day')
+              .ok('Yes')
+              .cancel('No')
+              .targetEvent(ev);
+            $mdDialog.show(confirm).then(function() {
+              $scope.deleteExpenseFromTrip(index,expense);
+            }, function() {
+              
+            });
+            };
+
+        $scope.deleteExpenseFromTrip = function(index,expense) {
+            loadingScreen.showNotification();
+            var query = new Parse.Query('expenses');
+            query.equalTo('tripId',$scope.tripId);
+            query.equalTo('objectId',expense.id);
+            query.find({
+                success:function(result){
+                    result[0].destroy({
+                        success:function(res){
+                        loadingScreen.hideNotification();
+                        $scope.expensesItem.splice(index,1);
+                        $scope.$apply();
+                    },
+                    error:function(err) {
+                        loadingScreen.hideNotification();
+                    //$scope.$broadcast('scroll.refreshComplete');
+                    if(err.code == 100){
+                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                    }
+
+                    }
+                });
+                },error:function(err) {
+                        loadingScreen.hideNotification();
+                    //$scope.$broadcast('scroll.refreshComplete');
+                    if(err.code == 100){
+                        $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                    }
+
+                }
+            })
+        }
 
 
         $scope.getMembersOfTrip = function() {
@@ -170,7 +219,7 @@ angular.module('starter')
             query.find({
                 success: function(results) {
                     _.each(results, function(user) {
-                        if (user.attributes.name.toUpperCase() === name.name.toUpperCase() || user.attributes.username.toUpperCase() === name.name.toUpperCase()) {
+                        if (user.attributes.name.toUpperCase().indexOf(name.name.toUpperCase()) > -1 || user.attributes.name.toUpperCase() === name.name.toUpperCase() || user.attributes.username.toUpperCase() === name.name.toUpperCase()) {
                             var resultUserObj = {
                                 name: '',
                                 email: '',
@@ -194,7 +243,7 @@ angular.module('starter')
                 },
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
-                    $scope.$broadcast('scroll.refreshComplete');
+                    //$scope.$broadcast('scroll.refreshComplete');
                     if(errorMsg.code == 100){
                         $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                     }
@@ -236,7 +285,7 @@ angular.module('starter')
                                         },
                                         error: function(errorMsg) {
                                             loadingScreen.hideNotification();
-                                            $scope.$broadcast('scroll.refreshComplete');
+                                            //$scope.$broadcast('scroll.refreshComplete');
                                             if(errorMsg.code == 100){
                                                 $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                                             }
@@ -254,7 +303,7 @@ angular.module('starter')
                 },
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
-                    $scope.$broadcast('scroll.refreshComplete');
+                    //$scope.$broadcast('scroll.refreshComplete');
                     if(errorMsg.code == 100){
                         $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                     }
@@ -317,7 +366,7 @@ angular.module('starter')
                 },
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
-                    $scope.$broadcast('scroll.refreshComplete');
+                    //$scope.$broadcast('scroll.refreshComplete');
                     if(errorMsg.code == 100){
                         $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                     }

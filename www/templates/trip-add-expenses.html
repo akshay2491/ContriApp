@@ -6,12 +6,13 @@
         <button ng-click="gotoPage('tab.expenses')" class="button icon ion-arrow-left-a"></button>
     </ion-nav-buttons>
     <ion-content class='padding'>
-        <div ng-repeat="expense in expensesItem |orderBy: '-date'" style='box-shadow: 2px 3px 6px 1px #dbdbdb;'>
+        <div ng-repeat="expense in expensesItem " style='box-shadow: 2px 3px 6px 1px #dbdbdb;'>
             <div class="list card">
                 <div class="item item-divider">
                     {{expense.name}}
                     <span ng-show='expense.parentId === currentUser.id'>
-										</span>
+                        <i myclick='showConfirmDelete($index,expense,$event)' style='float: right;' class='icon ion-android-close'></i>
+					</span>
                 </div>
                 <div class="item item-body">
                     <div>

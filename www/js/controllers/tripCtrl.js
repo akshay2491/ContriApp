@@ -52,7 +52,7 @@ angular.module('starter')
         query.find({
             success: function(results) {
                 _.each(results, function(user) {
-                    if (user.attributes.name.toUpperCase() === name.name.toUpperCase() || user.attributes.username.toUpperCase() === name.name.toUpperCase()) {
+                    if (user.attributes.name.toUpperCase().indexOf(name.name.toUpperCase()) > -1 || user.attributes.name.toUpperCase() === name.name.toUpperCase() || user.attributes.username.toUpperCase() === name.name.toUpperCase()) {
                         var resultUserObj = {
                             name: '',
                             email: '',

@@ -5,10 +5,17 @@
         <button ng-click='findTripForMember()' class='button icon ion-refresh'></button>
     </ion-header-bar>
     <ion-content class="padding">
-        <ion-refresher pulling-text="Pull to refresh..." on-refresh="findTripForMember()">
-        </ion-refresher>
+        <!-- <ion-refresher pulling-text="Pull to refresh..." on-refresh="findTripForMember()">
+        </ion-refresher> -->
+        <div class="list">
+            <div class="item item-input-inset">
+                <label class="item-input-wrapper">
+                    <input type="text" ng-model='searchName' placeholder="Search by Trip Name">
+                </label>
+            </div>
+        </div>
         <div ng-show='tripsArray.length !=0'>
-            <div ng-repeat='tp in tripsArray'>
+            <div ng-repeat='tp in tripsArray | filter:searchName'>
                 <div class="list card" ng-click='getExpenseFromTrip($index)'  style='box-shadow: 3px 4px 6px 2px #dbdbdb;'>
                     <div class="item item-divider">{{tp.name}}</div>
                     <div class="item item-body">

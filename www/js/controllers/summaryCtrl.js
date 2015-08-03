@@ -30,7 +30,7 @@ angular.module('starter')
                         //finalId.push(results[i].attributes.parent);
                     }
                     $scope.users = Data.calculateSummary(finalArray, $rootScope.userDetails);
-                    $scope.$broadcast('scroll.refreshComplete');
+                    //$scope.$broadcast('scroll.refreshComplete');
                     $scope.isRead = true;
                     $scope.$apply();
                 }
@@ -63,14 +63,14 @@ angular.module('starter')
                     });
                     $scope.tripsArray = tripsArray;
                     loadingScreen.hideNotification();
-                    $scope.$broadcast('scroll.refreshComplete');
+                    //$scope.$broadcast('scroll.refreshComplete');
                     $cordovaToast.show('Pull to Refresh', 'short', 'bottom');
                     $scope.$apply();
                     //console.log(results);
                 },
                 error: function(errorMsg) {
                     loadingScreen.hideNotification();
-                    $scope.$broadcast('scroll.refreshComplete');
+                    //$scope.$broadcast('scroll.refreshComplete');
                     $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                 }
             });

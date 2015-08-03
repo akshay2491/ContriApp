@@ -21,7 +21,7 @@ angular.module('starter')
                     },
                     error: function(errorMsg) {
                         loadingScreen.hideNotification();
-                        $scope.$broadcast('scroll.refreshComplete');
+                        //$scope.$broadcast('scroll.refreshComplete');
                         if(errorMsg.code == 100){
                         $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                     }
@@ -60,7 +60,7 @@ angular.module('starter')
                                     },
                                     error: function(errorMsg) {
                                         loadingScreen.hideNotification();
-                                        $scope.$broadcast('scroll.refreshComplete');
+                                        //$scope.$broadcast('scroll.refreshComplete');
                                         if(errorMsg.code == 100){
                                             $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                                         }
@@ -71,7 +71,7 @@ angular.module('starter')
                     },
                     error: function(errorMsg) {
                         loadingScreen.hideNotification();
-                        $scope.$broadcast('scroll.refreshComplete');
+                        //$scope.$broadcast('scroll.refreshComplete');
                         if(errorMsg.code == 100){
                             $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                         }
