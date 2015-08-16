@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('expenseCtrl', function($scope, $ionicLoading, $cordovaToast, $ionicHistory, $state, $ionicPopover, $mdToast, $rootScope, loadingScreen, $mdDialog, mySharedService) {
+.controller('expenseCtrl', function($scope, $ionicLoading, $cordovaToast, $ionicHistory, $state, $ionicPopover, $rootScope, loadingScreen, mySharedService) {
 
         $scope.expensesItem = [];
         //$scope.loading = false;
@@ -41,7 +41,6 @@ angular.module('starter')
                     $scope.tripsArray = tripsArray;
                     loadingScreen.hideNotification();
                     //$scope.$broadcast('scroll.refreshComplete');
-                    $cordovaToast.show('Pull to Refresh', 'short', 'bottom');
                     $scope.$apply();
                     //console.log(results);
                 },
@@ -55,11 +54,11 @@ angular.module('starter')
             });
         }
 
-        $scope.getExpenseFromTrip = function(index) {
+        $scope.getExpenseFromTrip = function(tripObj) {
             loadingScreen.showNotification();
             var expensesItems = [];
             var query = new Parse.Query('expenses');
-            query.equalTo('tripId', $scope.tripsArray[index].id);
+            query.equalTo('tripId', tripObj.id);
             query.find({
                 success: function(results) {
                     for (var i = 0; i < results.length; i++) {
@@ -78,7 +77,7 @@ angular.module('starter')
                             'createdBy': createdBy
                         });
                     }
-                    mySharedService.prepForBroadcast(expensesItems, $scope.tripsArray[index].id,$scope.tripsArray[index].currency);
+                    mySharedService.prepForBroadcast(expensesItems, tripObj.id,tripObj.currency);
                     loadingScreen.hideNotification();
                     $state.go('internal.addExpense');
                     $scope.$apply();
@@ -94,7 +93,7 @@ angular.module('starter')
         }
 
     })
-    .controller('tripExpCtrl', function($scope, $cordovaToast, mySharedService, $mdDialog, $ionicPopover, $rootScope, $ionicModal, loadingScreen) {
+    .controller('tripExpCtrl', function($scope, $cordovaToast, mySharedService, $ionicPopover, $rootScope, $ionicModal, loadingScreen,$ionicPopup) {
 
         $scope.expensesItem = mySharedService.message;
         $scope.tripId = mySharedService.idVal;
@@ -115,19 +114,15 @@ angular.module('starter')
         };
 
           $scope.showConfirmDelete = function(index,expense,ev) {
-            var confirm = $mdDialog.confirm()
-              .parent(angular.element(document.body))
-              .title('Delete')
-              .content('Do you want to delete your Expense?')
-              .ariaLabel('Lucky day')
-              .ok('Yes')
-              .cancel('No')
-              .targetEvent(ev);
-            $mdDialog.show(confirm).then(function() {
-              $scope.deleteExpenseFromTrip(index,expense);
-            }, function() {
-              
-            });
+               var confirmPopup = $ionicPopup.confirm({
+                 title: 'Delete',
+                 template: 'Are you sure you want to delete this expense?'
+               });
+               confirmPopup.then(function(res) {
+                 if(res) {
+                   $scope.deleteExpenseFromTrip(index,expense);
+                 } 
+               });
             };
 
         $scope.deleteExpenseFromTrip = function(index,expense) {
@@ -140,7 +135,11 @@ angular.module('starter')
                     result[0].destroy({
                         success:function(res){
                         loadingScreen.hideNotification();
-                        $scope.expensesItem.splice(index,1);
+                        for(var i=0;i<$scope.expensesItem.length;i++){
+                            if($scope.expensesItem[i].id === expense.id) {
+                                $scope.expensesItem.splice(i,1);
+                            }
+                        }
                         $scope.$apply();
                     },
                     error:function(err) {
@@ -281,7 +280,7 @@ angular.module('starter')
                                             $scope.resultUserForExpense[index].isAdded = false;
                                             $scope.$apply();
                                             loadingScreen.hideNotification();
-                                            $cordovaToast.show('User added', 'short', 'bottom');
+                                            $cordovaToast.show('Waiting for Member to Join', 'short', 'bottom');
                                         },
                                         error: function(errorMsg) {
                                             loadingScreen.hideNotification();

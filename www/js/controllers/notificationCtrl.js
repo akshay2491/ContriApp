@@ -1,6 +1,33 @@
 angular.module('starter')
 
-.controller('notificationCtrl', function($scope, $rootScope, $cordovaToast, loadingScreen) {
+.controller('notificationCtrl', function($scope, $rootScope, $cordovaToast, loadingScreen,$ionicActionSheet) {
+
+    $scope.showBottomSheet=function(user) {
+
+        var hideSheet = $ionicActionSheet.show({
+     buttons: [
+       { text: 'Confirm' },
+       { text: 'Reject' }
+     ],
+     titleText: '<b>Options</b>',
+     cancelText: 'Cancel',
+     cancel: function() {
+         
+        },
+     buttonClicked: function(index) {
+        if (index == 0) {
+                    $scope.confirmTrip(user);
+                    return true;
+                    //$scope.getPictureFromSys();
+                }
+                if (index == 1) {
+                    $scope.declineTrip(user);
+                    return true;
+                }
+     }
+   });
+
+    }
 
     $scope.declineTrip = function(user) {
         loadingScreen.showNotification();

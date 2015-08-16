@@ -136,6 +136,21 @@ angular.module('starter.services', ['underscore'])
         hideNotification: hideNotification
     }
 })
+.service('alertPopup',function($ionicPopup){
+  var showPopup = function(msg) {
+    var alertPopup = $ionicPopup.alert({
+        title: 'Alert',
+        template: "<p style='text-align:center'>"+msg+"</p>"
+    });
+    alertPopup.then(function(res) {
+        //console.log('Thank you for not eating my delicious ice cream cone');
+    });
+  };
+
+  return {
+    showPopup:showPopup
+  }
+})
 
 .factory('$localstorage', function($window) {
     return {

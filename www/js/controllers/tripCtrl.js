@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('tripCtrl', function($scope, $cordovaToast, $rootScope, $state, $ionicPopover, $ionicModal, $mdDialog, loadingScreen) {
+.controller('tripCtrl', function($scope, $cordovaToast, $rootScope, $state, $ionicPopover, $ionicModal, loadingScreen) {
 
     $scope.showUser = false;
     $scope.trip = {};
@@ -8,24 +8,29 @@ angular.module('starter')
 
     $scope.$on('$ionicView.beforeEnter', function() {
         $scope.loadTheUserInMember();
-        $scope.presentDateFromSystem();
+        //$scope.presentDateFromSystem();
     });
 
     if(typeof analytics !== 'undefined') {
             analytics.trackView('Trip');
         }
 
-    $scope.presentDateFromSystem = function() {
+   /* $scope.presentDateFromSystem = function() {
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear();
         $scope.presentDate = today;
-    };
+    };*/
+
+    $scope.hideError = function() {
+            $scope.isError = false;
+        }
 
     
 
-    //$scope.currency = ['Rs','$','€','£'];
+    $scope.currency = [{'name':'INR','value':'Rs'},{'name':'Pound(£)','value':'£'},{'name':'Euro(€)','value':'€'}
+    ,{'name':'US Dollar($)','value':'$'}];
 
 
     $scope.loadTheUserInMember = function() {
@@ -171,7 +176,7 @@ angular.module('starter')
     };
 
     $scope.submitTrip = function(tripDetails) {
-
+        var mydate = new Date(tripDetails.date);
         loadingScreen.showNotification();
         var userTemp = _.pluck($scope.members, 'id');
         var userArray = [];
@@ -179,12 +184,13 @@ angular.module('starter')
         var obj = new tripObj();
         userArray.push($rootScope.currentUser.id);
         obj.set('name', tripDetails.name);
-        obj.set('date', tripDetails.date);
+        obj.set('date', mydate);
         obj.set('parent', $rootScope.currentUser.id);
-        obj.set('currency',tripDetails.currency);
+        obj.set('currency',tripDetails.currency.value);
         obj.set('members', userArray);
         obj.save(null, {
             success: function(results) {
+                console.log(results)
                 _.each(userTemp, function(list) {
                     if (list != $rootScope.currentUser.id) {
                         var notificationObj = Parse.Object.extend('notification');

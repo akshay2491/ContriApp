@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('DashCtrl', function($scope, $state, $cordovaToast, $rootScope, $ionicHistory, $ionicModal, $ionicLoading, loadingScreen) {
+.controller('DashCtrl', function($scope, $state, $cordovaToast, $rootScope, $ionicHistory, $ionicModal, $ionicLoading, loadingScreen,$localstorage) {
     /*$ionicHistory.clearCache();
       $ionicHistory.clearHistory();*/
 
@@ -22,6 +22,16 @@ angular.module('starter')
         $state.go('notification');
         $cordovaToast.show('Pull to refresh', 'short', 'bottom');
     }
+
+      $scope.logOutUser = function() {
+            $localstorage.deleteObject('User');
+            $rootScope.currentUser = null;
+            $rootScope.notificationObj = [];
+            Parse.User.logOut();
+            $ionicHistory.clearCache();
+            $ionicHistory.clearHistory();
+            $state.go('login');
+        }
 
 
 });

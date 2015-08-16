@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('MainCtrl', function($scope, $rootScope, $state, $cordovaToast) {
+.controller('MainCtrl', function($scope, $rootScope, $state, $cordovaToast,$timeout) {
     $rootScope.userDetails = [];
     $rootScope.currentUser = Parse.User.current();
 
@@ -83,6 +83,25 @@ angular.module('starter')
             }
         })
     }
+
+/*    $scope.$watch('notificationObj.length',function(oldVal,newVal){
+        console.log(newVal,oldVal)
+        if(oldVal >0) {
+            console.log('in')
+            $scope.overlay=true;
+            var e = document.getElementById('notificationObj');
+            var d = document.getElementById('overlayDiv');
+            d.style.display = 'block';
+            d.style.position = "absolute";
+            d.style.left = '10px';
+            d.style.top = '50px';
+             $timeout(function(){
+                  //$scope.overlay = false;
+                  //d.style.display = 'none';
+               }, 2000);
+        }
+        
+    })*/
 
     $rootScope.gotoPage = function(val) {
         $state.go(val);

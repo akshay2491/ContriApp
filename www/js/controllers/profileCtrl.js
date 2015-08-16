@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('profileCtrl', function($scope, File, $rootScope, $cordovaToast, loadingScreen, $ionicHistory, $ionicPlatform, $state, $localstorage, $mdBottomSheet, $cordovaCamera, $mdDialog) {
+.controller('profileCtrl', function($scope, File, $rootScope, $cordovaToast, loadingScreen, $ionicHistory, $ionicPlatform, $state, $localstorage,  $cordovaCamera, $ionicActionSheet) {
         var profileUser = {};
         $scope.profileUser = {};
         $scope.isFieldEnabled = true;
@@ -70,22 +70,33 @@ angular.module('starter')
 
 
         $scope.uploadImage = function($event) {
-            $mdBottomSheet.show({
-                templateUrl: 'templates/bottom-sheet.html',
-                controller: 'bottomSheetCtrl',
-                targetEvent: $event
-            }).then(function(result) {
-                if (result.name === 'Camera') {
+               var hideSheet = $ionicActionSheet.show({
+     buttons: [
+       { text: 'Camera' },
+       { text: 'Files' },
+       {text:'Remove Photo'}
+     ],
+     titleText: '<b>Change your photo</b>',
+     cancelText: 'Cancel',
+     cancel: function() {
+         
+        },
+     buttonClicked: function(index) {
+        if (index == 0) {
                     $scope.loadCamera();
+                    return true;
                     //$scope.getPictureFromSys();
                 }
-                if (result.name === 'Files') {
+                if (index == 1) {
                     $scope.loadFileSystem();
+                    return true;
                 }
-                if (result.name === 'Remove Photo') {
+                if (index == 2) {
                     $scope.removePhoto();
+                    return true;
                 }
-            })
+     }
+   });
         }
 
         $scope.removePhoto = function() {
@@ -136,14 +147,7 @@ angular.module('starter')
         $scope.updateFields = function(user) {
             if ($scope.changePass.val) {
                 if ($scope.profileUser.password != $scope.profileUser.cPassword) {
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                        .parent(angular.element(document.body))
-                        .title('This is an alert title')
-                        .content('Your Password is not Matching')
-                        .ariaLabel('Alert Dialog Demo')
-                        .ok('Got it!')
-                    );
+                    alertPopup.showPopup('Your Password is not Matching');
                 } else {
                     loadingScreen.showNotification();
                     var temp = user.pictureUrl;
@@ -314,30 +318,6 @@ angular.module('starter')
             }
 
         }
-
-        $scope.logOutUser = function() {
-            $localstorage.deleteObject('User');
-            $rootScope.currentUser = null;
-            $rootScope.notificationObj = [];
-            Parse.User.logOut();
-            $ionicHistory.clearCache();
-            $ionicHistory.clearHistory();
-            $state.go('login');
-        }
-    })
-    .controller('bottomSheetCtrl', function($scope, $rootScope, $mdBottomSheet) {
-        $scope.items = [{
-            name: 'Camera',
-            classStyle: 'icon ion-camera'
-        }, {
-            name: 'Files',
-            classStyle: 'icon ion-image'
-        }, {
-            name: 'Remove Photo',
-            classStyle: 'icon ion-trash-b'
-        }];
-        $scope.listItemClick = function($index) {
-            var clickedItem = $scope.items[$index];
-            $mdBottomSheet.hide(clickedItem);
-        };
+      
     });
+    

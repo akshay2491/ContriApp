@@ -3,47 +3,47 @@
         <h1 class="title">Login</h1>
     </ion-header-bar>
     <ion-content class='padding'>
-        <!-- <div class='list'>
-    <md-button md-no-ink class="md-primary" ng-click="gotoPage('register')">Register</md-button>
-  </div> -->
-        <div style='margin-top: 80px;'>
-            <div layout='column' layout-align-gt-sm='center center'>
-            <md-whiteframe class="md-whiteframe-z2" layout='column' layout-align="center center">
-                <md-content layout-padding layout="column" layout-sm="column" >
-                    <form name='formFactor'>
-                    <md-input-container>
-                        <label>User Name</label>
-                        <input type='text' required name='name' ng-keypress="hideError()" ng-model="user.uName">
-                        <div ng-messages='formFactor.name.$error'>
+        <div style='margin-top: 40px;'>
+            <form name='formFactor'>
+                <div class="list">
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">User Name</span>
+                        <input type="text" placeholder="Enter your Username" required name='name' ng-keypress="hideError()" ng-model="user.uName">
+                        <div ng-show='err' ng-messages='formFactor.name.$error' style='font-size: 0.8em;color: red;'>
                             <div ng-message='required'>
                                 Please Enter Username
                             </div>
                         </div>
-                    </md-input-container>
-                    <md-input-container>
-                        <label>Password</label>
-                        <input type='password' required name = 'password' ng-keypress="hideError()" ng-model="user.pName">
-                        <div ng-messages='formFactor.password.$error'>
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Password</span>
+                        <input type="password" placeholder="Enter your password" required name='password' ng-keypress="hideError()" ng-model="user.pName">
+                        <div ng-show='err' ng-messages='formFactor.password.$error' style='font-size: 0.8em;color: red;'>
                             <div ng-message='required'>
                                 Please Enter Password
                             </div>
                         </div>
-                    </md-input-container>
-                    </form>
-                    <section layout="row" layout-sm="row" layout-align="center center">
-                        <div style='  font-style: oblique;font-variant: small-caps;font-weight: 600;' ng-show='isError'>{{errorMsg}}</div>
-                    </section>
-                    <section layout="row" layout-sm="row" layout-align="center center">
-                        <md-button ng-disabled='!formFactor.$valid' myclick='gotoMainPage(user)' class="md-raised md-primary">Submit</md-button>
-                        <md-button myclick="gotoPage('register')" class="md-raised md-primary">Register</md-button>
-                    </section>
-                    <section layout='row' layout-align='center center'>
-                        <div ng-click='forgotPassword()' style='cursor: pointer;text-decoration: underline;font-variant: small-caps;font-weight: 600;'>Forgot Password?</div>
-                    </section>
-
-                </md-content>
-            </md-whiteframe>
-        </div>
+                    </label>
+                </div>
+            </form>
+            <div class='row responsive' style='text-align: center;'>
+                <div class="col " style='  font-style: oblique;font-variant: small-caps;font-weight: 600;' ng-show='isError'>{{errorMsg}}</div>
+            </div>
+            <div class='row'>
+                <div class='col'>
+                    <button ng-click='gotoMainPage(user,formFactor)' class="button button-block button-positive button-small ">
+                        Login
+                    </button>
+                </div>
+                <div class='col'>
+                    <button ng-click="gotoPage('register')" class="button button-block button-small button-stable">
+                        Register
+                    </button>
+                </div>
+            </div>
+            <div class="row responsive" style='text-align: center;'>
+                <div ng-click='forgotPassword()' class="col col-33 col-offset-33" style='cursor: pointer;text-decoration: underline;font-variant: small-caps;font-weight: 600;'>Forgot Password ?</div>
+            </div>
         </div>
     </ion-content>
 </ion-view>

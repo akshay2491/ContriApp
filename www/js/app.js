@@ -4,7 +4,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic','ngTouch', 'starter.services','starter.directives', 'underscore', 'ngMaterial', 'ngCordova', 'ngMessages'])
+angular.module('starter', ['ionic','ngTouch', 'starter.services','starter.directives', 'underscore', 'ngCordova', 'ngMessages'])
 
 .run(function($ionicPlatform, $ionicPopup, $state, $ionicHistory, $localstorage, $timeout, $rootScope, $location) {
 
@@ -50,7 +50,7 @@ angular.module('starter', ['ionic','ngTouch', 'starter.services','starter.direct
     });
 })
 
-.config(function($stateProvider, $urlRouterProvider, $mdThemingProvider) {
+.config(function($stateProvider, $urlRouterProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router

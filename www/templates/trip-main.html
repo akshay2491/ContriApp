@@ -3,65 +3,61 @@
         <button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
         <h1 class="title">New Event</h1>
     </ion-header-bar>
-    <ion-content class='padding'>
-        <div style='padding-top:20px;'>
-            <md-whiteframe class="md-3-line md-whiteframe-z1" layout='column' layout-align=" center">
-                <form name='projectForm'>
-                    <md-input-container>
-                        <label>Name of the Event</label>
-                        <input type='text' required name="name" ng-model='trip.name'>
-                        <div ng-messages="projectForm.name.$error">
-                            <div ng-message="required">This is required.</div>
+    <ion-content>
+        <div class="row">
+            <div class="col col-50 col-offset-50">
+                <button ng-click='submitTrip(trip)' ng-disabled='projectForm.$invalid' class="button button-block button-balanced button-small">
+                    SUBMIT
+                </button>
+            </div>
+        </div>
+
+        <div class="list card">
+            <form name='projectForm'>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Name of the Event</span>
+                    <input type="text" placeholder="Event Name" required name='name' ng-model='trip.name'>
+                    <div ng-messages="projectForm.name.$error" style='font-size: 0.8em;color: red;'>
+                        <div ng-message='required'>
+                            This is required.
                         </div>
-                    </md-input-container>
-                   <!--  <md-input-container>
-                       <label>Currency</label>
-                       <md-select placeholder="Currency" ng-model="trip.currency">
-                       <md-option ng-repeat="state in currency" value="{{state}}">{{state}}</md-option>
-                     </md-select>
-                   </md-input-container> -->
-                   <section layout="row" layout-sm="row"  layout-align="start start">
-                     <label  style='font-size:1em;' class='md-title' >Currency</label>
-                    <md-radio-group name='currency' ng-model="trip.currency">
-                      <md-radio-button style='display:inline;' value="Rs" class="md-primary">INR(Rs)</md-radio-button>
-                      <md-radio-button style='display:inline;' value="$">US Dollar($)</md-radio-button>
-                      <md-radio-button style='display:inline;' value="€">Euro(€)</md-radio-button>
-                      <md-radio-button style='display:inline;' value="£">Pound(£)</md-radio-button>
-                    </md-radio-group>
-                    </section>
-                    <md-input-container md-no-float>
-                        <label>Date of the Event</label>
-                        <input type='date' max="{{presentDate}}" required name="input" ng-model='trip.date'>
-                        <div ng-messages="projectForm.input.$error">
-                            <div ng-message="required">This is required.</div>
-                            <div ng-message="date">Not a Valid Date</div>
-                            <div ng-message="max">Future Date Not allowed</div>
-                        </div>
-                    </md-input-container>
-                    <div class='submit-position'>
-                        <md-button myclick='submitTrip(trip)' ng-disabled='projectForm.$invalid' class="md-raised md-primary">
-                            Submit
-                        </md-button>
                     </div>
-                </form>
-            </md-whiteframe>
+                </label>
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Currency
+                    </div>
+                    <select name='currency' ng-init='trip.currency=currency[0]' ng-model="trip.currency" ng-options="color.name for color in currency">
+                    </select>
+                    <div ng-messages="projectForm.currency.$error" style='font-size: 0.8em;color: red;'>
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Date of the Event</span>
+                    <input type="text" ng-pattern='/^([1-9][0-9][0-9][0-9])\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/' placeholder="YYYY-MM-DD" required name="input" ng-model='trip.date'>
+                    <div ng-messages="projectForm.input.$error" style='font-size: 0.8em;color: red;'>
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="pattern">Incorrect Format,should be YYYY-MM-DD</div>
+                    </div>
+                </label>
+            </form>
         </div>
-        <md-divider></md-divider>
-        <div class=''>
-            <md-button myclick='openContacts()' side="right" class="md-mini md-primary">
-                Add Members
-            </md-button>
+        <div class='row'>
+            <div class="col col-33">
+                <button ng-click='openContacts()' side="right" class="button button-block button-positive button-small">
+                    Add Members
+                </button>
+            </div>
         </div>
-        <div>
-            <div ng-repeat='user in members'>
-                <div class="card">
-                    <div class="item item-text-wrap item-avatar">
-                        <img ng-src="{{user.image}}">
-                        <h2>{{user.name}}</h2>
-                        <p>{{user.email}}</p>
-                        <div ng-show='user.id!=currentUser.id'>
-                            <div ng-click='removeMembers($index)' class=" cursor icon ion-close-round" style='position: absolute;top:10px;right: 20px;'></div>
-                        </div>
+        <div ng-repeat='user in members'>
+            <div class="card">
+                <div class="item item-text-wrap item-avatar">
+                    <img ng-src="{{user.image}}">
+                    <h2>{{user.name}}</h2>
+                    <p>{{user.email}}</p>
+                    <div ng-show='user.id!=currentUser.id'>
+                        <div ng-click='removeMembers($index)' class=" cursor icon ion-close-round" style='position: absolute;top:10px;right: 20px;'></div>
                     </div>
                 </div>
             </div>

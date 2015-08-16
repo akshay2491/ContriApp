@@ -4,16 +4,7 @@
         <h1 class="title">Summary</h1>
         <button ng-click='findTripForMember()' class='button icon ion-refresh'></button>
     </ion-header-bar>
-    <ion-content>
-        <!-- <ion-refresher pulling-text="Pull to refresh..." on-refresh="findTripForMember()">
-        </ion-refresher> -->
-        <div class="list">
-            <div class="item item-input-inset">
-                <label class="item-input-wrapper">
-                    <input type="text" ng-model='searchName' placeholder="Search by Trip Name">
-                </label>
-            </div>
-        </div>
+    <ion-content style='margin-bottom:30px;'>
         <div ng-show='tripsArray.length ==0'>
             <div class="row">
                 <div style='margin: auto;text-align: center;' class="col col-75 col-offset-20">Sorry You are not a part of any Event</div>
@@ -21,7 +12,7 @@
         </div>
         <div ng-show='tripsArray.length !=0'>
             <div ng-repeat='tp in tripsArray | filter:searchName'>
-                <div class="list card" ng-click='getExpenseFromTrip($index)' style='box-shadow: 3px 4px 6px 2px #dbdbdb;'>
+                <div class="list card" ng-click='getExpenseFromTrip(tp)' style='box-shadow: 3px 4px 6px 2px #dbdbdb;'>
                     <div class="item item-divider">{{tp.name}}</div>
                     <div class="item item-body">
                         <div>
@@ -36,4 +27,10 @@
             </div>
         </div>
     </ion-content>
+     <div class="bar bar-footer item-input-inset">
+  <label class="item-input-wrapper">
+    <i class="icon ion-ios-search placeholder-icon"></i>
+    <input type="search" ng-model='searchName' placeholder="search">
+  </label>
+</div>
 </ion-view>

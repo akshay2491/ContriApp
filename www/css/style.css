@@ -105,3 +105,49 @@
   stroke: #999;
   fill: #999;
 }
+
+.marginBottom {
+  margin-bottom:20px;
+  margin-top:25px;
+}
+
+.close-section {
+      float: right;
+    height: 20px;
+    width: 25px;
+    border: 1px solid red;
+}
+
+#overlayDiv {
+height: 30px;
+    color: white;
+    width: 120px;
+    border-radius: 5px;
+    z-index: 100;
+    background-color: rgba(245, 143, 39, 0.85);
+    box-shadow: 1px 1px 1px 1px black;;
+
+}
+
+  .badge1 {
+    position:relative;
+  }
+  .badge1[data-badge]:after {
+    content:attr(data-badge);
+    position:absolute;
+    top:1px;
+    left:20px;
+    font-size:.9em;
+    background:red;
+    color:white;
+    width:18px;
+    height:18px;
+    text-align:center;
+    line-height:18px;
+    border-radius:50%;
+    box-shadow:1px 1px 1px 1px #333;
+  }
+
+  .badge1[data-badge='0']:after {
+  content: none;
+}

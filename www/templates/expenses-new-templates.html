@@ -4,45 +4,32 @@
         <h1 class="title">Add Expenses</h1>
     </ion-header-bar>
     <ion-content class='padding'>
-     <div layout='column' layout-align-gt-sm='center center'>
-        <md-whiteframe class='md-whiteframe-z2' layout='column' layout-align='center center'>
-        <form name='formFactor' >
-            <md-content  layout-padding layout="column" layout-sm="column">
-                <md-input-container>
-                    <label>Expense Name</label>
-                    <input type="text" pattern="[a-zA-Z0-9]+" ng-model='expenses.name' name='name' required>
-                    <div ng-messages='formFactor.name.$error'>
-                        <div ng-message='required'>This is Required</div>
+        <div class="list card">
+            <form name='formFactor'>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Expense Name</span>
+                    <input type="text" placeholder="Expense Name" pattern="[a-zA-Z0-9]+" required name='name' ng-model='expenses.name'>
+                    <div ng-messages="formFactor.name.$error" style='font-size: 0.8em;color: red;'>
+                        <div ng-message='required'>
+                            This is required.
+                        </div>
                         <div ng-message='pattern'>No special Characters.</div>
                     </div>
-                </md-input-container>
-                <md-input-container>
-                    <label>Amount ({{currencyForTrip}})</label>
-                    <input type="text" pattern="[0-9]+" ng-model='expenses.amount' name='amount' required>
-                     <div ng-messages='formFactor.amount.$error'>
-                        <div ng-message='required'>This is Required.</div>
-                        <div ng-message='pattern'>Only Numeric Value</div>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Amount ({{currencyForTrip}})</span>
+                    <input type="text" pattern="[0-9]+" ng-model='expenses.amount' placeholder="Expense Amount" name='amount' required>
+                    <div ng-messages="formFactor.amount.$error" style='font-size: 0.8em;color: red;'>
+                        <div ng-message='required'>
+                            This is required.
+                        </div>
+                        <div ng-message='pattern'>No special Characters.</div>
                     </div>
-                </md-input-container>
-            </md-content>
-            <label layout='row' layout-align='center center'>
-                <md-button ng-disabled='formFactor.$invalid' myclick='addExpenses(expenses)' class='md-raised md-primary'>Add Expense</md-button>
-            </label>
-        </form>
-        </md-whiteframe>
-    </div>
-        <!-- <div class="list">
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Expense</span>
-                <input type="text" ng-model='expenses.name' placeholder="name">
-            </label>
-            <label class="item item-input item-stacked-label">
-                <span class="input-label">Amount</span>
-                <input type="text" ng-model='expenses.amount' placeholder="amount">
-            </label>
-            <label class="item item-input item-stacked-label">
-                <md-button class="md-raised md-alert" ng-click='addExpenses(expenses)'>Add Expense</md-button>
-            </label>
-        </div> -->
+                </label>
+            </form>
+        </div>
+        <button ng-disabled='formFactor.$invalid' myclick='addExpenses(expenses)' class="button button-block button-balanced">
+            Add Expense
+        </button>
     </ion-content>
 </ion-modal-view>

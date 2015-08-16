@@ -1,87 +1,73 @@
 <ion-view>
-	<ion-header-bar class='bar-positive'>
-	<button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
-		<h1 class='title'>Profile</h1>
-	</ion-header-bar>
-	<ion-content class='padding'>
-    <div layout='column' layout-align-gt-sm='center center'>
-	 <md-whiteframe class="md-whiteframe-z3" layout layout-align="center center">
-    	 <md-content  layout-padding layout="column" layout-sm="column">
-       <md-input-container style='margin:auto;width:100px;' >
-      <img ng-disabled="isFieldEnabled" style='box-shadow: 3px 4px 6px 2px #DBDBDB;border: 1px solid #dbdbdb;border-radius: 50px;' ng-disabled="isFieldEnabled" ng-click='isFieldEnabled || uploadImage($event)' ng-src='{{profileUser.pictureUrl}}'>
-
-      <span ng-show='!isFieldEnabled' id="overlay_text" style="position: relative; top: -15px; z-index: 3;"><i style='font-size: 1.7em;' class='icon ion-ios-camera'></i></span>
-    </md-input-container>
-    <form name='formFactor'>
-    <md-input-container>
-      <label>Name</label>
-      <input ng-disabled="isFieldEnabled" name='name' required ng-model="profileUser.name">
-      <div ng-messages='formFactor.name.$error'>
-        <div ng-message='required'>This is required</div>
-      </div>
-    </md-input-container>
-    <md-input-container>
-      <label>User Name</label>
-      <input ng-disabled="true" ng-model="profileUser.userName">
-    </md-input-container>
-    <md-input-container>
-      <label>Email Address</label>
-      <input type='email' ng-keypress='clearerror()' ng-blur="changeUserEmail(profileUser.emailId)" ng-disabled="isFieldEnabled" required name='email' ng-model="profileUser.emailId">
-      <div ng-messages='formFactor.email.$error'>
-        <div ng-message='required'>This is required</div>
-        <div ng-message='email'>Invalid Email id</div>
-        <div class='user-error'>{{errorEmailMsg}}</div>
-      </div>
-    </md-input-container>
-    </md-content>
-    <section layout='row'>
-      <section layout='row' layout-align='start center'>
-        Change Password
-      </section>
-      <section layout='row' layout-align='end center'> 
-        <md-switch ng-disabled='isFieldEnabled' ng-model="changePass.val" aria-label="Switch 1">
-      </md-switch>
-      </section>
-    </section>
-    <section layout="row" layout-sm="row"  layout-align="start center">
-    	<md-input-container style='width: 130px;'>
-      <label>Change Password</label>
-      <input  ng-disabled="!changePass.val" type='password' name='password' required ng-minlength="6" ng-model="profileUser.password">
-      <div ng-messages='formFactor.password.$error'>
-        <div ng-message='required'>This is required</div>
-        <div ng-message='minlength'>Minimum Length of 6.</div>
-      </div>
-    </md-input-container>
-    <md-input-container style='width: 130px;'>
-      <label>Confirm Password</label>
-      <input  type='password' ng-disabled="!changePass.val" name='confirm' required  ng-minlength='6' ng-model="profileUser.cPassword">
-      <div ng-messages='formFactor.confirm.$error'>
-      </div>
-    </md-input-container>
-    
-    </section>
-  </form>
-     <section ng-show='changePass.val' layout="row" layout-sm="row" layout-align="center center">
-      <md-button myclick='editFields()' class="md-raised">Edit</md-button>
-      <md-button ng-disabled="formFactor.$invalid && {{profileUser.password == profileUser.cPassword}}" myclick='updateFields(profileUser)'class="md-raised md-primary">Update</md-button>
-     <!--  <md-button ng-click='uploadImage($event)'class="md-raised md-primary">Upload Image</md-button> -->
-      <!-- <md-button ng-disabled="true" class="md-raised md-primary">Disabled</md-button>
-      <md-button class="md-raised md-warn">Warn</md-button>
-      <div class="label">Raised</div> -->
-    </section>
-    <section ng-show='!changePass.val' layout="row" layout-sm="row" layout-align="center center">
-      <md-button myclick='editFields()' class="md-raised">Edit</md-button>
-      <md-button ng-disabled="formFactor.name.$invalid || formFactor.email.$invalid || !tempVar" myclick='updateFields(profileUser)'class="md-raised md-primary">Update</md-button>
-     <!--  <md-button ng-click='uploadImage($event)'class="md-raised md-primary">Upload Image</md-button> -->
-      <!-- <md-button ng-disabled="true" class="md-raised md-primary">Disabled</md-button>
-      <md-button class="md-raised md-warn">Warn</md-button>
-      <div class="label">Raised</div> -->
-    </section>
-
-  </md-whiteframe>
-</div>
-  <section layout="row" layout-align="center center">
-    <md-button myclick='logOutUser()' class="md-raised md-warn">Log Out</md-button>
-    </section>
-	</ion-content>
+    <ion-header-bar class='bar-positive'>
+        <button ng-click="gotoPage('tab.dash')" class="button icon ion-arrow-left-a"></button>
+        <h1 class='title'>Profile</h1>
+        <button ng-click='editFields()' class='button icon ion-edit'></button>
+    </ion-header-bar>
+    <ion-content class='padding'>
+        <div class="list card">
+            <div class="item item-avatar">
+                <img ng-disabled="isFieldEnabled" style='box-shadow: 3px 4px 6px 2px #DBDBDB;border: 1px solid #dbdbdb;border-radius: 50px;' ng-src='{{profileUser.pictureUrl}}' />
+                <span ng-show='!isFieldEnabled' ng-click='uploadImage($event)' id="overlay_text" style="position: relative;float:right;z-index: 3;font-size: 20px;"><i style='font-size: 1.7em;' class='icon ion-ios-camera'></i></span>
+                <h2>{{currentUser.attributes.name}}</h2>
+                <p>{{currentUser.attributes.username}}</p>
+            </div>
+            <div class="item item-body">
+                <form name='formFactor'>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Name</span>
+                        <input ng-disabled="isFieldEnabled" name='name' required ng-model="profileUser.name" type="text">
+                        <div ng-messages="formFactor.name.$error" style='font-size: 0.8em;color: red;'>
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">User Name</span>
+                        <input ng-disabled="true" ng-model="profileUser.userName" type="text">
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Email Address</span>
+                        <input type='email' ng-keypress='clearerror()' ng-blur="changeUserEmail(profileUser.emailId)" ng-disabled="isFieldEnabled" required name='email' ng-model="profileUser.emailId">
+                        <div ng-messages='formFactor.email.$error'>
+                            <div ng-message='required'>This is required</div>
+                            <div ng-message='email'>Invalid Email id</div>
+                            <div class='user-error'>{{errorEmailMsg}}</div>
+                        </div>
+                    </label>
+                    <label class="item item-toggle">
+                        Change Password
+                        <label class="toggle toggle-Flashplayer">
+                            <input ng-disabled='isFieldEnabled' ng-model="changePass.val" type="checkbox">
+                            <div class="track">
+                                <div class="handle"></div>
+                            </div>
+                        </label>
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">New Password</span>
+                        <input ng-disabled="!changePass.val" type='password' name='password' required ng-minlength="6" ng-model="profileUser.password">
+                        <div ng-show='changePass.val'>
+                            <div ng-messages='formFactor.password.$error' style='font-size: 0.8em;color: red;'>
+                                <div ng-message='required'>This is required</div>
+                                <div ng-message='minlength'>Minimum Length of 6.</div>
+                            </div>
+                        </div>
+                    </label>
+                    <label class="item item-input item-stacked-label">
+                        <span class="input-label">Confirm Password</span>
+                        <input type='password' ng-disabled="!changePass.val" name='confirm' required ng-minlength='6' ng-model="profileUser.cPassword">
+                        <div ng-show='changePass.val'>
+                            <div ng-messages='formFactor.confirm.$error' style='font-size: 0.8em;color: red;'>
+                                <div ng-message='required'>This is required</div>
+                            </div>
+                        </div>
+                    </label>
+                </form>
+            </div>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <button ng-show='changePass.val' ng-disabled="formFactor.$invalid && {{profileUser.password == profileUser.cPassword}}" ng-click='updateFields(profileUser)' class="button button-block button-positive  ">Update</button>
+                <button ng-show='!changePass.val' ng-disabled="formFactor.name.$invalid || formFactor.email.$invalid || !tempVar" ng-click='updateFields(profileUser)' class="button button-block button-positive  ">Update</button>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

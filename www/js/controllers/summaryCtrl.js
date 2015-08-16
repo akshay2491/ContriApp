@@ -64,7 +64,6 @@ angular.module('starter')
                     $scope.tripsArray = tripsArray;
                     loadingScreen.hideNotification();
                     //$scope.$broadcast('scroll.refreshComplete');
-                    $cordovaToast.show('Pull to Refresh', 'short', 'bottom');
                     $scope.$apply();
                     //console.log(results);
                 },
@@ -76,12 +75,12 @@ angular.module('starter')
             });
         }
 
-        $scope.getExpenseFromTrip = function(index) {
+        $scope.getExpenseFromTrip = function(tripObj) {
             loadingScreen.showNotification();
             var expensesItems = [];
             var userDetails = [];
             var query = new Parse.Query('expenses');
-            query.equalTo('tripId', $scope.tripsArray[index].id);
+            query.equalTo('tripId', tripObj.id);
             query.find({
                 success: function(results) {
                     for (var i = 0; i < results.length; i++) {
@@ -100,7 +99,7 @@ angular.module('starter')
                             'createdBy': createdBy
                         });
                     }
-                    _.each($scope.tripsArray[index].members, function(user) {
+                    _.each(tripObj.members, function(user) {
                         _.each($rootScope.userDetails, function(members) {
                             if (members.id === user) {
                                 userDetails.push({
@@ -113,7 +112,7 @@ angular.module('starter')
                     })
                     loadingScreen.hideNotification();
                     var imp = Data.calculateSummary(expensesItems, userDetails);
-                    mySharedService.prepForExpSummary(imp,$scope.tripsArray[index].currency);
+                    mySharedService.prepForExpSummary(imp,tripObj.currency);
                     $state.go('external');
                     $scope.$apply();
                 },

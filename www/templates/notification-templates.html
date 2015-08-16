@@ -2,11 +2,10 @@
     <ion-header-bar class='bar-positive'>
         <button ng-click="gotoPage('tab.dash')" class='button icon ion-arrow-left-a'></button>
         <h1 class="title">Notification</h1>
-       <!--  <button ng-click='getNotification()' class='button icon ion-refresh'></button> -->
+        <!--  <button ng-click='getNotification()' class='button icon ion-refresh'></button> -->
     </ion-header-bar>
     <ion-content class='padding'>
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="getNotification()">
-
         </ion-refresher>
         <div ng-show='notificationObj.length == 0'>
             <div class="row">
@@ -14,32 +13,15 @@
             </div>
         </div>
         <div ng-show='notificationObj.length!=0'>
-            <md-list>
-                <md-list-item style='border-radius: 3px;border-top: 3px solid red;box-shadow:3px 4px 4px 2px #dbdbdb;margin-bottom: 10px;' ng-repeat="user in notificationObj track by $index">
-                    <img style='width: 63px;' ng-src='{{user.image}}' />
-                    <p style='margin-left:15px;'>
-                        {{user.createdBy}} wants you to join {{user.tripName}} Event</p>
-                    <md-menu>
-                        <md-button aria-label="Open notification menu" class="md-icon-button" ng-click="$mdOpenMenu()">
-                            <md-icon class='icon ion-navicon-round'></md-icon>
-                        </md-button>
-                        <md-menu-content width="3">
-                            <md-menu-item>
-                                <md-button myclick="confirmTrip(user)">
-                                    <md-icon class='icon ion-thumbsup' md-menu-align-target></md-icon>
-                                    Confirm
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button myclick="declineTrip(user)">
-                                    <md-icon class='icon ion-thumbsdown' md-menu-align-target></md-icon>
-                                    Reject
-                                </md-button>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
-                </md-list-item>
-            </md-list>
+            <div class="list card" style='border-radius: 3px;border-top: 3px solid red;box-shadow:3px 4px 4px 2px #dbdbdb;margin-bottom: 10px;' ng-repeat="user in notificationObj track by $index">
+                <div class="item item-avatar">
+                    <img ng-src='{{user.image}}' />
+                    <div ng-click='showBottomSheet(user)' style='float:right;width: 30px;height: 30px;float: right;'>
+                        <i style='margin: 8px;' class='icon ion-android-options'></i>
+                    </div>
+                    <p style='white-space: pre-wrap;'> {{user.createdBy}} wants you to join {{user.tripName}} Event</p>
+                </div>
+            </div>
         </div>
     </ion-content>
 </ion-view>

@@ -1,6 +1,6 @@
 angular.module('starter')
 
-.controller('loginCtrl', function($scope, $state, $rootScope, $ionicLoading, loadingScreen, $mdDialog, $ionicPopover, $ionicHistory, $localstorage, $cordovaToast) {
+.controller('loginCtrl', function($scope, $state, $rootScope, $ionicLoading, loadingScreen, $ionicPopover, $ionicHistory, $localstorage, $cordovaToast, $ionicPopup,alertPopup) {
         $scope.user = {};
         $scope.isError = false;
         $scope.errReg = false;
@@ -19,7 +19,7 @@ angular.module('starter')
             $scope.isError = false;
         }
 
-        if(typeof analytics !== 'undefined') {
+        if (typeof analytics !== 'undefined') {
             analytics.trackView('Login');
         }
 
@@ -43,76 +43,6 @@ angular.module('starter')
             }
         })
 
-        $scope.changeUserName = function(name) {
-            if (name != undefined) {
-                if (name.length > 4 && name.length < 13) {
-                    loadingScreen.showNotification();
-                    var query = new Parse.Query(Parse.User);
-                    query.equalTo('username', name);
-                    query.find({
-                        success: function(results) {
-                            if (results.length == 0) {
-                                loadingScreen.hideNotification();
-                                $scope.errorMsg = 'User Name Available';
-                                $scope.$apply();
-                            } else {
-                                loadingScreen.hideNotification();
-                                $scope.errorMsg = 'User Name Not Available';
-                                $scope.$apply();
-                            }
-                        },
-                        error: function(errorMsg) {
-                            loadingScreen.hideNotification();
-                            if(errorMsg.code == 100){
-                                $cordovaToast.show('Cant verify Username.Check your network', 'short', 'bottom');
-                            }
-                        }
-                    })
-                }
-            }
-        }
-
-        $scope.$watch('user.confirmPass', function(oldName, newVal) {
-            if ($scope.user.confirmPass) {
-                if ($scope.user.password === $scope.user.confirmPass) {
-                    $scope.mismatchPassword = 'Perfect';
-                } else {
-                    $scope.mismatchPassword = 'Password Not Matching';
-
-                }
-            }
-        })
-
-        $scope.changeUserEmail = function(email) {
-            if ($scope.user.email) {
-                loadingScreen.showNotification();
-                var query = new Parse.Query(Parse.User);
-                query.equalTo('email', email);
-                query.find({
-                    success: function(results) {
-                        if (results.length == 0) {
-                            loadingScreen.hideNotification();
-                            $scope.errorEmailMsg = '';
-                            $scope.$apply();
-                        } else {
-                            loadingScreen.hideNotification();
-                            $scope.errorEmailMsg = 'Email id is Registered.';
-                            $scope.$apply();
-                        }
-                    },
-                    error: function(errorMsg) {
-                        loadingScreen.hideNotification();
-                        if(errorMsg.code == 100){
-                            $cordovaToast.show('Cant verify Email Id.Check your network', 'short', 'bottom');
-                        }
-                    }
-                })
-            }
-        }
-
-        $scope.clearerror = function() {
-            $scope.errorEmailMsg = '';
-        }
 
 
         $scope.$on('$ionicView.beforeEnter', function() {
@@ -126,75 +56,70 @@ angular.module('starter')
         }
 
         $scope.resetPassword = function(email) {
+            loadingScreen.showNotification();
             var query = new Parse.Query(Parse.User);
             query.equalTo('email', email);
             query.find({
                 success: function(results) {
                     if (results.length == 0) {
-                        $mdDialog.show(
-                            $mdDialog.alert()
-                            .parent(angular.element(document.body))
-                            .title('Alert Message')
-                            .content('Email Not Registered.Enter right Email')
-                            .ariaLabel('Alert Dialog Demo')
-                            .ok('Got it!')
-                        );
+                        loadingScreen.hideNotification();
+                        alertPopup.showPopup('Email Id not registered!!!');
                     } else {
+
                         Parse.User.requestPasswordReset(email, {
                             success: function() {
-                                $mdDialog.show(
-                                    $mdDialog.alert()
-                                    .parent(angular.element(document.body))
-                                    .title('Alert Message')
-                                    .content('Reset password Link mailed to you')
-                                    .ariaLabel('Alert Dialog Demo')
-                                    .ok('Got it!')
-                                );
+                                loadingScreen.hideNotification();
+                                alertPopup.showPopup('Reset password Link mailed to you!!!');
                             },
                             error: function(error) {
+                                loadingScreen.hideNotification();
                                 // Show the error message somewhere
-                                if(error.code == 100){
-                                $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
-                            }
+                                if (error.code == 100) {
+                                    $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
+                                }
                             }
                         });
                     }
                 },
                 error: function(errorMsg) {
-                    if(errorMsg.code == 100){
+                    loadingScreen.hideNotification();
+                    if (errorMsg.code == 100) {
                         $cordovaToast.show('Connection failed.Check your network', 'short', 'bottom');
                     }
                 }
             })
         }
 
-        $scope.gotoMainPage = function(userList) {
-            loadingScreen.showNotification();
-            Parse.User.logIn(userList.uName, userList.pName, {
-                success: function(user) {
-                    $localstorage.setObject('User', user);
-                    $scope.isError = false;
-                    $rootScope.getAllUsers();
-                    $rootScope.currentUser = user;
-                    loadingScreen.hideNotification();
-                    $state.go('tab.dash');
-                    $scope.user = {};
-                    $scope.$apply();
-                },
-                error: function(user, error) {
-                    //console.log(error);
-                    loadingScreen.hideNotification();
-                    $scope.isError = true;
-                    if(error.code == 100){
-                        $scope.errorMsg = 'Connection failed.Check your network';    
+        $scope.gotoMainPage = function(userList, formFactor) {
+            if (formFactor.$valid) {
+
+                loadingScreen.showNotification();
+                Parse.User.logIn(userList.uName, userList.pName, {
+                    success: function(user) {
+                        $localstorage.setObject('User', user);
+                        $scope.isError = false;
+                        $rootScope.getAllUsers();
+                        $rootScope.currentUser = user;
+                        loadingScreen.hideNotification();
+                        $state.go('tab.dash');
+                        $scope.user = {};
+                        $scope.$apply();
+                    },
+                    error: function(user, error) {
+                        //console.log(error);
+                        loadingScreen.hideNotification();
+                        $scope.isError = true;
+                        if (error.code == 100) {
+                            $scope.errorMsg = 'Connection failed.Check your network';
+                        } else {
+                            $scope.errorMsg = error.message;
+                        }
+
                     }
-                    else
-                    {
-                        $scope.errorMsg = error.message;
-                    }
-                    
-                }
-            });
+                });
+            } else {
+                $scope.err = true;
+            }
         }
 
         $scope.registerClearUser = function() {
@@ -209,50 +134,43 @@ angular.module('starter')
 
 
         $scope.registerUser = function(form) {
-            loadingScreen.showNotification();
-            var user = new Parse.User();
-            user.set("username", form.username);
-            user.set("name", form.uname);
-            user.set("password", form.password);
-            user.set("email", form.email);
-            user.set('image', 'http://placehold.it/100x100');
 
-            // other fields can be set just like with Parse.Object
-            user.signUp(null, {
-                success: function(user) {
-                    $mdDialog.show(
-                        $mdDialog.alert()
-                        .parent(angular.element(document.body))
-                        .title('Alert Message')
-                        .content('You Have successfully Registered.Please Verify your Email id sent to you.')
-                        .ariaLabel('Alert Dialog Demo')
-                        .ok('Got it!')
-                    );
-                    $scope.user = {
-                        uname: '',
-                        email: '',
-                        password: '',
-                        username: '',
-                        confirmPass: ''
-                    };
-                    loadingScreen.hideNotification();
-                    $state.go('login');
-                    // Hooray! Let them use the app now.
-                },
-                error: function(user, error) {
-                    loadingScreen.hideNotification();
-                    // Show the error message somewhere and let the user try again.
-                    $scope.errReg = true;
-                    if(error.code == 100){
-                        $scope.errorReg = 'Connection failed.Check your network';    
+            if ($scope.user.password == $scope.user.confirmPass) {
+                loadingScreen.showNotification();
+                var user = new Parse.User();
+                user.set("username", form.username);
+                user.set("name", form.uname);
+                user.set("password", form.password);
+                user.set("email", form.email);
+                user.set('image', 'http://placehold.it/100x100');
+
+                // other fields can be set just like with Parse.Object
+                user.signUp(null, {
+                    success: function(user) {
+                        alertPopup.showPopup('You Have Successfully Registered!!!');
+                        $scope.user = {
+                            uname: '',
+                            email: '',
+                            password: '',
+                            username: '',
+                            confirmPass: ''
+                        };
+                        loadingScreen.hideNotification();
+                        $state.go('login');
+                        // Hooray! Let them use the app now.
+                    },
+                    error: function(user, error) {
+                        loadingScreen.hideNotification();
+                        // Show the error message somewhere and let the user try again.
+                        $scope.errReg = true;
+                        if (error.code == 100) {
+                            $scope.errorReg = 'Connection failed.Check your network';
+                        }
                     }
-                    else
-                    {
-                        $scope.errorReg = error.message;
-                    }
-                    
-                }
-            });
+                });
+            } else {
+                alertPopup.showPopup('Password Not Matching!!!');
+            }
         }
     })
     .controller('loadingCtrl', function($rootScope, $scope, $ionicPlatform, $ionicPopup, $localstorage, $timeout, $location, $window, loadingScreen) {

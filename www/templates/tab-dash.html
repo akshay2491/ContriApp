@@ -1,32 +1,19 @@
 <ion-view view-title="Dashboard">
-    <ion-header-bar class='bar-positive bar bar-header'>
-        <h1 class="title">Home</h1>
-        <button ng-click='openNotification()' class="button ion-android-notifications-none" type="button">
-            <span class="badge">{{notificationObj.length}}</span>
-        </button>
-    </ion-header-bar>
+<div class="bar bar-header bar-positive">
+  <button ng-click='openNotification()' ng-class="{'ion-ios-bell':notificationObj.length > 0,'ion-ios-bell-outline':notificationObj.length == 0}"  class="button icon badge1" data-badge="{{notificationObj.length}}" type="button">
+</button> 
+  <h1 class="title">Home</h1>
+ <button ng-click='logOutUser()' class="button" type="button">
+Logout
+</button>
+</div>
     <ion-content class='padding'>
-        <!-- <div class="list card">
-  <div class="item item-avatar">
-    <img ng-src='{{currentUser.attributes.image}}'>
-    <h2>Hello {{currentUser.attributes.name}}</h2>
-  </div>
-</div> -->
-        <md-list>
-            <md-list-item style='box-shadow: 1px 1px 4px 1px #dbdbdb;margin-bottom: 10px;padding:0px;'>
-                <!-- <img threshold style='width: 63px;' ng-src='{{currentUser.attributes.image}}'  
-                data-src-fallback="img/loading.gif" 
-                data-src-maxtime="2000" 
-                /> -->
-                <span style='height:63px;width:63px;'>
-                    <img style='width: 63px;' ng-src='{{currentUser.attributes.image}}'  
-                />
-                </span>
-                <!-- <img style='width: 63px;' ng-src='{{currentUser.attributes.image}}'  
-                /> -->
-                <div class='item-text-wrap' style='margin-left:15px;'>Hello {{currentUser.attributes.name}}</div>
-            </md-list-item>
-        </md-list>
+        <div class='card'>
+            <div class="item item-thumbnail-left">
+                <img ng-src='{{currentUser.attributes.image}}'>
+                <h2>Hello {{currentUser.attributes.name}}</h2>
+            </div>
+        </div>
         <div class="row">
             <div class="col col-50">
                 <div class="card cursor" ng-click="gotoPage('trip')">

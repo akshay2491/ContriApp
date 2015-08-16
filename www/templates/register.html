@@ -1,81 +1,66 @@
 <ion-view>
-  <ion-header-bar class='bar-positive'>
-  <button ng-click="gotoPage('login')" class="button icon ion-arrow-left-a"></button>
-    <h1 class="title">Register</h1>
+    <ion-header-bar class='bar-positive'>
+        <button ng-click="gotoPage('login')" class="button icon ion-arrow-left-a"></button>
+        <h1 class="title">Register</h1>
 
-  </ion-header-bar>
-  <ion-content class='padding'>
-  <!-- <md-button type='submit' md-no-ink class="md-primary" ng-click="gotoPage('login')">
-   <i class='ion ion-ios-arrow-thin-left'>Login</i>
-    </md-button> -->
-    <div layout='column' layout-align-gt-sm='center center'>
-      <md-whiteframe class="md-whiteframe-z2" layout='column' layout-align="center center">
-       <md-content  layout-padding layout="row" layout-sm="column">
-       <form name='formFactor'>
-    <md-input-container>
-      <label>Name</label>
-      <input required ng-model='user.uname' name='name' type="text">
-      <div ng-messages="formFactor.name.$error">
-        <div ng-message="required">This is required.</div>
-      </div>
-    </md-input-container>
-    <md-input-container>
-      <label>User Name</label>
-      <input required name='username' ng-blur="changeUserName(user.username)" ng-minlength="5" ng-maxlength="12" pattern="[a-zA-Z0-9]+" type='text' ng-model='user.username'>
-      <div ng-messages="formFactor.username.$error">
-        <div ng-message="required">This is required.</div>
-        <div ng-message="pattern">Special Character not allowed.</div>
-        <div ng-message="minlength">Minimum Length of 5.</div>
-        <div ng-message="maxlength">Maximum Length of 12.</div>
-        <div class='user-error'>{{errorMsg}}</div>
-      </div>
-    </md-input-container>
-    <md-input-container>
-      <label>Email Id</label>
-      <input  required type='email' name='email' ng-keypress='clearerror()' ng-blur="changeUserEmail(user.email)" ng-model='user.email'>
-      <div ng-messages='formFactor.email.$error'>
-        <div ng-message='required'>This is required.</div>
-        <div ng-message='email'>Invalid email</div>
-        <div class='user-error'>{{errorEmailMsg}}</div>
-      </div>
-    </md-input-container>
-    <md-input-container>
-      <label>Password</label>
-      <input required ng-model='user.password' name='password' required ng-minlength="6" type="password">
-      <div ng-messages='formFactor.password.$error'>
-        <div ng-message='required'>This is required</div>
-        <div ng-message='minlength'>Minimum Length of 6.</div>
-      </div>
-    </md-input-container>
-    <md-input-container>
-      <label>Confirm Password</label>
-      <input type="password" name='confirm' required ng-minlength="6" ng-model='user.confirmPass'>
-      <div ng-messages='formFactor.confirm.$error'>
-        <div class='user-error'>{{mismatchPassword}}</div>
-      </div>
-    </md-input-container>
-     <section layout="row" layout-sm="row" layout-align="center center">
-    <div ng-show='errReg'>{{errorReg}}</div>
-       </section>
-       <section layout="row" layout-sm="row" layout-align="center center">
-      <md-button ng-disabled='formFactor.$invalid && {{user.password == user.confirmPass}}' myclick='registerUser(user)' class="md-raised md-primary">Register</md-button>
-     <!-- <md-button ng-click='registerClearUser()' class="md-raised md-primary">Clear</md-button> -->
-    </section>
-    </form>
-    <!-- <section layout="row" layout-sm="row" layout-align="center center">
-    <div ng-show='user.password!=user.confirmPass'>
-        Both are Different
-    </div>
-    </section> -->
-   <!--   <section layout="row" layout-sm="row" layout-align="center center">
-    <div ng-show='errReg'>{{errorReg.message}}</div>
-       </section> -->
-  <!--   <section layout="row" layout-sm="row" layout-align="center center">
-    <md-button ng-click='registerUser(user)' class="md-raised md-primary">Register</md-button>
-   <md-button ng-click='registerClearUser()' class="md-raised md-primary">Clear</md-button>
-  </section> -->
-      </md-content>
-    </md-whiteframe>
-  </div>
-  </ion-content>
+    </ion-header-bar>
+    <ion-content class='padding'>
+        <form name='formFactor'>
+            <div class="list">
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Name</span>
+                    <input required ng-model='user.uname' name='name' type="text">
+                    <div ng-messages="formFactor.name.$error" style='font-size: 0.8em;color: red;'>
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">User Name</span> {{errorMsg}}
+                    <input required name='username' blacklist='{{user.username}}' option='0' ng-minlength="5" ng-maxlength="12" pattern="[a-zA-Z0-9]+" type='text' ng-model='user.username'>
+                    <div ng-messages="formFactor.username.$error" style='font-size: 0.8em;color: red;'>
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="pattern">Special Character not allowed.</div>
+                        <div ng-message="minlength">Minimum Length of 5.</div>
+                        <div ng-message="maxlength">Maximum Length of 12.</div>
+                        <div ng-message='blacklist'>User Name Not Available</div>
+                    </div>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Email Id</span>
+                    <input required type='email' name='email' option='1' blacklist='{{user.email}}' ng-model='user.email'>
+                    <div ng-messages='formFactor.email.$error' style='font-size: 0.8em;color: red;'>
+                        <div ng-message='required'>This is required.</div>
+                        <div ng-message='email'>Invalid email</div>
+                        <div ng-message='blacklist'>Email Id Not Available</div>
+                    </div>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Password</span>
+                    <input required ng-model='user.password' name='password' required ng-minlength="6" type="password">
+                    <div ng-messages='formFactor.password.$error' style='font-size: 0.8em;color: red;'>
+                        <div ng-message='required'>This is required</div>
+                        <div ng-message='minlength'>Minimum Length of 6.</div>
+                    </div>
+                </label>
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Confirm Password</span>
+                    <input type="password" name='confirm' required ng-minlength="6" ng-model='user.confirmPass'>
+                    <div ng-messages='formFactor.confirm.$error' style='font-size: 0.8em;color: red;'>
+                        <div ng-message='required'>This is required</div>
+                        <div ng-message='minlength'>Minimum Length of 6.</div>
+                    </div>
+                </label>
+            </div>
+        </form>
+        <div class='row responsive' style='text-align: center;'>
+            <div class="col" style='  font-style: oblique;font-variant: small-caps;font-weight: 600;' ng-show='errReg'>{{errorReg}}</div>
+        </div>
+        <div class='row'>
+            <div class='col'>
+                <button ng-disabled='formFactor.$invalid ' ng-click='registerUser(user)' class="button button-block button-positive  ">
+                    Register
+                </button>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>
